@@ -29,11 +29,28 @@ class KnowledgeChunk:
         return set(re.findall(r"\w+", f"{self.doc_title} {self.section_title} {self.content}".lower()))
 
 
+def _find_default_kb_dir(kb_dir: str | None = None) -> str:
+    """Finds curated KB directory whether running from project root or workspace parent."""
+    if kb_dir:
+        return kb_dir
+    env_dir = os.getenv("KB_DIRECTORY")
+    if env_dir:
+        return env_dir
+    cwd_path = Path("data/curated_kb")
+    if cwd_path.exists():
+        return str(cwd_path)
+    # Check relative to CareerForge-AI root (3 levels up from tools/)
+    root_path = Path(__file__).resolve().parents[3] / "data" / "curated_kb"
+    if root_path.exists():
+        return str(root_path)
+    return "data/curated_kb"
+
+
 class LocalKnowledgeRetriever:
     """In-memory semantic and keyword-weighted retriever for curated guides."""
 
-    def __init__(self, kb_dir: str = "data/curated_kb"):
-        self.kb_dir = Path(kb_dir)
+    def __init__(self, kb_dir: str | None = None):
+        self.kb_dir = Path(_find_default_kb_dir(kb_dir))
         self.chunks: list[KnowledgeChunk] = []
         self._load_documents()
 
@@ -133,7 +150,12 @@ class LocalKnowledgeRetriever:
         results: list[ResourceItem] = []
         for _, chunk in scored_chunks[:top_k]:
             clean_sec = re.sub(r"[^\w\- ]", "", chunk.section_title).strip().lower().replace(" ", "-")
-            ref_link = f"{chunk.file_path}#{clean_sec}"
+            path_str = chunk.file_path.replace("\\", "/")
+            if "data/curated_kb/" in path_str:
+                clean_path = "data/curated_kb/" + path_str.split("data/curated_kb/")[1]
+            else:
+                clean_path = path_str
+            ref_link = f"{clean_path}#{clean_sec}"
             results.append(
                 ResourceItem(
                     title=chunk.full_title,
@@ -152,7 +174,7 @@ _default_retriever: LocalKnowledgeRetriever | None = None
 def retrieve_knowledge_base(query: str, top_k: int = 3, kb_dir: str | None = None) -> list[ResourceItem]:
     """Agent Tool 2: Retrieves relevant curated preparation guides for a query."""
     global _default_retriever
-    target_dir = kb_dir or os.getenv("KB_DIRECTORY", "data/curated_kb")
+    target_dir = _find_default_kb_dir(kb_dir)
     if _default_retriever is None or str(_default_retriever.kb_dir) != target_dir:
         _default_retriever = LocalKnowledgeRetriever(target_dir)
 

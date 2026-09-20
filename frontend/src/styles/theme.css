@@ -1,0 +1,183 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
+
+@theme inline {
+  --color-base:        var(--bg-base);
+  --color-surface:     var(--bg-surface);
+  --color-raised:      var(--bg-raised);
+  --color-sunken:      var(--bg-sunken);
+  --color-line:        var(--border-default);
+  --color-line-subtle: var(--border-subtle);
+  --color-line-strong: var(--border-strong);
+  
+  --color-primary:     var(--text-primary);
+  --color-secondary:   var(--text-secondary);
+  --color-muted:       var(--text-muted);
+  
+  --color-ink:         var(--text-primary);
+  --color-ink-2:       var(--text-secondary);
+  --color-ink-3:       var(--text-muted);
+  
+  --color-accent:      var(--accent);
+  --color-high:        var(--priority-high);
+  --color-medium:      var(--priority-medium);
+  --color-low:         var(--priority-low);
+  --color-mastered:    var(--priority-mastered);
+  
+  --color-cyan:        var(--neon-cyan);
+  --color-indigo:      var(--neon-indigo);
+  --color-violet:      var(--neon-violet);
+  --color-emerald:     var(--neon-emerald);
+  --color-rose:        var(--neon-rose);
+  --color-amber:       var(--neon-amber);
+
+  --font-sans: "Inter Tight Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", monospace;
+
+  /* Modern rounded corners */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
+
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Global utility classes */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--neon-cyan) !important;
+  outline-offset: 2px !important;
+}
+
+/* Brand Title Rules — Guaranteed White in Dark, Dark in Light */
+.brand-title {
+  color: #0F172A;
+  font-weight: 800;
+  transition: color 0.2s ease;
+}
+
+:root[data-theme="dark"] .brand-title,
+.dark .brand-title,
+[data-theme="dark"] .brand-title {
+  color: #FFFFFF !important;
+}
+
+.brand-accent {
+  color: #0284C7;
+  font-weight: 900;
+}
+
+:root[data-theme="dark"] .brand-accent,
+.dark .brand-accent,
+[data-theme="dark"] .brand-accent {
+  color: #00F2FE !important;
+  text-shadow: 0 0 14px rgba(0, 242, 254, 0.45);
+}
+
+/* Core Color Utility Overrides */
+.text-app-primary {
+  color: var(--text-primary) !important;
+}
+
+.text-app-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.text-app-muted {
+  color: var(--text-muted) !important;
+}
+
+.bg-app-surface {
+  background-color: var(--bg-surface) !important;
+}
+
+.bg-app-raised {
+  background-color: var(--bg-raised) !important;
+}
+
+.bg-app-sunken {
+  background-color: var(--bg-sunken) !important;
+}
+
+.border-app-default {
+  border-color: var(--border-default) !important;
+}
+
+.border-app-subtle {
+  border-color: var(--border-subtle) !important;
+}
+
+/* Glassmorphism & Cyber Card Effects with Rounded Corners */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--card-shadow);
+  border-radius: 24px;
+}
+
+.glass-card {
+  background: var(--glass-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--card-shadow);
+  border-radius: 20px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: var(--border-default);
+  transform: translateY(-2px);
+}
+
+/* Gradient Text */
+.text-gradient-cyan {
+  background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-violet {
+  background: linear-gradient(135deg, var(--neon-indigo) 0%, var(--neon-violet) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Animated Border Beam */
+.border-beam-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.border-beam-container::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, var(--neon-cyan) 60deg, var(--neon-violet) 120deg, transparent 180deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: spin-beam 6s linear infinite;
+}
+
+@keyframes spin-beam {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Background grid */
+.cyber-bg-grid {
+  background-size: 32px 32px;
+  background-image: var(--cyber-grid);
+}

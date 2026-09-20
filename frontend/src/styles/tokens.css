@@ -1,0 +1,174 @@
+/* ==========================================================================
+   CareerForge AI — Design Tokens & Cyber-Intelligence Design System
+   Calibrated for high contrast, deep readability & rounded modern design.
+   ========================================================================== */
+
+:root,
+:root[data-theme="dark"] {
+  --bg-base:        #080C14;  /* Deep obsidian navy abyss */
+  --bg-surface:     #0F1626;  /* Frosted Cyber Surface */
+  --bg-raised:      #172238;  /* Elevated Interactive Panels */
+  --bg-sunken:      #080C14;  /* Deep Telemetry Terminal */
+  
+  --border-subtle:  #1B283F;
+  --border-default: #2A3D5E;
+  --border-strong:  #435D8A;
+  
+  --text-primary:   #FFFFFF;  /* PURE WHITE in Dark Mode */
+  --text-secondary: #94A3B8;  /* Legible cool silver-grey */
+  --text-muted:     #64748B;  /* Muted metadata */
+  
+  --accent:         #3B82F6;
+  --accent-hover:   #60A5FA;
+  --accent-quiet:   #111E38;
+  
+  /* Cyber Neon Palette */
+  --neon-cyan:      #00F2FE;
+  --neon-indigo:    #6366F1;
+  --neon-violet:    #A855F7;
+  --neon-emerald:   #10B981;
+  --neon-rose:      #F43F5E;
+  --neon-amber:     #F59E0B;
+  
+  /* Priority Semantics */
+  --priority-high:     #F43F5E;
+  --priority-medium:   #F59E0B;
+  --priority-low:      #10B981;
+  --priority-mastered: #94A3B8;
+  
+  --delta-gain:     #10B981;
+  --delta-loss:     #F43F5E;
+  
+  /* Glassmorphism & Soft Surfaces */
+  --glass-bg:       rgba(15, 22, 38, 0.88);
+  --glass-card:     rgba(19, 28, 48, 0.85);
+  --glass-border:   rgba(99, 102, 241, 0.25);
+  --glass-glow:     0 12px 35px rgba(0, 0, 0, 0.55);
+  --card-shadow:    0 12px 32px -4px rgba(0, 0, 0, 0.65);
+  --shadow-overlay: 0 24px 60px rgba(0, 0, 0, 0.85);
+
+  --hatch-pattern: repeating-linear-gradient(45deg, var(--priority-medium), var(--priority-medium) 3px, transparent 3px, transparent 6px);
+  --cyber-grid: radial-gradient(circle, rgba(99, 102, 241, 0.15) 1px, transparent 1px);
+
+  /* Modern rounded corners tokens */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+  --r-2xl: 40px;
+  --r-full: 9999px;
+}
+
+:root[data-theme="light"] {
+  --bg-base:        #F8FAFC;  /* Crisp light porcelain canvas */
+  --bg-surface:     #FFFFFF;  /* Pure clean white panel */
+  --bg-raised:      #F1F5F9;  /* Soft elevated interactive surface */
+  --bg-sunken:      #F8FAFC;  /* Sunken input track */
+  
+  --border-subtle:  #E2E8F0;  /* Soft border */
+  --border-default: #CBD5E1;  /* High definition card border */
+  --border-strong:  #94A3B8;  /* Active/focus border */
+  
+  --text-primary:   #0F172A;  /* DEEP CHARCOAL SLATE in Light Mode */
+  --text-secondary: #334155;  /* High contrast secondary */
+  --text-muted:     #64748B;  /* Clear subtext */
+  
+  --accent:         #2563EB;  /* Rich royal cobalt */
+  --accent-hover:   #1D4ED8;
+  --accent-quiet:   #EFF6FF;  /* Soft tinted blue */
+  
+  /* Light Mode Palette */
+  --neon-cyan:      #0284C7;  /* High contrast ocean cyan */
+  --neon-indigo:    #4F46E5;  /* Deep electric indigo */
+  --neon-violet:    #7C3AED;  /* Deep royal violet */
+  --neon-emerald:   #059669;  /* Deep emerald */
+  --neon-rose:      #E11D48;  /* High contrast crimson */
+  --neon-amber:     #D97706;  /* Rich amber */
+  
+  /* Priority Semantics */
+  --priority-high:     #E11D48;
+  --priority-medium:   #D97706;
+  --priority-low:      #059669;
+  --priority-mastered: #64748B;
+  
+  --delta-gain:     #059669;
+  --delta-loss:     #E11D48;
+  
+  /* Glassmorphism & Soft Surfaces */
+  --glass-bg:       rgba(255, 255, 255, 0.94);
+  --glass-card:     #FFFFFF;
+  --glass-border:   #E2E8F0;
+  --glass-glow:     0 8px 30px -4px rgba(15, 23, 42, 0.08);
+  --card-shadow:    0 10px 25px -3px rgba(15, 23, 42, 0.06), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
+  --shadow-overlay: 0 20px 50px rgba(15, 23, 42, 0.16);
+
+  --hatch-pattern: repeating-linear-gradient(45deg, var(--priority-medium), var(--priority-medium) 3px, transparent 3px, transparent 6px);
+  --cyber-grid: radial-gradient(circle, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+
+  /* Modern rounded corners tokens */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+  --r-2xl: 40px;
+  --r-full: 9999px;
+}
+
+/* Global Root Styling */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Animations & Keyframes */
+@keyframes border-beam {
+  0% { offset-distance: 0%; }
+  100% { offset-distance: 100%; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes float-orbit {
+  0% { transform: rotate(0deg) translateY(-8px) rotate(0deg); }
+  50% { transform: rotate(180deg) translateY(8px) rotate(-180deg); }
+  100% { transform: rotate(360deg) translateY(-8px) rotate(-360deg); }
+}
+
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+/* Accessibility floor: prefers-reduced-motion & prefers-contrast */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --border-subtle: var(--border-strong) !important;
+    --border-default: var(--border-strong) !important;
+    --text-muted: var(--text-secondary) !important;
+  }
+}
+
+/* Presenter mode: Shift + P scales font to 18px and thickens borders */
+body.presenter-mode {
+  font-size: 18px !important;
+  --border-default: var(--border-strong) !important;
+  --border-subtle: var(--border-strong) !important;
+}

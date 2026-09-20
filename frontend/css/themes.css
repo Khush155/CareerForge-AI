@@ -1,0 +1,170 @@
+/* ==========================================================================
+   CareerForge AI — Design Tokens (Section 4 Specification)
+   Two-layer architecture: Primitives (raw hexes) and Semantic tokens.
+   Typography: Inter Tight (UI/prose) and JetBrains Mono (numbers/code/paths).
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* --- Layer 1: Primitives & Scales --- */
+:root {
+  /* Spacing Scale (4px base) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* Radius Hierarchy */
+  --r-sm: 4px;    /* chips, badges, bars, markers */
+  --r-md: 8px;    /* inputs, buttons, segmented controls */
+  --r-lg: 12px;   /* panels, drawers, dialogs */
+  --r-full: 999px; /* status dots only */
+
+  /* Motion Timing */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --d-fast: 120ms;
+  --d-base: 200ms;
+  --d-slow: 420ms;
+
+  /* Typography Families */
+  --font-sans: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Type Scale (1.25 ratio, rem-based, 16px root) */
+  --t-display: 600 2.25rem/1.15 var(--font-sans);
+  --t-h1:      600 1.5rem/1.25 var(--font-sans);
+  --t-h2:      600 1.125rem/1.35 var(--font-sans);
+  --t-body:    400 0.9375rem/1.55 var(--font-sans);
+  --t-ui:      500 0.875rem/1.4 var(--font-sans);
+  --t-meta:    400 0.8125rem/1.4 var(--font-sans);
+  --t-num-lg:  500 1.75rem/1.1 var(--font-mono);
+  --t-num:     500 0.875rem/1.3 var(--font-mono);
+}
+
+/* --- Layer 2: Semantic Tokens (Dark Theme - Engineered Slate) --- */
+:root,
+:root[data-theme="dark"] {
+  --color-scheme: dark;
+
+  /* Backgrounds */
+  --bg-base:        #0D1117;  /* app background */
+  --bg-surface:     #151B24;  /* panels, cards, tables */
+  --bg-raised:      #1C242F;  /* modals, drawers, hovered rows */
+  --bg-sunken:      #0A0E14;  /* formula blocks, table headers */
+
+  /* Borders */
+  --border-subtle:  #222C38;  /* dividers inside a panel */
+  --border-default: #2E3A49;  /* panel edges, inputs, table borders */
+  --border-strong:  #415165;  /* focused or selected borders */
+
+  /* Text */
+  --text-primary:   #E6EDF5;  /* headings, active values */
+  --text-secondary: #9BA9BB;  /* labels, prose */
+  --text-muted:     #6B7A8D;  /* disabled, captions, subtle meta */
+
+  /* Interactive Accent */
+  --accent:         #4C8DF6;  /* primary buttons, focus, links */
+  --accent-hover:   #6BA1F8;
+  --accent-quiet:   #16243A;  /* subtle accent tint for selected rows */
+
+  /* Priority Tokens (Colorblind-Safe) */
+  --priority-high:     #E5484D;
+  --priority-high-bg:  rgba(229, 72, 77, 0.12);
+  --priority-med:      #E5A13A;
+  --priority-med-bg:   rgba(229, 161, 58, 0.12);
+  --priority-low:      #3D9A6E;
+  --priority-low-bg:   rgba(61, 154, 110, 0.12);
+  --priority-mastered: #7C8B9E;
+  --priority-mastered-bg: rgba(124, 139, 158, 0.12);
+
+  /* Adaptation Diff Deltas */
+  --delta-gain:     #3D9A6E;
+  --delta-loss:     #E5484D;
+
+  /* Focus Ring */
+  --focus-ring:     var(--accent);
+
+  /* Floating Elevation (Modals & Drawers only) */
+  --shadow-overlay: 0 16px 40px rgba(0, 0, 0, 0.45);
+
+  /* Hatch Pattern for Medium Priority */
+  --hatch-pattern: repeating-linear-gradient(45deg, var(--priority-med), var(--priority-med) 3px, transparent 3px, transparent 6px);
+}
+
+/* --- Layer 2: Semantic Tokens (Light Theme - Warm Neutral Paper) --- */
+:root[data-theme="light"] {
+  --color-scheme: light;
+
+  /* Backgrounds */
+  --bg-base:        #F7F6F3;  /* app background */
+  --bg-surface:     #FFFFFF;  /* panels, cards, tables */
+  --bg-raised:      #FFFFFF;  /* modals, drawers, hovered rows */
+  --bg-sunken:      #F0EEEA;  /* formula blocks, table headers */
+
+  /* Borders */
+  --border-subtle:  #E7E4DF;  /* dividers inside a panel */
+  --border-default: #D5D1CA;  /* panel edges, inputs, table borders */
+  --border-strong:  #A8A29A;  /* focused or selected borders */
+
+  /* Text */
+  --text-primary:   #1A1D21;  /* headings, active values */
+  --text-secondary: #5A6069;  /* labels, prose */
+  --text-muted:     #858C95;  /* disabled, captions, subtle meta */
+
+  /* Interactive Accent */
+  --accent:         #2563C9;  /* primary buttons, focus, links */
+  --accent-hover:   #1B4FA8;
+  --accent-quiet:   #E8EFFB;  /* subtle accent tint for selected rows */
+
+  /* Priority Tokens (Colorblind-Safe) */
+  --priority-high:     #CE2C31;
+  --priority-high-bg:  rgba(206, 44, 49, 0.1);
+  --priority-med:      #B7791F;
+  --priority-med-bg:   rgba(183, 121, 31, 0.1);
+  --priority-low:      #2F7D58;
+  --priority-low-bg:   rgba(47, 125, 88, 0.1);
+  --priority-mastered: #6B7280;
+  --priority-mastered-bg: rgba(107, 114, 128, 0.1);
+
+  /* Adaptation Diff Deltas */
+  --delta-gain:     #2F7D58;
+  --delta-loss:     #CE2C31;
+
+  /* Focus Ring */
+  --focus-ring:     var(--accent);
+
+  /* Floating Elevation (Modals & Drawers only) */
+  --shadow-overlay: 0 12px 32px rgba(26, 29, 33, 0.14);
+
+  /* Hatch Pattern for Medium Priority */
+  --hatch-pattern: repeating-linear-gradient(45deg, var(--priority-med), var(--priority-med) 3px, transparent 3px, transparent 6px);
+}
+
+/* --- Accessibility Overrides --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --border-subtle: var(--border-strong) !important;
+    --border-default: var(--border-strong) !important;
+    --text-muted: var(--text-secondary) !important;
+  }
+}
+
+/* Presenter Mode (Shift + P) for Projector Visibility */
+body.presenter-mode {
+  font-size: 18px !important;
+  --border-default: var(--border-strong) !important;
+  --border-subtle: var(--border-strong) !important;
+}

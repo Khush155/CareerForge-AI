@@ -24,6 +24,13 @@ cache/
 .vscode/
 .idea/
 
+# Node & Frontend
+node_modules/
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+
 # OS specific
 Thumbs.db
 .DS_Store
+

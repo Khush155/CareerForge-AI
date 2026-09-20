@@ -161,3 +161,11 @@ def test_get_market_requirements_endpoint(test_client):
     assert len(reqs) > 0
     assert any(r["skill"] == "Python" for r in reqs)
     assert all(r["source_url"].startswith("http") for r in reqs)
+
+
+def test_static_frontend_index_accessible(test_client):
+    """Verify that GET / serves index.html with CareerForge branding."""
+    response = test_client.get("/")
+    assert response.status_code == 200
+    assert "CareerForge" in response.text
+    assert "text/html" in response.headers.get("content-type", "")

@@ -1,154 +1,212 @@
 /* ==========================================================================
-   CareerForge AI — Design Tokens & Cyber-Intelligence Design System
-   Calibrated for high contrast, deep readability & rounded modern design.
+   CareerForge AI — Design Tokens ("Mission Control for Your Career")
+   Linear × Raycast × Arc visual aesthetic with high contrast & polish.
    ========================================================================== */
 
+:root {
+  /* Typography Tokens */
+  --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', 'Inter Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'Cascadia Code', monospace;
+
+  /* Type Scale (px) */
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-24: 24px;
+  --font-size-32: 32px;
+  --font-size-44: 44px;
+  --font-size-60: 60px;
+
+  /* 4px Spacing Grid */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Radius Tokens */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  --r-card: 16px;
+
+  /* Brand Accents */
+  --accent-indigo: #6366F1;
+  --accent-sky:    #38BDF8;
+  --accent-mint:   #34D399;
+  --accent-amber:  #FBBF24;
+  --accent-coral:  #FB7185;
+  --accent-violet: #A78BFA;
+  --accent-pink:   #F472B6;
+
+  /* Brand Gradient */
+  --brand-gradient: linear-gradient(135deg, #6366F1 0%, #A78BFA 50%, #F472B6 100%);
+  --brand-glow: radial-gradient(circle at 50% 30%, rgba(99, 102, 241, 0.12) 0%, rgba(167, 139, 250, 0.05) 50%, transparent 70%);
+
+  /* Semantic State Mapping (Never Change) */
+  --color-critical:    #FB7185; /* Coral */
+  --color-moderate:    #FBBF24; /* Amber */
+  --color-mastered:    #34D399; /* Mint */
+  --color-target:      #6366F1; /* Indigo */
+  --color-info:        #38BDF8; /* Sky */
+
+  /* Phase Identity Colors */
+  --phase-foundations: #38BDF8; /* Sky */
+  --phase-architecture: #A78BFA; /* Violet */
+  --phase-systems-data: #FBBF24; /* Amber */
+  --phase-placement-ready: #34D399; /* Mint */
+
+  /* Role Family Accents */
+  --role-backend:      #6366F1;
+  --role-frontend:     #F472B6;
+  --role-data-ml:      #38BDF8;
+  --role-devops-cloud: #FBBF24;
+  --role-security:     #FB7185;
+  --role-mobile:       #A78BFA;
+  --role-game:         #F472B6;
+  --role-other:        #6366F1;
+
+  /* Motion Tokens */
+  --motion-duration-120: 120ms;
+  --motion-duration-200: 200ms;
+  --motion-duration-320: 320ms;
+  --motion-duration-600: 600ms;
+  --motion-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --motion-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --motion-spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   Dark Theme (Default)
+   ========================================================================== */
 :root,
 :root[data-theme="dark"] {
-  --bg-base:        #080C14;  /* Deep obsidian navy abyss */
-  --bg-surface:     #0F1626;  /* Frosted Cyber Surface */
-  --bg-raised:      #172238;  /* Elevated Interactive Panels */
-  --bg-sunken:      #080C14;  /* Deep Telemetry Terminal */
-  
-  --border-subtle:  #1B283F;
-  --border-default: #2A3D5E;
-  --border-strong:  #435D8A;
-  
-  --text-primary:   #FFFFFF;  /* PURE WHITE in Dark Mode */
-  --text-secondary: #94A3B8;  /* Legible cool silver-grey */
-  --text-muted:     #64748B;  /* Muted metadata */
-  
-  --accent:         #3B82F6;
-  --accent-hover:   #60A5FA;
-  --accent-quiet:   #111E38;
-  
-  /* Cyber Neon Palette */
-  --neon-cyan:      #00F2FE;
-  --neon-indigo:    #6366F1;
-  --neon-violet:    #A855F7;
-  --neon-emerald:   #10B981;
-  --neon-rose:      #F43F5E;
-  --neon-amber:     #F59E0B;
-  
-  /* Priority Semantics */
-  --priority-high:     #F43F5E;
-  --priority-medium:   #F59E0B;
-  --priority-low:      #10B981;
-  --priority-mastered: #94A3B8;
-  
-  --delta-gain:     #10B981;
-  --delta-loss:     #F43F5E;
-  
-  /* Glassmorphism & Soft Surfaces */
-  --glass-bg:       rgba(15, 22, 38, 0.88);
-  --glass-card:     rgba(19, 28, 48, 0.85);
-  --glass-border:   rgba(99, 102, 241, 0.25);
-  --glass-glow:     0 12px 35px rgba(0, 0, 0, 0.55);
-  --card-shadow:    0 12px 32px -4px rgba(0, 0, 0, 0.65);
-  --shadow-overlay: 0 24px 60px rgba(0, 0, 0, 0.85);
+  --bg:          #0A0B14;
+  --bg-elev-1:   #11131F;
+  --bg-elev-2:   #171A2A;
+  --bg-elev-3:   #1E2236;
 
-  --hatch-pattern: repeating-linear-gradient(45deg, var(--priority-medium), var(--priority-medium) 3px, transparent 3px, transparent 6px);
-  --cyber-grid: radial-gradient(circle, rgba(99, 102, 241, 0.15) 1px, transparent 1px);
+  --border:        rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
 
-  /* Modern rounded corners tokens */
-  --r-xs: 6px;
-  --r-sm: 10px;
-  --r-md: 16px;
-  --r-lg: 24px;
-  --r-xl: 32px;
-  --r-2xl: 40px;
-  --r-full: 9999px;
+  --text:        #F3F4FA;
+  --text-muted:  #9AA0B8;
+  --text-faint:  #6B7190;
+
+  /* Shadows */
+  --shadow-card: 0 8px 24px -4px rgba(0, 0, 0, 0.6), 0 2px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-elev: 0 16px 36px -6px rgba(0, 0, 0, 0.75);
+  --shadow-glass: 0 12px 32px rgba(0, 0, 0, 0.5);
+
+  /* Glass Surface */
+  --glass-bg: rgba(17, 19, 31, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  /* Backwards-compatible aliases for existing components */
+  --bg-base:        var(--bg);
+  --bg-surface:     var(--bg-elev-1);
+  --bg-raised:      var(--bg-elev-2);
+  --bg-sunken:      var(--bg);
+  --border-subtle:  var(--border);
+  --border-default: var(--border);
+  --text-primary:   var(--text);
+  --text-secondary: var(--text-muted);
+  --accent:         var(--accent-indigo);
+  --accent-hover:   #818CF8;
+  --accent-quiet:   rgba(99, 102, 241, 0.14);
+  --neon-cyan:      var(--accent-sky);
+  --neon-indigo:    var(--accent-indigo);
+  --neon-violet:    var(--accent-violet);
+  --neon-emerald:   var(--accent-mint);
+  --neon-rose:      var(--accent-coral);
+  --neon-amber:     var(--accent-amber);
+  --priority-high:     var(--color-critical);
+  --priority-medium:   var(--color-moderate);
+  --priority-low:      var(--color-info);
+  --priority-mastered: var(--color-mastered);
+  --delta-gain:        var(--color-mastered);
+  --delta-loss:        var(--color-critical);
+  --glass-card:        var(--bg-elev-1);
+  --glass-glow:        0 12px 35px rgba(0, 0, 0, 0.55);
+  --card-shadow:       var(--shadow-card);
+  --shadow-overlay:    var(--shadow-elev);
 }
 
+/* ==========================================================================
+   Light Theme
+   ========================================================================== */
 :root[data-theme="light"] {
-  --bg-base:        #F8FAFC;  /* Crisp light porcelain canvas */
-  --bg-surface:     #FFFFFF;  /* Pure clean white panel */
-  --bg-raised:      #F1F5F9;  /* Soft elevated interactive surface */
-  --bg-sunken:      #F8FAFC;  /* Sunken input track */
-  
-  --border-subtle:  #E2E8F0;  /* Soft border */
-  --border-default: #CBD5E1;  /* High definition card border */
-  --border-strong:  #94A3B8;  /* Active/focus border */
-  
-  --text-primary:   #0F172A;  /* DEEP CHARCOAL SLATE in Light Mode */
-  --text-secondary: #334155;  /* High contrast secondary */
-  --text-muted:     #64748B;  /* Clear subtext */
-  
-  --accent:         #2563EB;  /* Rich royal cobalt */
-  --accent-hover:   #1D4ED8;
-  --accent-quiet:   #EFF6FF;  /* Soft tinted blue */
-  
-  /* Light Mode Palette */
-  --neon-cyan:      #0284C7;  /* High contrast ocean cyan */
-  --neon-indigo:    #4F46E5;  /* Deep electric indigo */
-  --neon-violet:    #7C3AED;  /* Deep royal violet */
-  --neon-emerald:   #059669;  /* Deep emerald */
-  --neon-rose:      #E11D48;  /* High contrast crimson */
-  --neon-amber:     #D97706;  /* Rich amber */
-  
-  /* Priority Semantics */
-  --priority-high:     #E11D48;
-  --priority-medium:   #D97706;
-  --priority-low:      #059669;
-  --priority-mastered: #64748B;
-  
-  --delta-gain:     #059669;
-  --delta-loss:     #E11D48;
-  
-  /* Glassmorphism & Soft Surfaces */
-  --glass-bg:       rgba(255, 255, 255, 0.94);
-  --glass-card:     #FFFFFF;
-  --glass-border:   #E2E8F0;
-  --glass-glow:     0 8px 30px -4px rgba(15, 23, 42, 0.08);
-  --card-shadow:    0 10px 25px -3px rgba(15, 23, 42, 0.06), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
-  --shadow-overlay: 0 20px 50px rgba(15, 23, 42, 0.16);
+  --bg:          #F6F7FB;
+  --bg-elev-1:   #FFFFFF;
+  --bg-elev-2:   #F0F2F9;
+  --bg-elev-3:   #E7EAF5;
 
-  --hatch-pattern: repeating-linear-gradient(45deg, var(--priority-medium), var(--priority-medium) 3px, transparent 3px, transparent 6px);
-  --cyber-grid: radial-gradient(circle, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+  --border:        rgba(15, 18, 40, 0.09);
+  --border-strong: rgba(15, 18, 40, 0.18);
 
-  /* Modern rounded corners tokens */
-  --r-xs: 6px;
-  --r-sm: 10px;
-  --r-md: 16px;
-  --r-lg: 24px;
-  --r-xl: 32px;
-  --r-2xl: 40px;
-  --r-full: 9999px;
+  --text:        #0E1128;
+  --text-muted:  #545A78;
+  --text-faint:  #8A90AB;
+
+  /* Shadows */
+  --shadow-card: 0 4px 16px -2px rgba(15, 18, 40, 0.06), 0 2px 4px -1px rgba(15, 18, 40, 0.03);
+  --shadow-elev: 0 12px 28px -4px rgba(15, 18, 40, 0.10);
+  --shadow-glass: 0 8px 24px rgba(15, 18, 40, 0.08);
+
+  /* Glass Surface */
+  --glass-bg: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(15, 18, 40, 0.09);
+
+  /* Backwards-compatible aliases for existing components */
+  --bg-base:        var(--bg);
+  --bg-surface:     var(--bg-elev-1);
+  --bg-raised:      var(--bg-elev-2);
+  --bg-sunken:      var(--bg-elev-2);
+  --border-subtle:  var(--border);
+  --border-default: var(--border);
+  --text-primary:   var(--text);
+  --text-secondary: var(--text-muted);
+  --accent:         var(--accent-indigo);
+  --accent-hover:   #4F46E5;
+  --accent-quiet:   rgba(99, 102, 241, 0.08);
+  --neon-cyan:      #0284C7;
+  --neon-indigo:    var(--accent-indigo);
+  --neon-violet:    #7C3AED;
+  --neon-emerald:   #059669;
+  --neon-rose:      #E11D48;
+  --neon-amber:     #D97706;
+  --priority-high:     var(--color-critical);
+  --priority-medium:   var(--color-moderate);
+  --priority-low:      var(--color-info);
+  --priority-mastered: var(--color-mastered);
+  --delta-gain:        var(--color-mastered);
+  --delta-loss:        var(--color-critical);
+  --glass-card:        var(--bg-elev-1);
+  --glass-glow:        0 8px 24px rgba(15, 18, 40, 0.06);
+  --card-shadow:       var(--shadow-card);
+  --shadow-overlay:    var(--shadow-elev);
 }
 
-/* Global Root Styling */
+/* Global Document Styles */
 html, body {
   margin: 0;
   padding: 0;
-  background-color: var(--bg-base);
-  color: var(--text-primary);
+  background-color: var(--bg);
+  color: var(--text);
   min-height: 100vh;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Animations & Keyframes */
-@keyframes border-beam {
-  0% { offset-distance: 0%; }
-  100% { offset-distance: 100%; }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-}
-
-@keyframes float-orbit {
-  0% { transform: rotate(0deg) translateY(-8px) rotate(0deg); }
-  50% { transform: rotate(180deg) translateY(8px) rotate(-180deg); }
-  100% { transform: rotate(360deg) translateY(-8px) rotate(-360deg); }
-}
-
-@keyframes shimmer-sweep {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(200%); }
-}
-
-/* Accessibility floor: prefers-reduced-motion & prefers-contrast */
+/* Accessibility: prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -156,19 +214,4 @@ html, body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-@media (prefers-contrast: more) {
-  :root {
-    --border-subtle: var(--border-strong) !important;
-    --border-default: var(--border-strong) !important;
-    --text-muted: var(--text-secondary) !important;
-  }
-}
-
-/* Presenter mode: Shift + P scales font to 18px and thickens borders */
-body.presenter-mode {
-  font-size: 18px !important;
-  --border-default: var(--border-strong) !important;
-  --border-subtle: var(--border-strong) !important;
 }

@@ -1,0 +1,73 @@
+{
+  "id": "android_developer",
+  "title": "Android Developer",
+  "category": "Web & Mobile",
+  "aliases": [
+    "android",
+    "android engineer",
+    "kotlin developer",
+    "native android",
+    "mobile android developer"
+  ],
+  "description": "Builds responsive native Android applications utilizing Kotlin, Jetpack Compose, Coroutines, and modern clean architecture.",
+  "skills": [
+    {
+      "name": "Kotlin",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": [],
+      "source_url": "https://kotlinlang.org/docs/home.html",
+      "category": "language"
+    },
+    {
+      "name": "Jetpack Compose",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 35,
+      "prerequisites": [
+        "Kotlin"
+      ],
+      "source_url": "https://developer.android.com/jetpack/compose",
+      "category": "ui"
+    },
+    {
+      "name": "Android Architecture (MVVM/MVI)",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 30,
+      "prerequisites": [
+        "Kotlin"
+      ],
+      "source_url": "https://developer.android.com/topic/architecture",
+      "category": "architecture"
+    },
+    {
+      "name": "Coroutines & Flow",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 25,
+      "prerequisites": [
+        "Kotlin"
+      ],
+      "source_url": "https://kotlinlang.org/docs/coroutines-overview.html",
+      "category": "async"
+    },
+    {
+      "name": "Room Database & Networking (Retrofit)",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 25,
+      "prerequisites": [
+        "Android Architecture (MVVM/MVI)"
+      ],
+      "source_url": "https://square.github.io/retrofit/",
+      "category": "data"
+    }
+  ]
+}

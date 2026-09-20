@@ -26,7 +26,7 @@ class DatabaseManager:
     @contextmanager
     def _get_connection(self):
         """Context manager that yields a connection and guarantees it is closed on exit."""
-        conn = sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(self.db_path, timeout=15.0, check_same_thread=False)
         conn.row_factory = sqlite3.Row
         try:
             yield conn
@@ -80,6 +80,18 @@ class DatabaseManager:
                     updated_level REAL,
                     level_delta REAL,
                     timestamp TEXT,
+                    FOREIGN KEY (profile_id) REFERENCES profiles(id)
+                )
+            """)
+
+            # Completed Milestones table
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS completed_milestones (
+                    profile_id TEXT,
+                    milestone_key TEXT,
+                    completed BOOLEAN DEFAULT 1,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    PRIMARY KEY (profile_id, milestone_key),
                     FOREIGN KEY (profile_id) REFERENCES profiles(id)
                 )
             """)
@@ -265,6 +277,40 @@ class DatabaseManager:
                 )
                 for r in rows
             ]
+
+    # --- Milestone Completion Operations ---
+    def set_milestone_completion(self, profile_id: str, milestone_key: str, completed: bool) -> dict[str, bool]:
+        """Save milestone completion status and return all completed milestones for the profile."""
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            if completed:
+                cursor.execute("""
+                    INSERT INTO completed_milestones (profile_id, milestone_key, completed, updated_at)
+                    VALUES (?, ?, 1, CURRENT_TIMESTAMP)
+                    ON CONFLICT(profile_id, milestone_key) DO UPDATE SET
+                        completed=1,
+                        updated_at=CURRENT_TIMESTAMP
+                """, (profile_id, milestone_key))
+            else:
+                cursor.execute("""
+                    DELETE FROM completed_milestones
+                    WHERE profile_id = ? AND milestone_key = ?
+                """, (profile_id, milestone_key))
+            conn.commit()
+
+        return self.get_completed_milestones(profile_id)
+
+    def get_completed_milestones(self, profile_id: str) -> dict[str, bool]:
+        """Retrieve map of completed milestones for a profile."""
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT milestone_key, completed
+                FROM completed_milestones
+                WHERE profile_id = ?
+            """, (profile_id,))
+            rows = cursor.fetchall()
+            return {r["milestone_key"]: bool(r["completed"]) for r in rows}
 
 
 # Singleton helper

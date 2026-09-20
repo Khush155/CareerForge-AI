@@ -1,0 +1,67 @@
+{
+  "id": "data_analyst",
+  "title": "Data Analyst",
+  "category": "Data & Analytics",
+  "aliases": [
+    "analyst",
+    "business intelligence",
+    "bi analyst",
+    "product analyst",
+    "data reporting analyst"
+  ],
+  "description": "Uncovers business insights through statistical exploration, SQL transformations, cohort analysis, and interactive dashboard storytelling.",
+  "skills": [
+    {
+      "name": "SQL & Advanced Queries",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": [],
+      "source_url": "https://mode.com/sql-tutorial/",
+      "category": "core"
+    },
+    {
+      "name": "Power BI / Tableau",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 35,
+      "prerequisites": [
+        "SQL"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/power-bi/",
+      "category": "visualization"
+    },
+    {
+      "name": "Python (Pandas/NumPy)",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://pandas.pydata.org/docs/",
+      "category": "analysis"
+    },
+    {
+      "name": "Excel & Business Modeling",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.8,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://support.microsoft.com/en-us/excel",
+      "category": "reporting"
+    },
+    {
+      "name": "Statistical Analysis & A/B Testing",
+      "required_level": 3.0,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://www.khanacademy.org/math/statistics-probability",
+      "category": "statistics"
+    }
+  ]
+}

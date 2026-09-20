@@ -1,0 +1,66 @@
+{
+  "id": "cybersecurity_analyst",
+  "title": "Cybersecurity Analyst",
+  "category": "Security & Networks",
+  "aliases": [
+    "security",
+    "cyber security",
+    "soc analyst",
+    "security engineer",
+    "infosec analyst",
+    "penetration tester"
+  ],
+  "description": "Protects organizational assets by monitoring intrusion telemetry, performing vulnerability assessments, SIEM triage, and incident response.",
+  "skills": [
+    {
+      "name": "Network Security & Protocols (TCP/IP, TLS)",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://www.wireshark.org/docs/",
+      "category": "networking"
+    },
+    {
+      "name": "SIEM & Log Analysis (Splunk/ELK)",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 30,
+      "prerequisites": [],
+      "source_url": "https://docs.splunk.com/",
+      "category": "operations"
+    },
+    {
+      "name": "Linux Security & Hardening",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 30,
+      "prerequisites": [],
+      "source_url": "https://linuxjourney.com/",
+      "category": "os"
+    },
+    {
+      "name": "Web Vulnerabilities (OWASP Top 10)",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 30,
+      "prerequisites": [],
+      "source_url": "https://owasp.org/www-project-top-ten/",
+      "category": "appsec"
+    },
+    {
+      "name": "Cryptography Fundamentals",
+      "required_level": 3.0,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://www.cryptopals.com/",
+      "category": "crypto"
+    }
+  ]
+}

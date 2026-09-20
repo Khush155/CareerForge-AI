@@ -1,0 +1,70 @@
+{
+  "id": "ui_ux_designer",
+  "title": "UI/UX Designer",
+  "category": "Product & Design",
+  "aliases": [
+    "designer",
+    "ui designer",
+    "ux designer",
+    "product designer",
+    "interaction designer",
+    "design system lead"
+  ],
+  "description": "Architects design systems, high-fidelity interactive Figma components, user journey flows, and conducts accessibility audits.",
+  "skills": [
+    {
+      "name": "Figma Mastery & Auto-Layout",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://help.figma.com/",
+      "category": "tools"
+    },
+    {
+      "name": "Design Systems & Token Architecture",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 30,
+      "prerequisites": [
+        "Figma Mastery & Auto-Layout"
+      ],
+      "source_url": "https://designsystemsrepo.com/",
+      "category": "systems"
+    },
+    {
+      "name": "UX Research & Wireframing",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://www.nngroup.com/",
+      "category": "research"
+    },
+    {
+      "name": "Web Accessibility (WCAG AA/AAA)",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 20,
+      "prerequisites": [],
+      "source_url": "https://www.w3.org/WAI/standards-guidelines/wcag/",
+      "category": "standards"
+    },
+    {
+      "name": "Micro-Animations & Prototyping",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 20,
+      "prerequisites": [
+        "Figma Mastery & Auto-Layout"
+      ],
+      "source_url": "https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma",
+      "category": "interaction"
+    }
+  ]
+}

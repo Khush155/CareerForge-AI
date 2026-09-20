@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import '@fontsource-variable/inter-tight';
-import '@fontsource-variable/jetbrains-mono';
-import '../styles/tokens.css';
-import '../styles/theme.css';
+import React, { useState } from 'react';
 
-import { SideRail } from '../components/layout/SideRail';
-import { TopBar } from '../components/layout/TopBar';
-import { WorkflowNav } from '../components/layout/WorkflowNav';
-import { ProfileForm } from '../features/profile/ProfileForm';
+import { AppShell, PageHeader } from '../components/layout/AppShell';
+import { SearchHome } from '../features/home/SearchHome';
+import { TunePlanPage } from '../features/plan/TunePlanPage';
+import { AgentWorkingSequence } from '../features/plan/AgentWorkingSequence';
+import { DashboardOverview } from '../features/dashboard/DashboardOverview';
 import { GapMatrix } from '../components/domain/GapMatrix';
 import { BudgetStrip, type BudgetSegment } from '../components/domain/BudgetStrip';
 import { RoadmapTimeline } from '../components/domain/RoadmapTimeline';
@@ -15,13 +12,24 @@ import { DiffStrip } from '../components/domain/DiffStrip';
 import { AssessmentDialog } from '../components/domain/AssessmentDialog';
 import { EvidenceDrawer } from '../components/domain/EvidenceDrawer';
 import { AdaptationStudio } from '../components/domain/AdaptationStudio';
-import { NeuralBackground } from '../components/3d/NeuralBackground';
 import { ConfettiBurst } from '../components/3d/ConfettiBurst';
+import { ProgressAnalytics } from '../features/progress/ProgressAnalytics';
+import { KeyboardShortcutsModal } from '../components/domain/KeyboardShortcutsModal';
+import { ExportShareModal } from '../components/domain/ExportShareModal';
 
 import { useAppStore } from '../lib/store';
-import { submitProfile, submitAssessment } from '../lib/api';
+import { getCartoonAvatarUrl } from '../lib/avatar';
+import { submitProfile, submitAssessment, resolveRoleQuery, type RoleResolveResult } from '../lib/api';
 import type { StudentProfile } from '../lib/schemas';
-import { Activity, Layers, ShieldCheck, Sparkles } from 'lucide-react';
+import {
+  ShieldCheck,
+  BookOpen,
+  Sparkles,
+  GraduationCap,
+  Users,
+  Trash2,
+} from 'lucide-react';
+import { toast } from 'sonner';
 
 export const App: React.FC = () => {
   const {
@@ -30,7 +38,8 @@ export const App: React.FC = () => {
     previousRoadmap,
     gaps,
     skills,
-    activeTab,
+    currentSection,
+    setCurrentSection,
     isAssessmentOpen,
     openAssessment,
     closeAssessment,
@@ -40,73 +49,115 @@ export const App: React.FC = () => {
     closeEvidence,
     lastAssessmentResult,
     lastAssessmentSummary,
+    isShortcutsOpen,
+    setShortcutsOpen,
+    isExportOpen,
+    setExportOpen,
     setInitialPlan,
     applyAdaptedPlan,
-    toggleTheme,
-    togglePresenterMode,
+    avatar,
+    setAvatar,
+    randomizeAvatar,
+    savedProfiles,
+    switchProfile,
+    deleteSavedProfile,
   } = useAppStore();
 
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generationStage, setGenerationStage] = useState('');
   const [highlightedSkill, setHighlightedSkill] = useState<string | null>(null);
   const [changedPhases, setChangedPhases] = useState<number[]>([]);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
 
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3500);
+  const [selectedRoleQuery, setSelectedRoleQuery] = useState<string | null>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('careerforge_pending_role_query');
+    }
+    return null;
+  });
+  const [resolvedRoleData, setResolvedRoleData] = useState<RoleResolveResult | null>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('careerforge_pending_resolved_role');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch {}
+      }
+    }
+    return null;
+  });
+  const [isResolvingRole, setIsResolvingRole] = useState(false);
+  const [targetAssessmentSkill, setTargetAssessmentSkill] = useState<string | null>(null);
+
+  const handleOpenAssessment = (skill?: string) => {
+    if (skill) {
+      setTargetAssessmentSkill(skill);
+    }
+    openAssessment();
   };
 
-  // Keyboard Shortcuts Listener
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const tag = (e.target as HTMLElement).tagName.toLowerCase();
-      if (tag === 'input' || tag === 'select' || tag === 'textarea' || (e.target as HTMLElement).isContentEditable) {
-        return;
+  const handleSelectRole = async (roleQuery: string) => {
+    try {
+      setIsResolvingRole(true);
+      setSelectedRoleQuery(roleQuery);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('careerforge_pending_role_query', roleQuery);
       }
-
-      if (e.shiftKey && (e.key === 'P' || e.key === 'p')) {
-        e.preventDefault();
-        togglePresenterMode();
-        showToast('Presenter mode toggled (18px text, reinforced borders)');
-        return;
+      const result = await resolveRoleQuery(roleQuery);
+      setResolvedRoleData(result);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('careerforge_pending_resolved_role', JSON.stringify(result));
       }
-
-      if (e.key === 'l' || e.key === 'L') {
-        e.preventDefault();
-        openAssessment();
-      } else if (e.key === 't' || e.key === 'T') {
-        e.preventDefault();
-        toggleTheme();
-      } else if (e.key === 'e' || e.key === 'E') {
-        e.preventDefault();
-        if (gaps.length > 0) openEvidence(gaps[0].skill);
-      } else if (e.key === '?') {
-        e.preventDefault();
-        showToast('Shortcuts: L (Log score), E (Evidence), T (Theme), Shift+P (Presenter mode)');
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gaps, openAssessment, openEvidence, toggleTheme, togglePresenterMode]);
+    } catch (err: any) {
+      toast.error(`Could not resolve role: ${err.message}`);
+    } finally {
+      setIsResolvingRole(false);
+    }
+  };
 
   // Handle Initial Profile Submission
   const handleProfileSubmit = async (formData: Partial<StudentProfile>) => {
+    const studentName = formData.name?.trim();
+    if (!studentName) {
+      toast.error('Please enter your full name before advancing.');
+      return;
+    }
+    const role = formData.target_role?.trim();
+    if (!role) {
+      toast.error('Please specify your target career role.');
+      return;
+    }
+    const degree = formData.degree?.trim();
+    if (!degree) {
+      toast.error('Please specify your Degree / Qualification.');
+      return;
+    }
+    const branch = formData.branch?.trim();
+    if (!branch) {
+      toast.error('Please specify your Branch / Specialization.');
+      return;
+    }
+    const candidateSkills = (formData.skills && formData.skills.length > 0) ? formData.skills : skills;
+    if (!candidateSkills || candidateSkills.length === 0) {
+      toast.error('Please add and calibrate at least one skill before building your roadmap.');
+      return;
+    }
+
     try {
       setIsGenerating(true);
-      setGenerationStage('Researching benchmarks');
 
-      const stageTimer1 = setTimeout(() => setGenerationStage('Computing gaps'), 300);
-      const stageTimer2 = setTimeout(() => setGenerationStage('Retrieving guides'), 600);
-      const stageTimer3 = setTimeout(() => setGenerationStage('Budgeting phases'), 900);
+      if ((formData as any).avatar) {
+        setAvatar((formData as any).avatar);
+      }
 
-      const response = await submitProfile(formData);
-
-      clearTimeout(stageTimer1);
-      clearTimeout(stageTimer2);
-      clearTimeout(stageTimer3);
+      const response = await submitProfile({
+        name: studentName,
+        degree,
+        branch,
+        year: formData.year || 1,
+        target_role: role,
+        available_hours_per_week: formData.available_hours_per_week || 20,
+        skills: candidateSkills,
+      });
 
       setInitialPlan({
         profile: response.profile,
@@ -115,37 +166,40 @@ export const App: React.FC = () => {
         roadmap: response.roadmap,
       });
 
-      showToast('Personalized adaptive roadmap synthesized successfully!');
-    } catch (err) {
-      alert((err as Error).message);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('careerforge_pending_role_query');
+        localStorage.removeItem('careerforge_pending_resolved_role');
+      }
+
+      setShowConfetti(true);
+      toast.success(`Roadmap generated for ${response.profile.target_role}!`);
+      setCurrentSection('dashboard');
+    } catch (err: any) {
+      toast.error(`Generation failed: ${err.message || 'Check server connection'}`);
     } finally {
       setIsGenerating(false);
-      setGenerationStage('');
     }
   };
 
-  // Handle Assessment Submission & Choreography
+  // Handle Assessment Score Submission
   const handleApplyScore = async (skill: string, score: number) => {
-    if (!profile?.id) {
-      alert('Please generate a roadmap first before applying an assessment score.');
+    if (!profile) {
+      toast.error('Load or generate a profile before submitting assessment.');
       return;
     }
 
     try {
       const response = await submitAssessment({
-        profile_id: profile.id,
+        profile_id: profile.id || 'current',
         skill,
         score_percentage: score,
-        notes: 'Assessment applied via CareerForge precision instrument',
       });
 
-      // Dismiss modal if open
-      closeAssessment();
+      const oldPhases = roadmap?.phases.map((p) => p.phase_number) || [];
+      const newPhases = response.roadmap.phases.map((p) => p.phase_number);
+      const removed = oldPhases.filter((p) => !newPhases.includes(p));
+      setChangedPhases(removed);
 
-      // Trigger celebratory particle explosion
-      setShowConfetti(true);
-
-      // Apply adapted plan
       applyAdaptedPlan({
         result: response.result,
         updatedProfile: response.updated_profile,
@@ -154,22 +208,17 @@ export const App: React.FC = () => {
         summary: response.summary,
       });
 
-      // Highlight phases covering the adapted skill for 700ms wash
-      const affected = response.roadmap.phases
-        .filter((p) => p.skills_covered.includes(skill))
-        .map((p) => p.phase_number);
-      setChangedPhases(affected);
-      setTimeout(() => setChangedPhases([]), 700);
-
-      showToast(`Score logged! Dynamic roadmap adapted to Revision v${response.roadmap.version}.`);
-    } catch (err) {
-      alert((err as Error).message);
+      setShowConfetti(true);
+      closeAssessment();
+      toast.success(response.summary);
+    } catch (err: any) {
+      toast.error(`Assessment failed: ${err.message || 'Check connection'}`);
     }
   };
 
-  // Compute Bandwidth Allocation Segments
+  // Bandwidth Budget Allocation calculation
   const budgetSegments: BudgetSegment[] = [];
-  if (roadmap) {
+  if (roadmap && roadmap.phases.length > 0) {
     const skillHoursMap: Record<string, number> = {};
     roadmap.phases.forEach((phase) => {
       const perSkill = Math.round(phase.estimated_hours / (phase.skills_covered.length || 1));
@@ -188,173 +237,413 @@ export const App: React.FC = () => {
     });
   }
 
-  // Copy Summary Markdown Export
-  const handleCopySummary = () => {
-    if (!profile || !roadmap) {
-      showToast('Generate a roadmap first to copy run summary.');
-      return;
-    }
-
-    const lines = [
-      `# CareerForge AI — Run Summary`,
-      `- **Student:** ${profile.name} (${profile.degree} ${profile.branch}, Year ${profile.year})`,
-      `- **Target Role:** ${profile.target_role}`,
-      `- **Roadmap Revision:** v${roadmap.version}`,
-      `- **Total Hours:** ${roadmap.total_estimated_hours} h (~${roadmap.estimated_weeks} weeks at ${roadmap.available_hours_per_week} h/wk)`,
-      ``,
-      `## Skill Gaps`,
-      `| Skill | Current | Benchmark | Gap | Priority |`,
-      `| :--- | :--- | :--- | :--- | :--- |`,
-      ...gaps.map((g) => `| ${g.skill} | ${g.current_level.toFixed(1)} | ${g.required_level.toFixed(1)} | ${g.gap.toFixed(1)} | ${g.priority} |`),
-    ];
-
-    navigator.clipboard.writeText(lines.join('\n')).then(() => {
-      showToast('Run summary copied to clipboard.');
-    });
-  };
-
   const activeEvidenceGap = gaps.find(
     (g) => g.skill.toLowerCase() === (activeEvidenceSkill || '').toLowerCase()
   );
 
   return (
-    <div className="flex min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] relative overflow-x-hidden cyber-bg-grid font-sans">
-      {/* 60fps Interactive HTML5 Canvas Neural Constellation */}
-      <NeuralBackground />
-
+    <AppShell>
       {/* Celebratory Adaptation Confetti Burst */}
       <ConfettiBurst trigger={showConfetti} onComplete={() => setShowConfetti(false)} />
 
-      {/* Side Rail Navigation (256px) */}
-      <SideRail
-        version={roadmap?.version || 1}
-        onOpenAssessment={openAssessment}
-      />
+      {/* Pinned Adaptation Diff Strip */}
+      {lastAssessmentResult && lastAssessmentSummary && (
+        <div className="mb-6">
+          <DiffStrip
+            fromVersion={previousRoadmap ? previousRoadmap.version : 1}
+            toVersion={roadmap ? roadmap.version : 2}
+            result={lastAssessmentResult}
+            summary={lastAssessmentSummary}
+            onDismiss={() => useAppStore.setState({ lastAssessmentResult: null })}
+          />
+        </div>
+      )}
 
-      {/* Main Fluid Workstation Canvas */}
-      <div className="ml-64 flex-1 flex flex-col min-w-0 max-lg:ml-16 max-md:ml-0 max-md:mb-16 relative z-10">
-        {/* Top Bar with Telemetry HUD */}
-        <TopBar
-          profile={profile}
-          version={roadmap?.version || 1}
-          onCopySummary={handleCopySummary}
+      {/* Full-screen Agent Working Sequence during plan synthesis */}
+      {isGenerating && (
+        <AgentWorkingSequence
+          targetRole={resolvedRoleData?.matched_role || profile?.target_role || 'Target Role'}
         />
+      )}
 
-        {/* Interactive Workflow Navigation Stepper */}
-        <WorkflowNav />
-
-        {/* Fluid Scrollable Content */}
-        <main className="max-w-[1360px] w-full mx-auto p-8 max-md:p-4 flex flex-col gap-14">
-          {/* Section 1: Profile & Target Configuration */}
-          {(activeTab === 'all' || activeTab === 'profile') && (
-            <ProfileForm
-              onSubmit={handleProfileSubmit}
+      {/* SECTION: Home (Dream Job Engine Entrypoint) */}
+      {currentSection === 'home' && (
+        <>
+          {resolvedRoleData ? (
+            <TunePlanPage
+              initialRoleQuery={selectedRoleQuery || ''}
+              resolvedData={resolvedRoleData}
+              onBack={() => {
+                if (typeof window !== 'undefined') {
+                  localStorage.removeItem('careerforge_pending_role_query');
+                  localStorage.removeItem('careerforge_pending_resolved_role');
+                }
+                setResolvedRoleData(null);
+                setSelectedRoleQuery(null);
+              }}
+              onSubmitPlan={handleProfileSubmit}
               isGenerating={isGenerating}
-              stageName={generationStage}
+            />
+          ) : (
+            <SearchHome onSelectRole={handleSelectRole} isResolving={isResolvingRole} />
+          )}
+        </>
+      )}
+
+      {/* SECTION: Dashboard */}
+      {currentSection === 'dashboard' && (
+        <DashboardOverview
+          onOpenAssessment={handleOpenAssessment}
+          onOpenEvidence={(skill) => openEvidence(skill)}
+        />
+      )}
+
+      {/* SECTION: Skill Gaps */}
+      {currentSection === 'gaps' && (
+        <div className="space-y-6">
+          <PageHeader
+            title="Skill Gap Matrix"
+            subtitle="Deterministic gap calculation: Gap = max(0, Required − Current). Multi-view comparison across Table, Heatmap, and Radar dimensions."
+            actions={
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--accent-mint)]/10 border border-[var(--accent-mint)]/30 font-mono text-xs font-bold text-[var(--accent-mint)]">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                100% Deterministic Math
+              </span>
+            }
+          />
+          {gaps.length > 0 ? (
+            <GapMatrix
+              gaps={gaps}
+              onSelectSkill={(skill) => openEvidence(skill)}
+              onOpenAssessment={handleOpenAssessment}
+            />
+          ) : (
+            <div className="p-12 text-center text-sm text-[var(--text-muted)] bg-[var(--bg-elev-1)] rounded-2xl border border-[var(--border)]">
+              No active gaps found. Configure a profile on the Home screen or load the demo student.
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* SECTION: Roadmap */}
+      {currentSection === 'roadmap' && (
+        <div className="space-y-6">
+          <PageHeader
+            title="Adaptive Phased Roadmap"
+            subtitle={
+              roadmap
+                ? `${roadmap.total_estimated_hours} total hours across ${roadmap.phases.length} sequential execution stages.`
+                : 'Phased execution timeline.'
+            }
+            actions={
+              roadmap && (
+                <span className="font-mono text-xs font-bold text-[var(--accent-sky)] bg-[var(--accent-sky)]/10 px-3 py-1 rounded-full border border-[var(--accent-sky)]/30">
+                  Dynamic Revision v{roadmap.version.toFixed(1)}
+                </span>
+              )
+            }
+          />
+
+          {roadmap && (
+            <BudgetStrip
+              segments={budgetSegments}
+              totalHours={roadmap?.total_estimated_hours || 0}
+              weeklyHours={roadmap?.available_hours_per_week || 20}
+              onHoverSegment={setHighlightedSkill}
             />
           )}
 
-          {activeTab === 'all' && <hr className="border-0 h-px bg-[var(--border-subtle)]" />}
-
-          {/* Section 2: Deterministic Skill Gap Matrix */}
-          {(activeTab === 'all' || activeTab === 'gaps') && (
-            <section id="gaps-section" aria-labelledby="gaps-heading" className="flex flex-col gap-4">
-              <div className="flex justify-between items-baseline flex-wrap gap-2">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-[var(--neon-cyan)]/10 border border-[var(--neon-cyan)]/30 flex items-center justify-center text-[var(--neon-cyan)]">
-                    <Activity className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h2 id="gaps-heading" className="text-xl font-bold tracking-tight text-[var(--text-primary)] font-sans">
-                      Skill Gap Matrix & Benchmark Comparison
-                    </h2>
-                    <span className="text-xs font-mono text-[var(--text-muted)]">
-                      Pure Python math: gap = max(0, required − current)
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--neon-emerald)]/10 border border-[var(--neon-emerald)]/30 font-mono text-xs font-bold text-[var(--neon-emerald)]">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    0.00% Math Drift
-                  </span>
-                </div>
-              </div>
-
-              <GapMatrix
-                gaps={gaps}
-                onSelectSkill={(skill) => openEvidence(skill)}
-              />
-            </section>
-          )}
-
-          {/* Pinned Adaptation Diff Strip */}
-          {lastAssessmentResult && lastAssessmentSummary && (
-            <DiffStrip
-              fromVersion={previousRoadmap ? previousRoadmap.version : 1}
-              toVersion={roadmap ? roadmap.version : 2}
-              result={lastAssessmentResult}
-              summary={lastAssessmentSummary}
-              onDismiss={() => useAppStore.setState({ lastAssessmentResult: null })}
+          {roadmap ? (
+            <RoadmapTimeline
+              phases={roadmap.phases}
+              gaps={gaps}
+              weeklyHours={roadmap.available_hours_per_week}
+              highlightedSkill={highlightedSkill}
+              onOpenResource={(title) => openEvidence(title)}
+              changedPhases={changedPhases}
             />
+          ) : (
+            <div className="p-12 text-center text-sm text-[var(--text-muted)] bg-[var(--bg-elev-1)] rounded-2xl border border-[var(--border)]">
+              No roadmap loaded yet. Build one from the Home screen or click Try Demo Student in the top bar.
+            </div>
           )}
+        </div>
+      )}
 
-          {activeTab === 'all' && <hr className="border-0 h-px bg-[var(--border-subtle)]" />}
+      {/* SECTION: Assess */}
+      {currentSection === 'assess' && (
+        <div className="space-y-6">
+          <PageHeader
+            title="Adaptation & Assessment Studio"
+            subtitle="Simulate skill assessments (0–100%). Watch dynamic recalculation adapt remaining roadmap hours in real time."
+          />
+          <AdaptationStudio onApplyScore={handleApplyScore} />
+        </div>
+      )}
 
-          {/* Section 3: Adaptive Phased Roadmap Timeline */}
-          {(activeTab === 'all' || activeTab === 'roadmap') && (
-            <section id="roadmap-section" aria-labelledby="roadmap-heading" className="flex flex-col gap-6">
-              <div className="flex justify-between items-baseline flex-wrap gap-2">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-[var(--neon-violet)]/10 border border-[var(--neon-violet)]/30 flex items-center justify-center text-[var(--neon-violet)]">
-                    <Layers className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h2 id="roadmap-heading" className="text-xl font-bold tracking-tight text-[var(--text-primary)] font-sans">
-                      Adaptive Phased Roadmap & Curriculum
-                    </h2>
+      {/* SECTION: Progress */}
+      {currentSection === 'progress' && (
+        <div className="space-y-6">
+          <PageHeader
+            title="Progress & Readiness Analytics"
+            subtitle="Deterministic readiness percentage, velocity runway, and interactive milestone execution."
+          />
+          <ProgressAnalytics />
+        </div>
+      )}
+
+      {/* SECTION: Resources */}
+      {currentSection === 'resources' && (
+        <div className="space-y-6">
+          <PageHeader
+            title="Curated Study Guides & Documentation"
+            subtitle="High-yield placement preparation guides stored locally and cited with verified benchmarks."
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {gaps.map((gap) => (
+              <div
+                key={gap.skill}
+                className="p-5 rounded-2xl bg-[var(--bg-elev-1)] border border-[var(--border)] hover:border-[var(--border-strong)] transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-mono text-[var(--accent-indigo)] font-semibold uppercase">
+                      {gap.priority} Priority
+                    </span>
                     <span className="text-xs font-mono text-[var(--text-muted)]">
-                      {roadmap ? `${roadmap.total_estimated_hours} total hours · ${roadmap.phases.length} sequential execution stages` : 'Phased execution timeline'}
+                      Gap: {gap.gap.toFixed(1)} pts
                     </span>
                   </div>
+                  <h4 className="text-base font-bold font-display text-[var(--text)] mb-1">
+                    {gap.skill} Preparation Guide
+                  </h4>
+                  <p className="text-xs text-[var(--text-muted)] line-clamp-2">
+                    Industry benchmark: Level {gap.required_level.toFixed(1)} ({gap.demand_level} demand).
+                  </p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => openEvidence(gap.skill)}
+                  className="mt-4 w-full py-2 rounded-xl bg-[var(--bg-elev-2)] hover:bg-[var(--bg-elev-3)] text-xs font-semibold text-[var(--text)] transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-[var(--accent-sky)]" />
+                  <span>Read Study Guide</span>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
-                {roadmap && (
-                  <span className="font-mono text-xs font-bold text-[var(--neon-cyan)] bg-[var(--neon-cyan)]/10 px-3 py-1 rounded-full border border-[var(--neon-cyan)]/30">
-                    Dynamic Revision v{roadmap.version}
-                  </span>
-                )}
+      {/* SECTION: Settings / Profile Management */}
+      {currentSection === 'settings' && (
+        <div className="space-y-6 max-w-4xl">
+          <PageHeader
+            title="Profile & Target Settings"
+            subtitle="Manage your personal profile, career milestones, and system configuration."
+          />
+
+          {/* Card 1: Active Student Profile & Creation Hub */}
+          <div className="p-6 sm:p-7 rounded-3xl bg-[var(--bg-elev-1)] border border-[var(--border)] shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border)]">
+              <div className="flex items-center gap-3.5">
+                <div className="relative group shrink-0" title="Custom Cartoon Profile Avatar (Click 🎲 to shuffle)">
+                  <div className="w-14 h-14 rounded-2xl bg-[var(--bg-elev-2)] border border-[var(--border)] overflow-hidden shadow-sm flex items-center justify-center p-0.5">
+                    <img
+                      src={getCartoonAvatarUrl(profile?.avatar || avatar, 'bottts')}
+                      alt="Cartoon Avatar"
+                      className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={randomizeAvatar}
+                    title="Shuffle cartoon avatar"
+                    className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[var(--accent-indigo)] text-white flex items-center justify-center text-[10px] shadow-sm hover:scale-110 transition-transform cursor-pointer border border-[var(--border)]"
+                  >
+                    🎲
+                  </button>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2.5">
+                    <h3 className="text-base font-bold font-display text-[var(--text)]">
+                      {profile ? profile.name : 'Guest Student'}
+                    </h3>
+                    {profile && (
+                      <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full font-semibold border bg-[var(--accent-mint)]/10 text-[var(--accent-mint)] border-[var(--accent-mint)]/30">
+                        Active Profile
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-[var(--text-muted)] mt-1">
+                    {profile
+                      ? `${profile.target_role} · ${profile.degree} ${profile.branch} (Year ${profile.year}) · ${profile.available_hours_per_week || 15} hrs/wk`
+                      : 'No active profile configured yet. Create your personalized profile below.'}
+                  </p>
+                </div>
               </div>
 
-              {/* Bandwidth Budget Allocator */}
-              <BudgetStrip
-                segments={budgetSegments}
-                totalHours={roadmap?.total_estimated_hours || 0}
-                weeklyHours={roadmap?.available_hours_per_week || 20}
-                onHoverSegment={setHighlightedSkill}
-              />
+              {/* Create Your Own Profile Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedRoleQuery(null);
+                  setResolvedRoleData(null);
+                  setCurrentSection('home');
+                }}
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[var(--accent-indigo)] via-[var(--accent-violet)] to-[var(--accent-pink)] hover:opacity-95 text-white text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
+              >
+                <Sparkles className="w-4 h-4 text-[var(--accent-amber)]" />
+                <span>+ Create Your Own Profile</span>
+              </button>
+            </div>
 
-              {/* Phased Roadmap Sequence */}
-              <RoadmapTimeline
-                phases={roadmap?.phases || []}
-                gaps={gaps}
-                weeklyHours={roadmap?.available_hours_per_week || 20}
-                highlightedSkill={highlightedSkill}
-                onOpenResource={(title) => openEvidence(title)}
-                changedPhases={changedPhases}
-              />
-            </section>
-          )}
+            {/* Profile Quick Overview Stats */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="p-4 rounded-2xl bg-[var(--bg-elev-2)] border border-[var(--border)]">
+                <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
+                  Target Role
+                </span>
+                <span className="text-sm font-bold text-[var(--text)] mt-1 block truncate">
+                  {profile?.target_role || 'Not Set'}
+                </span>
+              </div>
+              <div className="p-4 rounded-2xl bg-[var(--bg-elev-2)] border border-[var(--border)]">
+                <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
+                  <GraduationCap className="w-3.5 h-3.5 text-[var(--accent-indigo)]" />
+                  Education
+                </span>
+                <span className="text-sm font-bold text-[var(--text)] mt-1 block truncate">
+                  {profile ? `${profile.degree} · Yr ${profile.year}` : 'Not Set'}
+                </span>
+              </div>
+              <div className="p-4 rounded-2xl bg-[var(--bg-elev-2)] border border-[var(--border)]">
+                <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
+                  Commitment
+                </span>
+                <span className="text-sm font-bold text-[var(--text)] mt-1 block truncate">
+                  {profile ? `${profile.available_hours_per_week} hrs/week` : '15 hrs/week'}
+                </span>
+              </div>
+            </div>
+          </div>
 
-          {activeTab === 'all' && <hr className="border-0 h-px bg-[var(--border-subtle)]" />}
+          {/* Card 2: Saved Profiles in Local Storage */}
+          <div className="p-6 sm:p-7 rounded-3xl bg-[var(--bg-elev-1)] border border-[var(--border)] shadow-sm space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+              <div className="flex items-center gap-2">
+                <Users className="w-4 h-4 text-[var(--accent-indigo)]" />
+                <h3 className="text-sm font-bold font-display text-[var(--text)]">
+                  Saved Profiles in Local Storage
+                </h3>
+                <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-[var(--bg-elev-2)] text-[var(--text-muted)] border border-[var(--border)] font-semibold">
+                  {savedProfiles.length}
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-[var(--text-muted)]">
+                Persisted across page refreshes
+              </span>
+            </div>
 
-          {/* Section 4: Live Recalibration Studio */}
-          {(activeTab === 'all' || activeTab === 'recalibration') && (
-            <AdaptationStudio onApplyScore={handleApplyScore} />
-          )}
-        </main>
-      </div>
+            {savedProfiles.length === 0 ? (
+              <div className="p-6 rounded-2xl bg-[var(--bg-elev-2)] border border-[var(--border)] text-center text-xs text-[var(--text-muted)]">
+                No extra saved profiles found. Generate or customize a roadmap to automatically persist your profile!
+              </div>
+            ) : (
+              <div className="space-y-2.5">
+                {savedProfiles.map((p) => {
+                  const isActive =
+                    (profile?.id && p.id === profile.id) ||
+                    (profile?.name === p.name && profile?.target_role === p.target_role);
+
+                  return (
+                    <div
+                      key={p.id}
+                      className={`p-3.5 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                        isActive
+                          ? 'bg-[var(--accent-indigo)]/10 border-[var(--accent-indigo)] shadow-sm'
+                          : 'bg-[var(--bg-elev-2)] border-[var(--border)] hover:border-[var(--border-strong)]'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-10 h-10 rounded-xl bg-[var(--bg-elev-1)] border border-[var(--border)] overflow-hidden p-0.5 shrink-0">
+                          <img
+                            src={getCartoonAvatarUrl(p.avatar || 'bottts', 'bottts')}
+                            alt="Avatar"
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-[var(--text)] truncate">
+                              {p.name}
+                            </span>
+                            {isActive && (
+                              <span className="text-[10px] font-mono px-2 py-0.2 rounded-full font-semibold bg-[var(--accent-mint)]/15 text-[var(--accent-mint)] border border-[var(--accent-mint)]/30 shrink-0">
+                                Active Now
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[11px] text-[var(--text-muted)] truncate">
+                            {p.target_role} · {p.degree} {p.branch} (Yr {p.year}) · {p.available_hours_per_week}h/wk
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                        {!isActive && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              switchProfile(p.id);
+                              toast.success(`Switched to ${p.name}'s profile (${p.target_role})`);
+                            }}
+                            className="px-3 py-1.5 rounded-xl bg-[var(--bg-elev-1)] hover:bg-[var(--accent-indigo)] hover:text-white border border-[var(--border)] text-xs font-semibold text-[var(--text)] transition-colors cursor-pointer"
+                          >
+                            Switch To Profile
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            deleteSavedProfile(p.id);
+                            toast.info(`Removed ${p.name} from saved profiles`);
+                          }}
+                          className="p-1.5 rounded-xl text-[var(--color-critical)] hover:bg-[var(--color-critical)]/10 transition-colors cursor-pointer"
+                          title="Delete saved profile"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Card 3: AI Engine Status */}
+          <div className="p-6 rounded-3xl bg-[var(--bg-elev-1)] border border-[var(--border)] shadow-sm space-y-4">
+            <h3 className="text-sm font-bold font-display text-[var(--text)]">
+              AI Engine & Persistence Architecture
+            </h3>
+            <div className="space-y-2 text-xs text-[var(--text-muted)]">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[var(--accent-mint)] animate-pulse" />
+                <span>AI Engine: Online / Offline Curated Role Standards Active (28 Industry Tracks)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[var(--accent-sky)]" />
+                <span>Deterministic Math: Zero LLM hallucinations for gaps, hours, and adaptive formulas</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[var(--accent-indigo)]" />
+                <span>Database: SQLite Persistent Storage (`data/careerforge.db`)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Right Slide-Over Evidence Drawer (RAG Surface) */}
       <EvidenceDrawer
@@ -368,22 +657,26 @@ export const App: React.FC = () => {
       <AssessmentDialog
         isOpen={isAssessmentOpen}
         skills={skills}
-        defaultSkill={gaps.find((g) => g.priority === 'High')?.skill || skills[0]?.name}
-        onClose={closeAssessment}
+        defaultSkill={targetAssessmentSkill || gaps.find((g) => g.priority === 'High')?.skill || skills[0]?.name}
+        onClose={() => {
+          setTargetAssessmentSkill(null);
+          closeAssessment();
+        }}
         onApplyScore={handleApplyScore}
       />
 
-      {/* Cyber Toast Notification */}
-      {toastMessage && (
-        <div
-          role="status"
-          aria-live="polite"
-          className="fixed bottom-6 right-6 z-50 glass-panel rounded-2xl border border-[var(--neon-cyan)]/40 px-5 py-3 text-xs font-mono font-medium text-[var(--text-primary)] shadow-[0_0_20px_rgba(0,242,254,0.3)] flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2"
-        >
-          <Sparkles className="w-3.5 h-3.5 text-[var(--neon-cyan)] shrink-0" />
-          <span>{toastMessage}</span>
-        </div>
-      )}
-    </div>
+      {/* Keyboard Shortcuts Reference Modal */}
+      <KeyboardShortcutsModal
+        isOpen={isShortcutsOpen}
+        onClose={() => setShortcutsOpen(false)}
+      />
+
+      {/* Export Plan & Share Modal */}
+      <ExportShareModal
+        isOpen={isExportOpen}
+        onClose={() => setExportOpen(false)}
+        onTriggerConfetti={() => setShowConfetti(true)}
+      />
+    </AppShell>
   );
 };

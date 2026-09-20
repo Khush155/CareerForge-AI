@@ -1,0 +1,69 @@
+{
+  "id": "data_scientist",
+  "title": "Data Scientist",
+  "category": "AI & Data Science",
+  "aliases": [
+    "ds",
+    "data scientist",
+    "applied scientist",
+    "decision scientist",
+    "statistical modeler"
+  ],
+  "description": "Builds predictive statistical models, designs experiments, conducts feature engineering, and translates ambiguous data into business value.",
+  "skills": [
+    {
+      "name": "Python for Data Science",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": [],
+      "source_url": "https://docs.python.org/3/",
+      "category": "core"
+    },
+    {
+      "name": "Machine Learning (Scikit-Learn)",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": [
+        "Python for Data Science"
+      ],
+      "source_url": "https://scikit-learn.org/stable/",
+      "category": "ml"
+    },
+    {
+      "name": "Applied Statistics & Probability",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://www.statlearning.com/",
+      "category": "theory"
+    },
+    {
+      "name": "SQL & Data Wrangling",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 30,
+      "prerequisites": [],
+      "source_url": "https://mode.com/sql-tutorial/",
+      "category": "data"
+    },
+    {
+      "name": "A/B Testing & Causal Inference",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 25,
+      "prerequisites": [
+        "Applied Statistics & Probability"
+      ],
+      "source_url": "https://exp-platform.com/",
+      "category": "experimentation"
+    }
+  ]
+}

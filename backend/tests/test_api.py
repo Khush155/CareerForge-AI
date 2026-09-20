@@ -169,3 +169,50 @@ def test_static_frontend_index_accessible(test_client):
     assert response.status_code == 200
     assert "CareerForge" in response.text
     assert "text/html" in response.headers.get("content-type", "")
+
+
+def test_roadmap_milestone_completion(test_client):
+    """Verify GET and PATCH /api/roadmap/{profile_id}/milestones."""
+    # 1. Create a profile
+    prof_payload = {
+        "id": "std_milestone_01",
+        "name": "Alex Mercer",
+        "degree": "B.Tech",
+        "branch": "CSE",
+        "year": 4,
+        "target_role": "Backend Engineer",
+        "skills": [{"name": "Python", "proficiency": 2.0}],
+        "available_hours_per_week": 20
+    }
+    test_client.post("/api/profile", json=prof_payload)
+
+    # 2. Get initially empty milestones
+    res = test_client.get("/api/roadmap/std_milestone_01/milestones")
+    assert res.status_code == 200
+    assert res.json() == {}
+
+    # 3. Check off a milestone
+    patch_res = test_client.patch(
+        "/api/roadmap/std_milestone_01/milestones",
+        json={"milestone_key": "1-0", "completed": True}
+    )
+    assert patch_res.status_code == 200
+    assert patch_res.json().get("1-0") is True
+
+    # 4. Check off another milestone
+    patch_res2 = test_client.patch(
+        "/api/roadmap/std_milestone_01/milestones",
+        json={"milestone_key": "1-1", "completed": True}
+    )
+    assert patch_res2.status_code == 200
+    assert patch_res2.json().get("1-0") is True
+    assert patch_res2.json().get("1-1") is True
+
+    # 5. Uncheck a milestone
+    patch_res3 = test_client.patch(
+        "/api/roadmap/std_milestone_01/milestones",
+        json={"milestone_key": "1-0", "completed": False}
+    )
+    assert patch_res3.status_code == 200
+    assert "1-0" not in patch_res3.json()
+    assert patch_res3.json().get("1-1") is True

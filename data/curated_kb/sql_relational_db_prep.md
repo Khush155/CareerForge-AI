@@ -1,24 +1,36 @@
-# SQL & Relational Databases Interview Preparation Guide
+# SQL & Relational Database Architecture
 
-## Overview
-Relational database management systems (RDBMS) such as PostgreSQL and MySQL form the data backbone of modern web applications.
+## Summary
+Relational Database Management Systems (PostgreSQL, MySQL) underpin enterprise applications. Mastering query planning, schema normalization, ACID concurrency, and indexing guarantees scalable backend throughput.
 
-## Core Topics
-1. **Relational Schemas & Normalization**:
-   - 1NF, 2NF, 3NF, and BCNF: eliminating redundancy, maintaining referential integrity.
-   - Primary Keys, Foreign Keys, Unique Constraints, and Cascading rules.
+## Key Concepts
+- **ACID Transactions**: Atomicity, Consistency, Isolation (Read Committed, Repeatable Read, Serializable), Durability via Write-Ahead Logging (WAL).
+- **Indexing Architecture**: B-Tree indices, composite index leftmost-prefix rule, partial indices, covered queries, and `EXPLAIN ANALYZE` inspection.
+- **Advanced Querying**: Window functions (`ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, `LEAD()`, `LAG()`), recursive CTEs, and lateral joins.
+- **Schema Normalization**: 1NF to 3NF/BCNF normalization tradeoffs vs denormalization for read-heavy reporting.
 
-2. **Querying & Joins**:
-   - Inner Join vs Left/Right/Full Outer Joins.
-   - Window Functions: `ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, `LEAD()`, `LAG()`.
-   - Aggregations and `HAVING` vs `WHERE` clauses.
+## Worked Example: High-Performance Windowing & Indexing
+```sql
+-- Efficient pagination and ranking over partitioned student grades
+WITH RankedScores AS (
+    SELECT 
+        student_id,
+        course_id,
+        score,
+        DENSE_RANK() OVER (PARTITION BY course_id ORDER BY score DESC) as rank_in_course
+    FROM exam_submissions
+    WHERE submitted_at >= NOW() - INTERVAL '30 days'
+)
+SELECT student_id, course_id, score, rank_in_course
+FROM RankedScores
+WHERE rank_in_course <= 3;
+```
 
-3. **Performance, Indexing & Optimization**:
-   - B-Tree Indexing mechanics: single-column vs composite indices, left-most prefix rule.
-   - Query execution plans: `EXPLAIN ANALYZE`, table scans vs index scans.
-   - ACID Properties: Atomicity, Consistency, Isolation levels (Read Committed, Repeatable Read, Serializable), and Durability.
+## Common Interview Questions
+1. *What is the difference between `WHERE` and `HAVING` clauses?* (`WHERE` filters individual rows prior to aggregation; `HAVING` filters aggregated groups).
+2. *Why does a composite index on `(last_name, first_name)` not accelerate a query filtering solely on `first_name`?* (B-tree indices order keys sequentially; skipping the leading column prevents logarithmic range tree traversal).
+3. *What is a phantom read vs non-repeatable read?* (Non-repeatable read: re-reading a row gets updated values; Phantom read: re-executing a range query returns newly inserted rows).
 
-## Practice Resources
-- PostgreSQL Official Documentation: [Indexes](https://www.postgresql.org/docs/current/indexes.html)
-- LeetCode Database Problem Set (Top 50 SQL)
-- Mode Analytics SQL Tutorial for Data Analysis
+## Documentation & Official Resources
+- [PostgreSQL Documentation - Performance Tips](https://www.postgresql.org/docs/current/performance-tips.html)
+- [Mode Analytics SQL Reference](https://mode.com/sql-tutorial/)

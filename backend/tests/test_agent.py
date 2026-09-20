@@ -78,10 +78,11 @@ def test_agent_all_skills_mastered(agent_with_temp_db):
         available_hours_per_week=15,
         skills=[
             Skill(name="Docker", proficiency=5.0),
-            Skill(name="Linux", proficiency=5.0),
-            Skill(name="CI/CD", proficiency=5.0),
-            Skill(name="Cloud / Azure", proficiency=5.0),
-            Skill(name="Git", proficiency=5.0),
+            Skill(name="Kubernetes", proficiency=5.0),
+            Skill(name="CI/CD (GitHub Actions)", proficiency=5.0),
+            Skill(name="Terraform", proficiency=5.0),
+            Skill(name="Linux & Bash", proficiency=5.0),
+            Skill(name="AWS Cloud", proficiency=5.0),
         ]
     )
 

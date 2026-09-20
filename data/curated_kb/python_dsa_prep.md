@@ -1,25 +1,44 @@
-# Python & Data Structures Interview Preparation Guide
+# Python & Data Structures Interview Preparation
 
-## Overview
-Python is a primary language for backend systems, data pipelines, and technical coding interviews.
-Mastery requires understanding runtime complexity, memory behavior, and idioms.
+## Summary
+Python's expressive syntax, generator pipelines, and standard library collections empower rapid algorithmic problem-solving. Understanding asymptotic time/space complexities and Python internals (GIL, memory allocation) is essential for top engineering roles.
 
-## Core Topics
-1. **Time and Space Complexity**:
-   - Lists: $O(1)$ append/pop from end, $O(n)$ search and insert from front.
-   - Dictionaries and Sets: $O(1)$ average hash-table lookup, amortized insertion.
-   - Deque (`collections.deque`): $O(1)$ append/pop from both left and right.
+## Key Concepts
+- **Python Built-in Complexities**: `list` (O(1) append/pop, O(n) insert/remove), `dict` and `set` (average O(1) hash lookup, worst-case O(n) collisions), `collections.deque` (O(1) append/pop left).
+- **Core Algorithmic Paradigms**: Two Pointers, Sliding Window, Monotonic Stack, Binary Search on Answer, Breadth-First Search (BFS), Depth-First Search (DFS), and Dynamic Programming.
+- **Pythonic Mechanics**: Generators with `yield`, list comprehensions, decorators, context managers (`__enter__`, `__exit__`), and `dataclasses`.
 
-2. **Essential Algorithms**:
-   - Binary Search: $O(\log n)$ search on sorted collections; boundary conditions.
-   - Two Pointers & Sliding Window: Array substrings, sums, and target subarray patterns.
-   - Graph Traversal: BFS (shortest path in unweighted graphs) and DFS (cycle detection, backtracking).
+## Worked Example: Sliding Window Maximum
+```python
+from collections import deque
 
-3. **Python Idioms & Performance**:
-   - List comprehensions vs generators: generators conserve memory for large streams.
-   - Decorators, context managers (`with` statement), and `asyncio` fundamentals.
+def max_sliding_window(nums: list[int], k: int) -> list[int]:
+    """Find maximum in each sliding window of size k in O(n) time."""
+    result = []
+    q = deque()  # stores indices, maintains descending values
 
-## Practice Resources
-- LeetCode Top Interview 150 (Array, Hashmap, Two Pointers)
-- NeetCode Roadmap: Core Data Structures and Algorithms
-- Official Docs: [Python Data Structures](https://docs.python.org/3/tutorial/datastructures.html)
+    for i, n in enumerate(nums):
+        # Remove elements outside current window boundary
+        if q and q[0] <= i - k:
+            q.popleft()
+
+        # Maintain monotonic descending invariant
+        while q and nums[q[-1]] < n:
+            q.pop()
+        q.append(i)
+
+        # Append window max once window reaches size k
+        if i >= k - 1:
+            result.append(nums[q[0]])
+
+    return result
+```
+
+## Common Interview Questions
+1. *How does Python's Global Interpreter Lock (GIL) impact CPU-bound multi-threading?* (Only one thread executes Python bytecode at a time; use `multiprocessing` or native C extensions to achieve multi-core parallelism).
+2. *Explain the difference between deep copy and shallow copy.* (Shallow copy duplicates the container structure but references the same child objects; deep copy recursively duplicates all nested objects).
+3. *How is hash collision resolved in Python dictionaries?* (Python uses open addressing with quadratic probing and random probing perturbation).
+
+## Documentation & Official Resources
+- [Python 3 Official Documentation](https://docs.python.org/3/)
+- [TimeComplexity - Python Wiki](https://wiki.python.org/moin/TimeComplexity)

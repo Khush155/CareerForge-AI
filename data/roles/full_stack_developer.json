@@ -1,0 +1,107 @@
+{
+  "id": "full_stack_developer",
+  "title": "Full Stack Developer",
+  "category": "Web & Mobile",
+  "aliases": [
+    "fullstack",
+    "full stack",
+    "full stack engineer",
+    "mern developer",
+    "pern developer",
+    "fullstack web developer"
+  ],
+  "description": "Engineers end-to-end applications spanning responsive client interfaces, robust server APIs, background workers, and relational/NoSQL databases.",
+  "skills": [
+    {
+      "name": "TypeScript",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 35,
+      "prerequisites": [
+        "JavaScript"
+      ],
+      "source_url": "https://www.typescriptlang.org/docs/",
+      "category": "core"
+    },
+    {
+      "name": "React",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 35,
+      "prerequisites": [
+        "JavaScript"
+      ],
+      "source_url": "https://react.dev/",
+      "category": "frontend"
+    },
+    {
+      "name": "Node.js",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 30,
+      "prerequisites": [
+        "JavaScript"
+      ],
+      "source_url": "https://nodejs.org/en/docs",
+      "category": "backend"
+    },
+    {
+      "name": "PostgreSQL",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 30,
+      "prerequisites": [
+        "SQL"
+      ],
+      "source_url": "https://www.postgresql.org/docs/",
+      "category": "database"
+    },
+    {
+      "name": "REST APIs",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 20,
+      "prerequisites": [],
+      "source_url": "https://restfulapi.net/",
+      "category": "backend"
+    },
+    {
+      "name": "Docker",
+      "required_level": 3.0,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 20,
+      "prerequisites": [],
+      "source_url": "https://docs.docker.com/",
+      "category": "devops"
+    },
+    {
+      "name": "Git",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.8,
+      "est_hours_to_learn": 15,
+      "prerequisites": [],
+      "source_url": "https://git-scm.com/doc",
+      "category": "tools"
+    },
+    {
+      "name": "System Design",
+      "required_level": 3.0,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 30,
+      "prerequisites": [
+        "Node.js",
+        "PostgreSQL"
+      ],
+      "source_url": "https://github.com/donnemartin/system-design-primer",
+      "category": "architecture"
+    }
+  ]
+}

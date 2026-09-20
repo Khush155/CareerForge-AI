@@ -9,6 +9,7 @@ Endpoints:
 - GET  /api/market/{role}  : Research market requirements with source citations
 """
 from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 
 from app.agent.orchestrator import CareerForgeAgent
 from app.db.storage import get_db
@@ -17,6 +18,11 @@ from app.models.market import MarketRequirement
 from app.models.profile import StudentProfile
 from app.models.roadmap import Roadmap
 from app.tools.market_search import web_search_market
+
+
+class MilestoneUpdateInput(BaseModel):
+    milestone_key: str
+    completed: bool = True
 
 router = APIRouter(prefix="/api", tags=["CareerForge Agent"])
 
@@ -60,6 +66,24 @@ def get_student_roadmap(profile_id: str):
     return roadmap
 
 
+@router.get("/roadmap/{profile_id}/milestones", summary="Get completed milestones map")
+def get_roadmap_milestones(profile_id: str):
+    """Retrieve the dictionary of completed milestone keys for a student's roadmap."""
+    db = get_db()
+    return db.get_completed_milestones(profile_id)
+
+
+@router.patch("/roadmap/{profile_id}/milestones", summary="Toggle or set milestone completion")
+def update_roadmap_milestone(profile_id: str, input_data: MilestoneUpdateInput):
+    """Persist completed status for a roadmap milestone."""
+    db = get_db()
+    return db.set_milestone_completion(
+        profile_id=profile_id,
+        milestone_key=input_data.milestone_key,
+        completed=input_data.completed
+    )
+
+
 @router.post("/assessment", summary="Submit assessment score and dynamically adapt roadmap")
 def record_assessment(assessment_input: AssessmentInput):
     """The Hero Feature: Recalculates gaps, deprioritizes learned skills, and adapts remaining roadmap phases."""
@@ -92,3 +116,28 @@ def get_assessment_history(profile_id: str):
 def get_market_requirements(role: str):
     """Research industry requirements with authentic citation URLs (disk cached)."""
     return web_search_market(role)
+
+
+@router.get("/roles", summary="Get all available career roles grouped by category")
+def get_all_roles():
+    """Returns all 27+ career roles organized by category for the discovery hub."""
+    from app.tools.role_resolver import get_role_resolver
+    resolver = get_role_resolver()
+    return resolver.get_all_roles_grouped()
+
+
+@router.get("/roles/suggest", summary="Autocomplete suggestions for role search")
+def suggest_roles(q: str = ""):
+    """Fast autocomplete suggestions matching title or aliases."""
+    from app.tools.role_resolver import get_role_resolver
+    resolver = get_role_resolver()
+    return resolver.suggest_roles(query=q, limit=8)
+
+
+@router.post("/role/resolve", summary="Resolve a dream job query to a structured benchmark")
+def resolve_role(request: dict):
+    """Intelligently maps user dream job input (including typos/abbreviations) to a benchmark."""
+    from app.tools.role_resolver import get_role_resolver
+    resolver = get_role_resolver()
+    query = request.get("query", "").strip()
+    return resolver.resolve_role(query)

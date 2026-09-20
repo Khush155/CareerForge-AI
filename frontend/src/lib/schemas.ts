@@ -16,6 +16,7 @@ export const StudentProfileSchema = z.object({
   skills: z.array(SkillSchema).default([]),
   available_hours_per_week: z.number().int().min(1).max(80),
   current_prep_level: z.string().default('beginner'),
+  avatar: z.string().nullable().optional(),
 });
 export type StudentProfile = z.infer<typeof StudentProfileSchema>;
 
@@ -28,6 +29,7 @@ export const MarketRequirementSchema = z.object({
   demand_level: z.string().default('moderate'),
   source_url: z.string().nullable().optional(),
   rationale: z.string().nullable().optional(),
+  notes: z.string().nullable().optional(),
 });
 export type MarketRequirement = z.infer<typeof MarketRequirementSchema>;
 

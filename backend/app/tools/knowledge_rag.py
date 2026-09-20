@@ -112,11 +112,23 @@ class LocalKnowledgeRetriever:
 
         Uses term frequency-inverse document frequency (TF-IDF) heuristic
         with heavy boost for matches in section and document titles.
+        Ignores stopwords and requires relevant title or content match.
         """
         if not self.chunks:
             self._load_documents()
 
-        query_tokens = [t for t in re.findall(r"\w+", query.lower()) if len(t) > 1]
+        stopwords = {
+            "or", "and", "the", "in", "to", "for", "with", "of", "on", "at",
+            "by", "a", "an", "is", "it", "as", "be", "from", "that", "this", "are",
+            "developer", "engineer", "engineering", "development", "specialist",
+            "architect", "role", "job", "career", "prep", "architecture", "basics",
+            "principles", "services", "concepts", "patterns", "internals",
+            "computer", "software", "system", "systems", "program", "programming"
+        }
+        query_tokens = [
+            t for t in re.findall(r"\w+", query.lower())
+            if len(t) > 1 and t not in stopwords
+        ]
         if not query_tokens or not self.chunks:
             return []
 
@@ -128,21 +140,19 @@ class LocalKnowledgeRetriever:
             chunk_tokens = chunk.token_set
             title_lower = f"{chunk.doc_title} {chunk.section_title}".lower()
 
+            has_title_match = False
             for token in query_tokens:
-                # Token present in chunk
                 if token in chunk_tokens:
-                    # Document frequency calculation
                     doc_freq = sum(1 for c in self.chunks if token in c.token_set)
                     idf = math.log((1.0 + total_chunks) / (1.0 + doc_freq)) + 1.0
-
-                    # Base content match
                     score += 1.0 * idf
 
-                    # Strong title boost
                     if token in title_lower:
-                        score += 3.0 * idf
+                        score += 3.5 * idf
+                        has_title_match = True
 
-            if score > 0.0:
+            # Only consider chunk if it has a direct title match ensuring strict semantic relevance
+            if has_title_match and score >= 3.0:
                 scored_chunks.append((score, chunk))
 
         scored_chunks.sort(key=lambda x: x[0], reverse=True)

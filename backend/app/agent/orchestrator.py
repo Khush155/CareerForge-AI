@@ -55,6 +55,20 @@ class CareerForgeAgent:
         # Step 1: Research live market benchmarks
         market_reqs = web_search_market(profile.target_role)
 
+        # Merge user-calibrated skills if any were specified in the profile form
+        existing_req_names = {r.skill.strip().lower() for r in market_reqs}
+        for s in profile.skills:
+            if s.name.strip().lower() not in existing_req_names:
+                market_reqs.append(
+                    MarketRequirement(
+                        skill=s.name.strip(),
+                        required_level=min(5.0, max(3.0, round(s.proficiency + 0.5, 1))),
+                        demand_level="high-priority",
+                        source_url="https://roadmap.sh",
+                        notes=f"User-calibrated target competency for {profile.target_role}."
+                    )
+                )
+
         # Step 2: Deterministic skill gap calculation
         gaps = calculate_skill_gaps(profile.skills, market_reqs)
 
@@ -94,6 +108,9 @@ class CareerForgeAgent:
         if not profile:
             raise ValueError(f"Student profile '{assessment_input.profile_id}' not found.")
 
+        # Narrow profile_id to non-optional str for strict type-checking
+        profile_id: str = profile.id if profile.id is not None else assessment_input.profile_id
+
         current_roadmap = self.db.get_roadmap(assessment_input.profile_id)
         if not current_roadmap:
             # If no roadmap exists, generate one first
@@ -109,18 +126,18 @@ class CareerForgeAgent:
 
         # Step 6: Deterministic assessment evaluation
         result = evaluate_assessment(
-            profile_id=profile.id,
+            profile_id=profile_id,
             skill=assessment_input.skill.strip(),
             current_level=current_level,
             score_percentage=assessment_input.score_percentage
         )
 
         # Persist updated skill in profile and log assessment event
-        self.db.update_skill_in_profile(profile.id, result.skill, result.updated_level)
+        self.db.update_skill_in_profile(profile_id, result.skill, result.updated_level)
         self.db.save_assessment(result)
 
         # Refresh profile & recompute gaps
-        updated_profile = self.db.get_profile(profile.id) or profile
+        updated_profile = self.db.get_profile(profile_id) or profile
         market_reqs = web_search_market(profile.target_role)
         new_gaps = calculate_skill_gaps(updated_profile.skills, market_reqs)
 
@@ -156,11 +173,12 @@ class CareerForgeAgent:
             updated_phases.append(phase)
 
         # Recompute totals and weeks
-        new_total_hours = sum(p.estimated_hours for p in updated_phases if p.status != PhaseStatus.COMPLETED)
+        active_hours = sum(p.estimated_hours for p in updated_phases if p.status != PhaseStatus.COMPLETED)
+        new_total_hours = max(1, active_hours)
         new_weeks = max(1, math.ceil(new_total_hours / updated_profile.available_hours_per_week))
 
         adapted_roadmap = Roadmap(
-            profile_id=profile.id,
+            profile_id=profile_id,
             target_role=profile.target_role,
             total_estimated_hours=new_total_hours,
             available_hours_per_week=updated_profile.available_hours_per_week,
@@ -302,15 +320,39 @@ class CareerForgeAgent:
         return phases
 
     def _gather_resources_for_skills(self, skills: list[str], role: str) -> list[ResourceItem]:
-        """Aggregate curated study resources from the local RAG knowledge base."""
+        """Aggregate curated study resources from local RAG or authentic role benchmark docs."""
         all_resources: list[ResourceItem] = []
         seen_refs: set[str] = set()
 
+        # Build skill-to-url map from role benchmarks
+        from app.tools.role_resolver import get_role_resolver
+        resolver = get_role_resolver()
+        resolved = resolver.resolve_role(role)
+        skill_doc_map = {b.name.lower().strip(): (b.source_url or "https://roadmap.sh") for b in resolved.benchmark}
+
         for skill in skills:
-            results = retrieve_knowledge_base(f"{skill} {role}", top_k=2)
+            skill_clean = skill.strip()
+            norm_skill = skill_clean.lower()
+            results = retrieve_knowledge_base(skill_clean, top_k=2)
+
+            matched_curated = False
             for r in results:
                 if r.url_or_ref not in seen_refs:
                     seen_refs.add(r.url_or_ref)
                     all_resources.append(r)
+                    matched_curated = True
+
+            # If no curated markdown guide matches this specific skill, provide its verified benchmark doc link
+            if not matched_curated:
+                doc_url = skill_doc_map.get(norm_skill) or "https://roadmap.sh"
+                if doc_url not in seen_refs:
+                    seen_refs.add(doc_url)
+                    all_resources.append(
+                        ResourceItem(
+                            title=f"{skill_clean} Official Architecture & Documentation Guide",
+                            url_or_ref=doc_url,
+                            resource_type="official_doc"
+                        )
+                    )
 
         return all_resources[:4]

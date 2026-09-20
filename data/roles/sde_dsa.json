@@ -1,0 +1,92 @@
+{
+  "id": "sde_dsa",
+  "title": "Software Development Engineer (DSA-heavy)",
+  "category": "Software Engineering",
+  "aliases": [
+    "sde",
+    "swe",
+    "software engineer",
+    "sde 1",
+    "sde1",
+    "google sde",
+    "amazon sde",
+    "faang swe",
+    "dsa engineer",
+    "problem solver"
+  ],
+  "description": "Specializes in algorithmic problem solving, optimal data structures, dynamic programming, and low-level code efficiency for top product companies.",
+  "skills": [
+    {
+      "name": "Data Structures & Algorithms",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 60,
+      "prerequisites": [],
+      "source_url": "https://leetcode.com/explore/",
+      "category": "core"
+    },
+    {
+      "name": "C++",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 45,
+      "prerequisites": [],
+      "source_url": "https://en.cppreference.com/w/",
+      "category": "core"
+    },
+    {
+      "name": "Java",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 40,
+      "prerequisites": [],
+      "source_url": "https://docs.oracle.com/en/java/",
+      "category": "core"
+    },
+    {
+      "name": "System Design",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 40,
+      "prerequisites": [
+        "Data Structures & Algorithms"
+      ],
+      "source_url": "https://github.com/donnemartin/system-design-primer",
+      "category": "architecture"
+    },
+    {
+      "name": "Operating Systems",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://pages.cs.wisc.edu/~remzi/OSTEP/",
+      "category": "fundamentals"
+    },
+    {
+      "name": "Computer Networks",
+      "required_level": 3.0,
+      "demand_level": "high-priority",
+      "weight": 0.75,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://www.geeksforgeeks.org/computer-network-tutorials/",
+      "category": "fundamentals"
+    },
+    {
+      "name": "DBMS & SQL",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.85,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://mode.com/sql-tutorial/",
+      "category": "fundamentals"
+    }
+  ]
+}

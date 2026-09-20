@@ -1,0 +1,73 @@
+{
+  "id": "data_engineer",
+  "title": "Data Engineer",
+  "category": "Data & Analytics",
+  "aliases": [
+    "de",
+    "data engineer",
+    "etl engineer",
+    "big data engineer",
+    "spark developer",
+    "data platform engineer"
+  ],
+  "description": "Constructs scalable streaming and batch pipelines, data lakes, distributed transformations, and data warehousing schemas.",
+  "skills": [
+    {
+      "name": "Apache Spark / PySpark",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": [
+        "Python",
+        "SQL"
+      ],
+      "source_url": "https://spark.apache.org/docs/latest/",
+      "category": "distributed"
+    },
+    {
+      "name": "SQL & Data Warehousing (Snowflake/BigQuery)",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": [],
+      "source_url": "https://docs.snowflake.com/",
+      "category": "warehouse"
+    },
+    {
+      "name": "Data Orchestration (Airflow / Prefect)",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 30,
+      "prerequisites": [
+        "Python"
+      ],
+      "source_url": "https://airflow.apache.org/docs/",
+      "category": "orchestration"
+    },
+    {
+      "name": "Streaming (Kafka / Flink)",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://kafka.apache.org/documentation/",
+      "category": "streaming"
+    },
+    {
+      "name": "Data Modeling & dbt",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 25,
+      "prerequisites": [
+        "SQL & Data Warehousing (Snowflake/BigQuery)"
+      ],
+      "source_url": "https://docs.getdbt.com/",
+      "category": "modeling"
+    }
+  ]
+}

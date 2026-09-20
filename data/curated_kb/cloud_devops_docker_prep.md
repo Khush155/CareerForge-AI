@@ -1,24 +1,42 @@
-# Cloud Computing, Docker & DevOps Preparation Guide
+# Docker Containers & DevOps Pipelines
 
-## Overview
-Containerization, infrastructure as code, and cloud deployments are essential competencies for software engineers in cloud-native environments.
+## Summary
+Containerization packages applications with their exact runtime dependencies, ensuring deterministic deployment across developer workstations, CI/CD runners, and production clusters.
 
-## Core Topics
-1. **Containerization with Docker**:
-   - Dockerfile best practices: Layer caching, order of instructions, avoiding root user.
-   - Multi-stage builds: Compiling in build image, running in lightweight runtime image (e.g. Alpine/Distroless).
-   - Docker Compose: Multi-container orchestration for local development and integration tests.
+## Key Concepts
+- **Docker Architecture**: Daemon, client, images, containers, registries, multi-stage builds, and storage layers (copy-on-write).
+- **Networking & Volumes**: Bridge networks, host networking, named volumes, bind mounts, and container DNS resolution.
+- **CI/CD Pipelines**: GitHub Actions workflows, linting, automated unit/integration test gates, container scanning, and automated artifact publishing.
+- **Security Best Practices**: Non-root container users, minimal base images (Alpine/Distroless), secrets management (no hardcoded envs in Dockerfile), and pinned image digests.
 
-2. **Cloud Fundamentals (Azure / AWS)**:
-   - Compute: Virtual Machines vs Container Instances vs Managed Kubernetes (AKS/EKS).
-   - Networking: Virtual Networks (VNets/VPCs), Subnets, Security Groups, Load Balancers.
-   - Storage: Blob/S3 object storage, Managed Block storage, Serverless databases.
+## Worked Example: Multi-Stage Production Dockerfile
+```dockerfile
+# Build stage
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
 
-3. **CI/CD Pipelines & Automation**:
-   - GitHub Actions workflows: triggers, jobs, steps, environment secrets, artifacts.
-   - Automated testing, linting gates, and zero-downtime deployment strategies.
+# Production runner stage
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 reactapp
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package*.json ./
+RUN npm ci --only=production
+USER reactapp
+EXPOSE 3000
+CMD ["npm", "run", "serve"]
+```
 
-## Practice Resources
-- Docker Official Documentation: [Dockerfile Reference](https://docs.docker.com/engine/reference/builder/)
-- Microsoft Learn: [Azure Fundamentals AZ-900 Learning Path](https://learn.microsoft.com/en-us/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/)
-- Roadmap.sh: [DevOps Roadmap](https://roadmap.sh/devops)
+## Common Interview Questions
+1. *What is the difference between `CMD` and `ENTRYPOINT` in a Dockerfile?* (`ENTRYPOINT` defines the executable that always runs; `CMD` provides default arguments that can be overridden at runtime).
+2. *How do multi-stage Docker builds reduce image size?* (Build dependencies and source files remain in temporary build stages; only compiled binaries and production runtimes are copied to the final minimal image).
+3. *Explain the difference between a container and a virtual machine.* (VMs virtualize hardware and run complete guest operating systems; containers share the host Linux kernel and isolate user space processes via cgroups and namespaces).
+
+## Documentation & Official Resources
+- [Docker Documentation](https://docs.docker.com/)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)

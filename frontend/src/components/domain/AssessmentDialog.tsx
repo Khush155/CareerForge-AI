@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ShieldCheck, Zap, Terminal, Sparkles } from 'lucide-react';
+import {
+  ShieldCheck,
+  Sparkles,
+  ArrowRight,
+  X,
+  Loader2,
+} from 'lucide-react';
 import type { Skill } from '../../lib/schemas';
-import { AnimatedNumber } from './AnimatedNumber';
+import { formatLevel } from '../../lib/format';
 
 export interface AssessmentDialogProps {
   isOpen: boolean;
@@ -11,6 +17,14 @@ export interface AssessmentDialogProps {
   onClose: () => void;
   onApplyScore: (skill: string, score: number) => Promise<void>;
 }
+
+const SCORE_PRESETS = [
+  { label: 'Novice (25%)', val: 25 },
+  { label: 'Competent (50%)', val: 50 },
+  { label: 'Proficient (75%)', val: 75 },
+  { label: 'Advanced (90%)', val: 90 },
+  { label: 'Mastery (100%)', val: 100 },
+];
 
 export const AssessmentDialog: React.FC<AssessmentDialogProps> = ({
   isOpen,
@@ -41,14 +55,11 @@ export const AssessmentDialog: React.FC<AssessmentDialogProps> = ({
   const activeSkillObj = skills.find((s) => s.name === selectedSkill) || skills[0];
   const currentLevel = activeSkillObj ? activeSkillObj.proficiency : 1.5;
 
-  const baseJump = 2.0;
-  const gain = Math.round(baseJump * (score / 100) * 100) / 100;
-  const projectedLevel = Math.min(5.0, Math.round((currentLevel + gain) * 100) / 100);
-
-  // SVG Circular Gauge calculations
-  const radius = 46;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (score / 100) * circumference;
+  // Exact 100% deterministic formula matching backend progress_engine.py
+  const targetScoreLevel = (score / 100.0) * 5.0;
+  const rawNewLevel = currentLevel * 0.4 + targetScoreLevel * 0.6;
+  const projectedLevel = Math.max(0.0, Math.min(5.0, Math.round(rawNewLevel * 10) / 10));
+  const levelDelta = Math.round((projectedLevel - currentLevel) * 10) / 10;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,186 +74,187 @@ export const AssessmentDialog: React.FC<AssessmentDialogProps> = ({
   return (
     <AnimatePresence>
       <div
-        className="fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4 select-none"
+        className="fixed inset-0 bg-[var(--bg)]/80 backdrop-blur-md z-50 flex items-center justify-center p-4 select-none"
         onClick={onClose}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="dialog-title"
+        aria-labelledby="assessment-dialog-title"
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 15 }}
+          initial={{ opacity: 0, scale: 0.95, y: 12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.92, y: 15 }}
-          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[580px] max-w-full bg-[var(--bg-surface)] border border-[var(--border-strong)] rounded-3xl shadow-[var(--shadow-overlay)] p-6 flex flex-col gap-5 relative overflow-hidden"
+          exit={{ opacity: 0, scale: 0.95, y: 12 }}
+          transition={{ duration: 0.2 }}
+          className="w-[560px] max-w-full bg-[var(--bg-elev-1)] border border-[var(--border-strong)] rounded-3xl shadow-2xl p-6 sm:p-7 flex flex-col gap-6 relative overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Subtle Cyber Neon Header Line */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--neon-cyan)] via-[var(--neon-indigo)] to-[var(--neon-violet)]" />
-
-          {/* Modal Header */}
-          <div className="flex justify-between items-center pb-3 border-b border-[var(--border-subtle)]">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-[var(--neon-cyan)]/10 border border-[var(--neon-cyan)]/30 flex items-center justify-center text-[var(--neon-cyan)]">
-                <ShieldCheck className="w-4 h-4" />
+          {/* Top Header */}
+          <div className="flex justify-between items-start pb-4 border-b border-[var(--border-subtle)]">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-[var(--accent-amber)]" />
               </div>
               <div>
-                <h2 id="dialog-title" className="text-base font-semibold text-[var(--text-primary)] flex items-center gap-2">
-                  Diagnostic Skill Recalibration
-                </h2>
-                <span className="text-[11px] font-mono text-[var(--text-muted)]">
-                  Live closed-loop adaptation chamber
+                <h3 id="assessment-dialog-title" className="text-lg font-bold font-display text-[var(--text)]">
+                  Diagnostic Skill Evaluation
+                </h3>
+                <span className="text-xs font-mono text-[var(--text-muted)]">
+                  Deterministic recalibration · Real-time roadmap adaptation
                 </span>
               </div>
             </div>
+
             <button
               type="button"
               onClick={onClose}
-              className="w-8 h-8 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-raised)] flex items-center justify-center text-sm cursor-pointer transition-colors"
-              aria-label="Close dialog"
+              className="w-8 h-8 rounded-xl bg-[var(--bg-elev-2)] hover:bg-[var(--bg-elev-3)] text-[var(--text-muted)] hover:text-[var(--text)] flex items-center justify-center transition-colors cursor-pointer"
             >
-              ✕
+              <X className="w-4 h-4" />
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-            {/* Skill Selector */}
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="modal-skill-select" className="text-xs font-mono font-medium text-[var(--text-secondary)] uppercase tracking-wider">
-                Assessed Skill Domain
+          {/* Form Content */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* 1. Skill Selector */}
+            <div className="space-y-2">
+              <label htmlFor="eval-skill-select" className="text-xs font-mono font-semibold text-[var(--text-muted)] uppercase tracking-wider block">
+                Target Skill Domain:
               </label>
               <select
-                id="modal-skill-select"
+                id="eval-skill-select"
                 value={selectedSkill}
                 onChange={(e) => setSelectedSkill(e.target.value)}
-                className="h-10 bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-xl px-3 text-sm text-[var(--text-primary)] focus:border-[var(--neon-cyan)] outline-none transition-colors cursor-pointer"
+                className="w-full h-11 bg-[var(--bg-elev-2)] border border-[var(--border)] focus:border-[var(--accent-indigo)] rounded-xl px-3.5 text-sm text-[var(--text)] font-semibold outline-none transition-colors cursor-pointer font-body"
               >
                 {skills.map((s) => (
                   <option key={s.name} value={s.name}>
-                    {s.name} — Current: {s.proficiency.toFixed(1)} / 5.0
+                    {s.name} (Current: {formatLevel(s.proficiency)} / 5.0)
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Circular Radar & Score Slider Grid */}
-            <div className="grid grid-cols-[130px_1fr] gap-5 items-center bg-[var(--bg-sunken)]/60 border border-[var(--border-subtle)] rounded-2xl p-4">
-              {/* Circular Gauge Graphic */}
-              <div className="relative w-[110px] h-[110px] mx-auto flex items-center justify-center">
-                <svg className="w-full h-full -rotate-90 transform" viewBox="0 0 110 110">
+            {/* 2. Interactive Score Slider & Presets */}
+            <div className="space-y-3">
+              <div className="flex justify-between items-center text-xs font-mono">
+                <span className="text-[var(--text-muted)] uppercase tracking-wider font-semibold">
+                  Assessment Score:
+                </span>
+                <span className="font-bold text-base text-[var(--accent-indigo)] font-display">
+                  {score}%
+                </span>
+              </div>
+
+              <input
+                type="range"
+                min={0}
+                max={100}
+                step={1}
+                value={score}
+                onChange={(e) => setScore(Number(e.target.value))}
+                className="w-full h-2 rounded-lg bg-[var(--bg-elev-3)] appearance-none cursor-pointer accent-[var(--accent-indigo)]"
+              />
+
+              {/* Quick Presets */}
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {SCORE_PRESETS.map((preset) => (
+                  <button
+                    key={preset.val}
+                    type="button"
+                    onClick={() => setScore(preset.val)}
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all cursor-pointer border ${
+                      score === preset.val
+                        ? 'bg-[var(--accent-indigo)] text-white border-[var(--accent-indigo)] shadow-sm'
+                        : 'bg-[var(--bg-elev-2)] border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)]'
+                    }`}
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 3. Live Projected Gain Gauge */}
+            <div className="p-4 rounded-2xl bg-[var(--bg-elev-2)] border border-[var(--border)] flex items-center justify-between gap-4">
+              <div className="space-y-1.5 flex-1">
+                <div className="flex items-center gap-1.5 text-[11px] font-mono text-[var(--text-muted)] uppercase">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[var(--accent-mint)]" />
+                  <span>Projected Jump</span>
+                </div>
+
+                <div className="flex items-baseline gap-2 font-mono">
+                  <span className="text-xl font-bold text-[var(--text)]">
+                    {formatLevel(currentLevel)}
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-[var(--accent-sky)]" />
+                  <span className="text-2xl font-bold text-[var(--color-mastered)]">
+                    {formatLevel(projectedLevel)}
+                  </span>
+                  <span className="text-xs font-bold text-[var(--color-mastered)] bg-[var(--color-mastered)]/10 px-2 py-0.5 rounded-full">
+                    +{formatLevel(levelDelta)} pts
+                  </span>
+                </div>
+
+                <p className="text-[11px] text-[var(--text-faint)] font-body">
+                  Deterministic formula: <code className="font-mono text-[10px]">New = Current×0.4 + (Score/20)×0.6</code>
+                </p>
+              </div>
+
+              {/* Mini Circular Ring */}
+              <div className="relative w-16 h-16 flex items-center justify-center shrink-0">
+                <svg width={64} height={64} className="transform -rotate-90">
                   <circle
-                    cx="55"
-                    cy="55"
-                    r={radius}
-                    stroke="var(--border-default)"
-                    strokeWidth="8"
+                    cx={32}
+                    cy={32}
+                    r={26}
+                    stroke="var(--bg-elev-3)"
+                    strokeWidth={5}
                     fill="transparent"
                   />
                   <circle
-                    cx="55"
-                    cy="55"
-                    r={radius}
-                    stroke="url(#modal-gauge-gradient)"
-                    strokeWidth="8"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={strokeDashoffset}
+                    cx={32}
+                    cy={32}
+                    r={26}
+                    stroke="var(--color-mastered)"
+                    strokeWidth={5}
+                    fill="transparent"
+                    strokeDasharray={2 * Math.PI * 26}
+                    strokeDashoffset={2 * Math.PI * 26 - (score / 100) * (2 * Math.PI * 26)}
                     strokeLinecap="round"
-                    fill="transparent"
-                    className="transition-all duration-300 ease-out"
+                    className="transition-all duration-300"
                   />
-                  <defs>
-                    <linearGradient id="modal-gauge-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="var(--neon-cyan)" />
-                      <stop offset="100%" stopColor="var(--neon-emerald)" />
-                    </linearGradient>
-                  </defs>
                 </svg>
-
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="font-mono text-xl font-bold text-[var(--text-primary)] tabular-nums">
-                    {score}%
-                  </span>
-                  <span className="font-mono text-[9px] text-[var(--text-muted)] uppercase">
-                    Score
-                  </span>
-                </div>
-              </div>
-
-              {/* Slider & Input Controls */}
-              <div className="flex flex-col gap-3">
-                <div className="flex justify-between items-center text-xs font-mono">
-                  <span className="text-[var(--text-secondary)]">Assessment Performance</span>
-                  <span className="text-[var(--neon-cyan)] font-semibold flex items-center gap-1">
-                    <Zap className="w-3 h-3" /> Real-time preview
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  step={5}
-                  value={score}
-                  onChange={(e) => setScore(Number(e.target.value))}
-                  className="w-full h-2 bg-[var(--bg-sunken)] rounded-full accent-[var(--neon-cyan)] cursor-pointer"
-                />
-                <div className="flex justify-between items-center text-xs text-[var(--text-muted)] font-mono">
-                  <span>0% (Fail)</span>
-                  <span>50%</span>
-                  <span>100% (Perfect)</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Cyber Terminal Readout */}
-            <div className="bg-[var(--bg-sunken)] border border-[var(--border-subtle)] rounded-2xl p-3.5 font-mono text-xs leading-relaxed relative overflow-hidden">
-              <div className="flex items-center gap-1.5 pb-2 mb-2 border-b border-[var(--border-subtle)] text-[var(--text-muted)] text-[11px]">
-                <Terminal className="w-3 h-3 text-[var(--neon-cyan)]" />
-                <span>FORMULA ENGINE EXECUTION</span>
-              </div>
-              <div className="text-[var(--text-muted)] space-y-0.5">
-                <div>&gt; gain = base_jump × (score / 100)</div>
-                <div>
-                  &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= {baseJump.toFixed(1)} × ({score} / 100) ={' '}
-                  <span className="text-[var(--neon-emerald)] font-bold">+{gain.toFixed(2)} pts</span>
-                </div>
-              </div>
-              <div className="text-[var(--text-primary)] mt-3 pt-2 border-t border-[var(--border-subtle)] flex justify-between items-center text-sm font-semibold">
-                <span className="flex items-center gap-1.5">
-                  <span>{selectedSkill} Level:</span>
-                </span>
-                <span className="inline-flex items-center gap-2 font-mono">
-                  <span className="text-[var(--text-secondary)]">{currentLevel.toFixed(1)}</span>
-                  <span className="text-[var(--neon-cyan)]">→</span>
-                  <span className="text-[var(--neon-emerald)]">
-                    <AnimatedNumber value={projectedLevel} decimals={2} /> / 5.00
-                  </span>
+                <span className="absolute font-mono text-xs font-bold text-[var(--text)]">
+                  {score}%
                 </span>
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex justify-end gap-3 pt-2 border-t border-[var(--border-subtle)]">
+            {/* Actions */}
+            <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 type="button"
                 onClick={onClose}
-                className="h-10 px-4 border border-[var(--border-default)] rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-raised)] cursor-pointer transition-colors"
+                disabled={isSubmitting}
+                className="px-4 py-2.5 rounded-xl bg-[var(--bg-elev-2)] hover:bg-[var(--bg-elev-3)] text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--text)] transition-colors cursor-pointer"
               >
                 Cancel
               </button>
+
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="h-10 px-6 bg-gradient-to-r from-[var(--neon-cyan)] via-[var(--neon-indigo)] to-[var(--neon-violet)] hover:opacity-95 text-white font-semibold rounded-xl text-sm cursor-pointer shadow-[0_0_20px_rgba(0,242,254,0.35)] flex items-center gap-2 transition-all disabled:opacity-50"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[var(--accent-indigo)] to-[var(--accent-violet)] text-white text-xs font-semibold hover:opacity-90 disabled:opacity-50 transition-all flex items-center gap-2 shadow-md cursor-pointer"
               >
                 {isSubmitting ? (
                   <>
-                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Recalibrating Plan...</span>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Recalculating Curriculum...</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-4 h-4" />
-                    <span>Recalibrate & Adapt Roadmap</span>
+                    <Sparkles className="w-4 h-4 text-[var(--accent-amber)]" />
+                    <span>Apply & Adapt Roadmap</span>
                   </>
                 )}
               </button>

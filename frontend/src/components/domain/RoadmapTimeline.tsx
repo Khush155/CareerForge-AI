@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import type { RoadmapPhase, SkillGap } from '../../lib/schemas';
 import { PhaseCard } from './PhaseCard';
-import { Card3DTilt } from '../3d/Card3DTilt';
-import { Compass, Calendar, ListOrdered, Clock, CheckCircle2 } from 'lucide-react';
-import { formatHours } from '../../lib/format';
+import { RoadmapBoard } from '../../features/roadmap/RoadmapBoard';
+import { PhaseRationale } from '../../features/roadmap/PhaseRationale';
+import { VersionCompare } from '../../features/roadmap/VersionCompare';
+import { useAppStore } from '../../lib/store';
+import {
+  Compass,
+  Calendar,
+  ListOrdered,
+  Kanban,
+  GitCompare,
+} from 'lucide-react';
 
 export interface RoadmapTimelineProps {
   phases: RoadmapPhase[];
@@ -22,19 +30,21 @@ export const RoadmapTimeline: React.FC<RoadmapTimelineProps> = ({
   onOpenResource,
   changedPhases = [],
 }) => {
-  const [viewMode, setViewMode] = useState<'phases' | 'calendar'>('phases');
+  const { roadmap, previousRoadmap, profile } = useAppStore();
+  const [viewMode, setViewMode] = useState<'phases' | 'board' | 'calendar'>('phases');
+  const [showVersionCompare, setShowVersionCompare] = useState(false);
 
   if (phases.length === 0) {
     return (
-      <div className="glass-panel rounded-3xl p-12 text-center flex flex-col items-center justify-center gap-3">
-        <div className="w-12 h-12 rounded-xl bg-[var(--accent-quiet)] border border-[var(--border-default)] flex items-center justify-center text-[var(--accent)]">
+      <div className="p-12 text-center flex flex-col items-center justify-center gap-3 bg-[var(--bg-elev-1)] rounded-3xl border border-[var(--border)]">
+        <div className="w-12 h-12 rounded-2xl bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] flex items-center justify-center">
           <Compass className="w-6 h-6 animate-pulse" />
         </div>
-        <p className="text-base font-semibold text-[var(--text-primary)]">
-          No roadmap generated yet
+        <p className="text-base font-bold font-display text-[var(--text)]">
+          No Roadmap Generated Yet
         </p>
         <p className="text-xs text-[var(--text-muted)] max-w-sm">
-          Select a career track above and click &quot;Forge Adaptive Roadmap&quot; to synthesize your personalized curriculum.
+          Select or search a career track from the Home screen to synthesize your personalized curriculum.
         </p>
       </div>
     );
@@ -56,114 +66,166 @@ export const RoadmapTimeline: React.FC<RoadmapTimelineProps> = ({
   });
 
   return (
-    <div className="flex flex-col gap-5">
-      {/* View Mode Toggle Bar */}
-      <div className="flex justify-between items-center flex-wrap gap-2 pb-2 border-b border-[var(--border-subtle)]">
-        <span className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider">
-          Curriculum Execution Architecture:
-        </span>
-        <div className="flex items-center gap-1 bg-[var(--bg-sunken)] p-1 rounded-xl border border-[var(--border-subtle)]">
+    <div className="flex flex-col gap-6">
+      {/* Version Comparison Modal */}
+      {showVersionCompare && roadmap && (
+        <VersionCompare
+          currentRoadmap={roadmap}
+          previousRoadmap={previousRoadmap}
+          onClose={() => setShowVersionCompare(false)}
+        />
+      )}
+
+      {/* Top Controls Bar */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-3 border-b border-[var(--border-subtle)]">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider font-semibold">
+            Roadmap Execution Architecture:
+          </span>
+          {roadmap && (
+            <button
+              type="button"
+              onClick={() => setShowVersionCompare(true)}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--accent-indigo)]/10 hover:bg-[var(--accent-indigo)]/20 border border-[var(--accent-indigo)]/30 text-[11px] font-mono font-bold text-[var(--accent-indigo)] transition-all cursor-pointer"
+            >
+              <GitCompare className="w-3 h-3" />
+              <span>Version History (v{roadmap.version.toFixed(1)})</span>
+            </button>
+          )}
+        </div>
+
+        {/* View Switch Pills */}
+        <div className="flex items-center p-1 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--border)] shrink-0 select-none">
           <button
             type="button"
             onClick={() => setViewMode('phases')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
+            className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
               viewMode === 'phases'
-                ? 'bg-[var(--accent)] text-white shadow-sm'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                ? 'bg-[var(--accent-indigo)] text-white shadow-sm'
+                : 'text-[var(--text-muted)] hover:text-[var(--text)]'
             }`}
           >
             <ListOrdered className="w-3.5 h-3.5" />
-            <span>Phased Sequence</span>
+            <span>Timeline</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode('board')}
+            className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewMode === 'board'
+                ? 'bg-[var(--accent-indigo)] text-white shadow-sm'
+                : 'text-[var(--text-muted)] hover:text-[var(--text)]'
+            }`}
+          >
+            <Kanban className="w-3.5 h-3.5" />
+            <span>Board</span>
           </button>
           <button
             type="button"
             onClick={() => setViewMode('calendar')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
+            className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
               viewMode === 'calendar'
-                ? 'bg-[var(--accent)] text-white shadow-sm'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                ? 'bg-[var(--accent-indigo)] text-white shadow-sm'
+                : 'text-[var(--text-muted)] hover:text-[var(--text)]'
             }`}
           >
             <Calendar className="w-3.5 h-3.5" />
-            <span>Weekly Calendar Schedule</span>
+            <span>Calendar</span>
           </button>
         </div>
       </div>
 
-      {viewMode === 'phases' ? (
-        /* Sequential Phases View with Fiber-Optic Spine */
+      {/* Why This Order? Prerequisite Architecture Rationale Callout */}
+      <PhaseRationale targetRole={profile?.target_role || 'Target Career Track'} />
+
+      {/* VIEW: Board View */}
+      {viewMode === 'board' && (
+        <RoadmapBoard
+          phases={phases}
+          gaps={gaps}
+          weeklyHours={weeklyHours}
+          onOpenResource={onOpenResource}
+        />
+      )}
+
+      {/* VIEW: Phased Sequence Timeline */}
+      {viewMode === 'phases' && (
         <div className="relative flex flex-col gap-6 pl-4 max-md:pl-0">
           <div
             className="absolute top-6 bottom-6 left-1 w-[2px] pointer-events-none hidden md:block"
             style={{
-              background: 'linear-gradient(180deg, var(--neon-cyan) 0%, var(--neon-indigo) 50%, var(--neon-violet) 100%)',
-              boxShadow: '0 0 10px rgba(0, 242, 254, 0.4)',
+              background: 'linear-gradient(180deg, var(--accent-sky) 0%, var(--accent-indigo) 50%, var(--accent-violet) 100%)',
+              boxShadow: '0 0 10px rgba(99, 102, 241, 0.4)',
             }}
           />
 
-          {phases.map((phase) => (
-            <div key={phase.phase_number} className="relative">
-              <div className="absolute -left-5 top-7 w-3 h-3 rounded-full bg-[var(--neon-cyan)] border-2 border-[var(--bg-base)] shadow-[0_0_8px_var(--neon-cyan)] z-10 hidden md:block" />
-              <Card3DTilt intensity={2} glare={true}>
+          {phases.map((phase) => {
+            const isChanged = changedPhases.includes(phase.phase_number);
+            return (
+              <div key={phase.phase_number} className="relative">
+                {/* Visual Node Dot on the Timeline Spine */}
+                <div
+                  className="absolute -left-[19px] top-8 w-3 h-3 rounded-full bg-[var(--bg-elev-1)] border-2 hidden md:block z-10 transition-all duration-300"
+                  style={{
+                    borderColor: isChanged ? 'var(--accent-sky)' : 'var(--accent-indigo)',
+                    boxShadow: isChanged ? '0 0 10px var(--accent-sky)' : 'none',
+                  }}
+                />
+
                 <PhaseCard
                   phase={phase}
                   gaps={gaps}
                   weeklyHours={weeklyHours}
                   highlightedSkill={highlightedSkill}
                   onOpenResource={onOpenResource}
-                  isChanged={changedPhases.includes(phase.phase_number)}
+                  isChanged={isChanged}
                 />
-              </Card3DTilt>
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
-      ) : (
-        /* Weekly Calendar Schedule View */
-        <div className="grid grid-cols-3 gap-4 max-lg:grid-cols-2 max-sm:grid-cols-1">
-          {calendarWeeks.map((item) => (
+      )}
+
+      {/* VIEW: Calendar Schedule View */}
+      {viewMode === 'calendar' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {calendarWeeks.map(({ phase, startWeek, endWeek, phaseWeeks }) => (
             <div
-              key={item.phase.phase_number}
-              className="glass-card rounded-2xl p-5 flex flex-col gap-3 border border-[var(--border-default)]"
+              key={phase.phase_number}
+              className="p-5 rounded-2xl bg-[var(--bg-elev-1)] border border-[var(--border)] flex flex-col justify-between space-y-4 hover:border-[var(--border-strong)] transition-all shadow-sm"
             >
-              <div className="flex justify-between items-center pb-2 border-b border-[var(--border-subtle)]">
-                <span className="font-mono text-xs font-bold text-[var(--neon-cyan)]">
-                  WEEKS {item.startWeek} – {item.endWeek}
-                </span>
-                <span className="text-[11px] font-mono text-[var(--text-muted)] flex items-center gap-1">
-                  <Clock className="w-3 h-3 text-[var(--neon-indigo)]" /> {formatHours(item.phase.estimated_hours)}
-                </span>
-              </div>
-
               <div>
-                <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase">
-                  Phase {item.phase.phase_number} Focus:
-                </span>
-                <h4 className="text-sm font-bold text-[var(--text-primary)] mt-0.5">
-                  {item.phase.title}
+                <div className="flex items-center justify-between text-xs font-mono text-[var(--accent-indigo)] font-semibold mb-2">
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>Weeks {startWeek}–{endWeek}</span>
+                  </span>
+                  <span className="text-[var(--text-muted)] font-normal">
+                    {phaseWeeks} wk{phaseWeeks > 1 ? 's' : ''}
+                  </span>
+                </div>
+                <h4 className="text-base font-bold font-display text-[var(--text)] line-clamp-1">
+                  Phase {phase.phase_number}: {phase.title}
                 </h4>
+                <p className="text-xs text-[var(--text-muted)] mt-1 font-body">
+                  Target: {phase.estimated_hours} hours total ({weeklyHours}h / week)
+                </p>
               </div>
 
-              <div className="flex flex-col gap-1.5 pt-1">
-                <span className="text-[11px] font-mono text-[var(--text-muted)]">Core Milestones:</span>
-                <ul className="text-xs text-[var(--text-secondary)] space-y-1">
-                  {item.phase.learning_objectives.map((obj, i) => (
-                    <li key={i} className="flex items-start gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[var(--neon-cyan)] shrink-0 mt-0.5" />
-                      <span className="line-clamp-2">{obj}</span>
-                    </li>
+              <div className="space-y-2 pt-2 border-t border-[var(--border-subtle)]">
+                <div className="text-[11px] font-mono text-[var(--text-faint)] uppercase">
+                  Skills In Scope
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {phase.skills_covered.map((s) => (
+                    <span
+                      key={s}
+                      className="px-2 py-0.5 rounded-md bg-[var(--bg-elev-2)] text-[var(--text)] border border-[var(--border)] text-[10px] font-mono"
+                    >
+                      {s}
+                    </span>
                   ))}
-                </ul>
-              </div>
-
-              <div className="mt-auto pt-2 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-mono">
-                <span className="text-[var(--text-muted)]">{weeklyHours} hrs/wk</span>
-                <button
-                  type="button"
-                  onClick={() => onOpenResource?.(item.phase.skills_covered[0] || item.phase.title)}
-                  className="text-[var(--neon-cyan)] hover:underline cursor-pointer"
-                >
-                  View Guide ➔
-                </button>
+                </div>
               </div>
             </div>
           ))}

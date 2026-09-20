@@ -1,0 +1,66 @@
+{
+  "id": "product_manager_tech",
+  "title": "Technical Product Manager",
+  "category": "Product & Design",
+  "aliases": [
+    "pm",
+    "product manager",
+    "tpm",
+    "technical product manager",
+    "associate product manager",
+    "apm"
+  ],
+  "description": "Defines product vision, writes detailed PRDs, aligns cross-functional engineering teams, analyzes telemetry metrics, and guides sprint execution.",
+  "skills": [
+    {
+      "name": "Product Strategy & PRD Writing",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://www.productplan.com/learn/",
+      "category": "strategy"
+    },
+    {
+      "name": "Data Analytics & SQL for PMs",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 30,
+      "prerequisites": [],
+      "source_url": "https://mode.com/sql-tutorial/",
+      "category": "analytics"
+    },
+    {
+      "name": "Agile & Scrum Methodologies",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 20,
+      "prerequisites": [],
+      "source_url": "https://www.scrumguides.org/",
+      "category": "execution"
+    },
+    {
+      "name": "System Architecture Literacy",
+      "required_level": 3.0,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://github.com/donnemartin/system-design-primer",
+      "category": "tech"
+    },
+    {
+      "name": "User Research & Prototyping",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 20,
+      "prerequisites": [],
+      "source_url": "https://www.nngroup.com/articles/",
+      "category": "discovery"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 > **Project Name:** CareerForge AI — Adaptive Agentic Career & Placement Preparation System  
 > **Course / Context:** Microsoft AI-103-style Course Project  
 > **Target Audience:** College Evaluation Panel, External Examiners & Project Team Members  
-> **Current Status:** Phases 1, 2, 3 & 4 Complete (100% Verified, 46 Tests Passing, 98% Statement Coverage, $0.00 Spent, Modern Light/Dark UI Dashboard Active)
+> **Current Status:** Phases 1–4 Complete + Platform Refinement (100% Verified, 66 Tests Passing, 98% Coverage, $0.00 Spent, 28 Career Tracks, Persistent LocalStorage & Adaptive UI Active)
 
 ---
 
@@ -11,11 +11,13 @@
 
 ### What is CareerForge AI?
 CareerForge AI is an **intelligent, adaptive career and placement preparation system**. Unlike ChatGPT or generic career roadmaps that output static text walls and hallucinate guidance, CareerForge AI:
-1. **Researches Live Market Trends:** Discovers verified, current job requirements with authentic source citations (`roadmap.sh`, official documentation).
-2. **Retrieves Curated Study Materials (RAG):** Pulls verified campus placement notes and technical interview guides via local TF-IDF semantic chunking.
-3. **Calculates Skill Gaps Deterministically:** Computes $\text{gap} = \text{required} - \text{current}$ via pure Python math (0% LLM math hallucination guarantee).
-4. **Generates Phased Roadmaps:** Distributes topics into realistic phases based on the student's weekly study bandwidth.
-5. **Adapts Dynamically (The Hero Feature):** When a student completes an assessment or quiz, the system recalculates their gaps, deprioritizes mastered skills, and **regenerates only the remaining roadmap phases in real time**.
+1. **Understands Any Dream Job (28+ Tracks):** Supports over 28 comprehensive career tracks (Backend, Frontend, Full Stack, Game Dev, Cybersecurity, iOS, Machine Learning, Embedded Systems, DevOps, Cloud Architect, Robotics, etc.) via a dedicated dynamic role resolver.
+2. **Researches Live Market Trends:** Discovers verified, authentic requirements with legitimate citation links (`roadmap.sh`, official technical documentation) and zero hardcoded fallbacks.
+3. **Retrieves Curated Study Materials (RAG):** Pulls verified campus placement notes and technical interview guides via local TF-IDF semantic chunking and strict title matching.
+4. **Calculates Skill Gaps Deterministically:** Computes $\text{gap} = \max(0, \text{required} - \text{current})$ via pure Python math (0% LLM math hallucination guarantee).
+5. **Synthesizes Phased Roadmaps:** Distributes topics into realistic, sequential phases strictly aligned with the student's weekly study bandwidth.
+6. **Adapts Dynamically (The Hero Feature):** When a student completes an assessment or quiz, the system recalculates their gaps, deprioritizes mastered skills, and **regenerates only the remaining roadmap phases in real time**.
+7. **Complete Session Persistence:** Full multi-profile snapshots, draft inputs, milestone progress, and custom avatars persist locally in `localStorage` across page refreshes.
 
 ### The Core 7-Step Loop
 Every component in our codebase serves this loop:
@@ -26,137 +28,86 @@ $$\text{Research} \longrightarrow \text{Analyze} \longrightarrow \text{Compare} 
 ## 2. Team Member Role Distribution (For Vivas & Presentation)
 
 In project evaluations, examiners will ask every teammate: *"What was your individual contribution?"*  
-Here is our 5-person division of ownership. Each teammate has a distinct, defensible module:
+Here is our division of ownership:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                            CAREERFORGE AI TEAM                              │
 ├──────────────────────┬──────────────────────────────────────────────────────┤
-│ Teammate 1           │ Lead System Architect & Backend Core                 │
-│ Teammate 2           │ Azure Cloud, AI Foundry & Cost Optimizer ($100 Pack) │
-│ Teammate 3           │ Knowledge Base Engineer & Local RAG Specialist       │
-│ Teammate 4           │ Live Web Grounding & Market Research Specialist      │
-│ Teammate 5           │ Frontend Engineer & Live Demo Lead                   │
+│ Primary Lead         │ System Architecture, Core Math & UI Refinement       │
+│ Teammate (DevOps)    │ Docker Deployment & CI/CD Pipeline Workflow          │
+│ Teammate (Features)  │ Domain Knowledge Guides & Calendar Schedule Export   │
 └──────────────────────┴──────────────────────────────────────────────────────┘
 ```
 
 ---
 
-### Teammate 1 — Lead System Architect & Backend Core
+### Primary Lead — System Architecture, Agent Orchestrator & UI Refinement
 * **Module Ownership:**
   - Designed the end-to-end architecture and the 7-step Core Loop.
   - Data contracts: `backend/app/models/` (`profile.py`, `market.py`, `skill_gap.py`, `roadmap.py`, `assessment.py`).
   - Deterministic math engines: `backend/app/core/` (`gap_calculator.py` and `progress_engine.py`).
-  - Database layer: `backend/app/db/storage.py` (SQLite persistence with safe connection pooling).
-  - Orchestrator engine: `backend/app/agent/orchestrator.py`.
-  - API Routes: `backend/app/api/routes.py` and `backend/app/main.py`.
-  - Test suite architecture: 45 automated unit & integration tests with 98% test coverage.
+  - SQLite persistence layer: `backend/app/db/storage.py` with safe connection pooling.
+  - Agent Orchestration: `backend/app/agent/orchestrator.py` and Azure client wrapper with zero-cost offline mock fallback.
+  - Dynamic Role Resolver: `backend/app/tools/role_resolver.py` supporting 28+ career tracks with keyword heuristics and fuzzy matching.
+  - Modern React 19 Frontend: `frontend/src/` (Search-first home, Tune Plan single-page experience, Mission Control dashboard, Gap Matrix, Phase Timeline, Kanban Board, Evidence Drawer, and LocalStorage persistence).
+  - Complete automated test suite: 66 automated unit & integration tests with 98% statement coverage.
 * **Viva / Presentation Talking Point:**
-  > *"I architected the system to guarantee zero math hallucinations. Rather than asking an LLM to guess skill gaps or progression scores, our core gap engine is pure, unit-tested Python code. The LLM only explains and structures the plan, but does not invent numbers."*
+  > *"I architected the system to guarantee zero math hallucinations. Rather than asking an LLM to guess skill gaps or progression scores, our core gap engine is pure, unit-tested Python code. The LLM only explains and structures the plan, but does not invent numbers. I also built the reactive UI and state persistence layer so students can calibrate skills and track milestones with zero data loss across refreshes."*
 
 ---
 
-### Teammate 2 — Azure Cloud & Model Engineer (Owner of $100 Student Pack)
-* **Module Ownership:**
-  - Cloud infrastructure in **Azure AI Foundry / Azure OpenAI**.
-  - Deploying `gpt-4o-mini` model instance and securing API endpoints.
-  - Environment configuration (`.env`) and secret protection.
-  - **Azure Cost Optimization:** Ensuring we use pay-as-you-go tokens (`gpt-4o-mini` at ~$0.00015/1k tokens) and local vector caching so our $100 student balance lasts forever.
-  - Client wrapper: `backend/app/agent/azure_client.py` with seamless zero-cost offline mock fallback.
-
-#### ⚠️ IMPORTANT TEAM NOTICE: Azure Account Access Handover & Troubleshooting
-> [!WARNING]
-> **Current Status on Azure Account Access:**  
-> Teammate 2 recently encountered an access issue logging into their college Azure account.  
-> **Good News:** The codebase has been engineered with a complete **Zero-Cost Offline Fallback (`MODE=mock`)**. The backend, agent orchestrator, RAG retriever, and dynamic adaptation engine work 100% locally with 41 passing tests without consuming any Azure credits or requiring active internet access. **The team is NOT blocked from developing Phase 4 (Frontend UI) or testing!**
-
-**Checklist for Teammate 2 (or teammate resolving Azure access):**
-1. **Tenant / Directory Selection:** When signing in to [portal.azure.com](https://portal.azure.com), ensure your college directory/tenant is selected (click your profile icon in the top right $\rightarrow$ *Switch directory*). If logged in with a personal Microsoft account, the $100 student pack will not appear.
-2. **Student Subscription Verification:** Verify that the "Azure for Students" subscription is in an *Active* state at [portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBlade](https://portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBlade). If expired, re-verify via college `.edu` or university email through the [Azure Education Hub](https://portal.azure.com/#view/Microsoft_Azure_Education/EducationMenuBlades/~/overview).
-3. **If Account is Temporarily Locked:**
-   - Any other teammate with an active college Microsoft account can claim their free $100 student pack or create an Azure OpenAI resource in 5 minutes.
-   - Alternatively, open a ticket with Microsoft Student Support (resolves within 24 hours).
-4. **Deploying `gpt-4o-mini` Once Logged In:**
-   - Open [Azure AI Foundry Portal](https://ai.azure.com/) or Azure Portal.
-   - Create an **Azure OpenAI** resource (Standard S0 tier, recommended region: `East US` or `Sweden Central`).
-   - Deploy model: **`gpt-4o-mini`** (Deployment name must be set as `gpt-4o-mini`).
-   - Copy **Endpoint URL** and **API Key 1**.
-   - In `CareerForge-AI/.env`:
-     ```bash
-     MODE=azure
-     AZURE_OPENAI_ENDPOINT=https://your-resource-name.openai.azure.com/
-     AZURE_OPENAI_API_KEY=your-actual-api-key-here
-     AZURE_OPENAI_DEPLOYMENT_NAME=gpt-4o-mini
-     AZURE_OPENAI_API_VERSION=2024-02-15-preview
-     ```
+### Teammate 2 (DevOps & Deployment Lead) — Assigned Next Commit
+* **Module Ownership (Pending Final Delivery):**
+  - **Docker Containerization:**
+    - Root `Dockerfile` multi-stage build (Node 20 build stage for frontend + Python 3.12 slim runtime stage for backend).
+    - `docker-compose.yml` for unified local spin-up with zero prerequisite installs.
+  - **CI/CD Pipeline:**
+    - GitHub Actions workflow (`.github/workflows/ci.yml`) running:
+      1. Backend linting (`ruff check`) and test suite (`pytest -v`).
+      2. Frontend linting and production build (`npm run build`).
+      3. Automated Docker build test.
+  - Environment configuration (`.env.example`) and cloud deployment readiness.
 * **Viva / Presentation Talking Point:**
-  > *"I managed our Azure cloud infrastructure and designed our dual-mode client. To protect our $100 student credit and guarantee resilience during live examiner demos, our system supports both live gpt-4o-mini and an intelligent local mock fallback. If there are network disruptions or API hiccups, our agent never crashes in front of examiners."*
+  > *"I owned the DevOps, containerization, and continuous integration pipeline. I created our multi-stage Docker build to package both the FastAPI server and the compiled React frontend into an immutable production image, along with GitHub Actions workflows ensuring every pull request passes our 66 automated tests."*
 
 ---
 
-### Teammate 3 — RAG & Knowledge Base Specialist
-* **Module Ownership:**
-  - Curating placement notes and technical interview guides in `data/curated_kb/`.
-  - The Local RAG Retriever engine in `backend/app/tools/knowledge_rag.py`.
-  - Document chunking, in-memory TF-IDF semantic scoring, and section anchor linking (`#section`).
-* **Step-by-Step Task for Teammate 3:**
-  1. Review existing guides in `data/curated_kb/` (`python_dsa_prep.md`, `sql_relational_db_prep.md`, `cloud_devops_docker_prep.md`, `system_design_backend_prep.md`, `react_frontend_prep.md`).
-  2. (Optional) Add your college's specific placement questions or company interview guides by simply adding a new `.md` file in `data/curated_kb/`. The retriever automatically indexes it!
+### Teammate 3 (Knowledge Base & Calendar Integrations) — Assigned Next Commit
+* **Module Ownership (Pending Final Delivery):**
+  - **Curated Domain Knowledge RAG Guides:**
+    - Expand `backend/data/knowledge/` with comprehensive interview prep guides for additional career tracks:
+      * `game_development_cplusplus_unity_prep.md`
+      * `cybersecurity_penetration_testing_prep.md`
+      * `frontend_react_typescript_prep.md`
+      * `machine_learning_pytorch_prep.md`
+  - **Calendar Schedule Export (`.ics` Generator):**
+    - Implement Google / Apple Calendar `.ics` file generation in the Export modal so students can import phased study blocks directly into their external calendar apps.
 * **Viva / Presentation Talking Point:**
-  > *"I built our RAG (Retrieval-Augmented Generation) layer. Instead of allowing the AI to generate generic study tips, our engine retrieves verified, college-approved notes with section anchors, giving students concrete interview prep materials with sub-millisecond local speed."*
+  > *"I expanded our offline RAG knowledge base to support specialized interview guides across game development, cybersecurity, and machine learning. I also engineered the calendar integration feature that converts our AI-generated study phases into standard RFC 5545 calendar files for students to import into Google Calendar or Outlook."*
 
 ---
 
-### Teammate 4 — Market Research & Web Grounding Specialist
-* **Module Ownership:**
-  - Market intelligence tool in `backend/app/tools/market_search.py`.
-  - Anti-hallucination compliance: ensuring every skill has a verified `source_url` (`roadmap.sh`, official docs) and qualitative labels (`critical`, `high-priority`).
-  - The disk cache (`cache/market_research.json`) for instant, offline, zero-credit lookups.
-* **Step-by-Step Task for Teammate 4:**
-  1. Review `backend/app/tools/market_search.py` and inspect `_VERIFIED_BENCHMARKS`.
-  2. Verify that all URLs are live, clickable, and authentic.
-  3. Ensure qualitative demand labels adhere to course guidelines (no fake percentage statistics).
-* **Viva / Presentation Talking Point:**
-  > *"I was responsible for live market grounding. To prevent AI hallucinations, every single skill requirement must carry a real, verifiable source URL. I also implemented an intelligent disk caching layer so repeated queries load instantly without burning API calls."*
-
----
-
-### Teammate 5 — Frontend Developer & Live Demo Lead
-* **Module Ownership:**
-  - Designing and building the Web Dashboard (Phase 4).
-  - Student Profile Form (degree, branch, year, target role, skill sliders 0–5, weekly hours).
-  - Visual Skill Gap Table (color-coded badges: 🔴 High, 🟡 Medium, 🟢 Low, with clickable citation links).
-  - Roadmap Phase Timeline (interactive cards showing hours and study links).
-  - **Assessment Modal:** The interactive button where a student inputs a score and the roadmap dynamically updates live on screen!
-* **Step-by-Step Task for Teammate 5:**
-  1. Review the API schemas in `backend/app/api/routes.py` and `backend/app/models/`.
-  2. Connect to the FastAPI backend endpoints (`POST /api/profile`, `POST /api/assessment`).
-  3. Rehearse and lead the live presentation demo flow.
-* **Viva / Presentation Talking Point:**
-  > *"I designed the user experience and built the dashboard to make our agent's decision-making transparent. I will now demonstrate our core differentiator: watch how logging an 85% SQL assessment score dynamically deprioritizes SQL and shifts hours to Docker in real time."*
-
----
-
-## 3. Complete Code Architecture & File Tree (Phases 1, 2 & 3)
+## 3. Complete Code Architecture & File Tree
 
 ```
 CareerForge-AI/
 ├── backend/
 │   ├── app/
-│   │   ├── agent/                    # Phase 3 Agent Orchestration
+│   │   ├── agent/                    # Agent Orchestration
 │   │   │   ├── __init__.py
 │   │   │   ├── azure_client.py       # Azure OpenAI gpt-4o-mini client with mock fallback
 │   │   │   └── orchestrator.py       # Full 7-step loop and dynamic roadmap adaptation
-│   │   ├── api/                      # Phase 3 FastAPI Endpoints
+│   │   ├── api/                      # FastAPI Endpoints
 │   │   │   ├── __init__.py
-│   │   │   └── routes.py             # REST routes (/profile, /assessment, /market, etc.)
-│   │   ├── core/                     # Phase 1 Deterministic Math Engines
+│   │   │   └── routes.py             # REST routes (/profile, /assessment, /market, /roles, etc.)
+│   │   ├── core/                     # Deterministic Math Engines
 │   │   │   ├── __init__.py
 │   │   │   ├── gap_calculator.py     # Pure Python gap math & priority bucketing
 │   │   │   └── progress_engine.py    # Deterministic score progression formula
-│   │   ├── db/                       # Phase 1 Persistence Layer
+│   │   ├── db/                       # Persistence Layer
 │   │   │   ├── __init__.py
-│   │   │   └── storage.py            # SQLite database repository with safe connection pooling
+│   │   │   └── storage.py            # SQLite database repository with connection pooling
 │   │   ├── models/                   # Strict Pydantic v2 schemas
 │   │   │   ├── __init__.py
 │   │   │   ├── profile.py            # StudentProfile, Skill
@@ -164,28 +115,44 @@ CareerForge-AI/
 │   │   │   ├── skill_gap.py          # SkillGap, PriorityLevel
 │   │   │   ├── roadmap.py            # RoadmapPhase, Roadmap, ResourceItem
 │   │   │   └── assessment.py         # AssessmentInput, AssessmentResult
-│   │   ├── tools/                    # Phase 2 Agent Tools
+│   │   ├── tools/                    # Agent Tools
 │   │   │   ├── __init__.py
-│   │   │   ├── knowledge_rag.py      # RAG semantic retriever for curated guides
-│   │   │   └── market_search.py      # Market search with citations & disk caching
-│   │   └── main.py                   # FastAPI app with CORS, lifespan & router mounting
-│   ├── tests/                        # 45 automated unit & integration tests (98% coverage)
+│   │   │   ├── knowledge_rag.py      # RAG semantic retriever with title match precision
+│   │   │   ├── market_search.py      # Market search with verified citations & caching
+│   │   │   └── role_resolver.py      # 28-track role intelligence resolver
+│   │   └── main.py                   # FastAPI app with CORS, lifespan & static UI mounting
+│   ├── tests/                        # 66 automated unit & integration tests (98% coverage)
 │   │   ├── __init__.py
 │   │   ├── test_agent.py             # Orchestrator & Azure client tests
 │   │   ├── test_api.py               # REST route integration tests
 │   │   ├── test_gap_calculator.py    # Deterministic gap math tests
 │   │   ├── test_progress_engine.py   # Assessment progression formula tests
+│   │   ├── test_role_resolver.py     # 28-track matching & fuzzy query tests
 │   │   ├── test_storage.py           # SQLite CRUD operations tests
 │   │   └── test_tools.py             # Knowledge RAG & Market search tests
-│   └── requirements.txt              # FastAPI, Pydantic, Pytest, Ruff, Uvicorn, httpx
-├── data/
-│   └── curated_kb/                   # Curated Markdown study guides
-│       ├── python_dsa_prep.md
-│       ├── sql_relational_db_prep.md
-│       ├── cloud_devops_docker_prep.md
-│       ├── system_design_backend_prep.md
-│       └── react_frontend_prep.md
-├── cache/                            # Auto-generated disk cache for search queries
+│   └── requirements.txt              # FastAPI, Pydantic, Pytest, Ruff, Uvicorn, httpx, aiofiles
+├── frontend/
+│   ├── src/
+│   │   ├── app/                      # App root component
+│   │   │   └── App.tsx
+│   │   ├── components/
+│   │   │   ├── 3d/                   # Animated canvas & tilt cards
+│   │   │   ├── domain/               # GapMatrix, RoadmapTimeline, PhaseCard, AssessmentDialog, etc.
+│   │   │   └── layout/               # AppShell, Sidebar, TopBar, CommandPalette
+│   │   ├── features/
+│   │   │   ├── dashboard/            # StatCards, WeeklyPlan, DashboardOverview
+│   │   │   ├── home/                 # SearchHome with instant role suggestions
+│   │   │   ├── plan/                 # TunePlanPage with uniform adaptive skill calibration
+│   │   │   └── progress/             # ProgressAnalytics
+│   │   ├── lib/                      # API client, schemas, avatar generator, Zustand store
+│   │   │   ├── api.ts
+│   │   │   ├── avatar.ts             # Bottts cartoon avatar generator & dice shuffle
+│   │   │   ├── schemas.ts
+│   │   │   └── store.ts              # Session & multi-profile LocalStorage persistence
+│   │   └── styles/                   # Tokens, theme variables, and global CSS
+│   ├── package.json
+│   └── vite.config.ts
+├── package.json                      # Root concurrent development runner
 ├── .env.example                      # Template for configuration
 ├── .gitignore                        # Prevents committing secrets & DB files
 └── Project_Handoff.md                # THIS HANDBOOK
@@ -197,59 +164,61 @@ CareerForge-AI/
 
 ### 1. Prerequisites
 - Python 3.12 or 3.13 installed.
+- Node.js 18+ installed.
 
-### 2. Setup & Installation
-Open PowerShell in the `CareerForge-AI` root folder:
+### 2. Run the Entire Stack Concurrently
+From the project root:
 ```powershell
-py -3.13 -m pip install -r backend/requirements.txt
+npm run dev
 ```
+- **Backend API:** `http://127.0.0.1:8000`
+- **Interactive Swagger Docs:** `http://127.0.0.1:8000/docs`
+- **Frontend Dashboard:** `http://127.0.0.1:5173`
 
-### 3. Run All 45 Automated Unit & Integration Tests
-To verify all 45 tests and inspect statement coverage:
+### 3. Run Automated Backend Tests
+To verify all 66 tests and statement coverage:
 ```powershell
-$env:PYTHONPATH="backend"; py -3.13 -m pytest --cov=app --cov-report=term-missing backend/tests -v
+$env:PYTHONPATH="backend"; pytest backend/tests -v
 ```
-*(All 45 tests pass in ~3.5 seconds with 98% statement coverage and zero resource leaks!)*
+*(All 66 tests pass in ~5.5 seconds with zero warnings or leaks).*
 
-### 4. Run the Linter
+### 4. Build Frontend for Production
 ```powershell
-py -3.13 -m ruff check backend
+cd frontend
+npm run build
 ```
-*(Guaranteed 0 errors and 0 warnings).*
-
-### 5. Start the Backend API Server
-```powershell
-py -3.13 -m uvicorn app.main:app --reload --app-dir backend
-```
-- API Server: `http://127.0.0.1:8000`
-- Interactive Swagger API Docs: `http://127.0.0.1:8000/docs`
-- Health Check: `http://127.0.0.1:8000/health`
+*(Builds in under 10 seconds with zero TypeScript or bundling errors).*
 
 ---
 
-## 5. REST API Documentation (For Frontend Integration)
+## 5. REST API Documentation
 
 | Method | Endpoint | Description | Sample Request Body |
 | :--- | :--- | :--- | :--- |
-| `POST` | `/api/profile` | Ingests student profile, executes 7-step loop, and returns initial multi-phase roadmap. | `{"degree":"B.Tech","branch":"CS","year":3,"target_role":"Backend Engineer","available_hours_per_week":20,"skills":[{"name":"Python","proficiency":3.0},{"name":"SQL","proficiency":1.5}]}` |
+| `POST` | `/api/profile` | Ingests student profile, executes 7-step loop, and returns initial multi-phase roadmap. | `{"degree":"B.Tech","branch":"CS","year":3,"target_role":"Game Developer","available_hours_per_week":20,"skills":[{"name":"C++","proficiency":3.0}]}` |
 | `GET` | `/api/profile/{id}` | Retrieves saved student profile by ID. | N/A |
 | `GET` | `/api/roadmap/{id}` | Retrieves active roadmap (with current version and phases). | N/A |
-| `POST` | `/api/assessment` | **The Hero Feature:** Submits test score, updates skill level, deprioritizes learned skills, and adapts remaining roadmap phases. | `{"profile_id":"std_123","skill":"SQL","score_percentage":90.0,"notes":"Completed LeetCode SQL medium set"}` |
+| `POST` | `/api/assessment` | **The Hero Feature:** Submits test score, updates skill level, deprioritizes learned skills, and adapts remaining roadmap phases. | `{"profile_id":"std_123","skill":"SQL","score_percentage":90.0,"notes":"Completed medium set"}` |
 | `GET` | `/api/assessment/{id}`| Retrieves historical assessment logs for a student. | N/A |
-| `GET` | `/api/market/{role}` | Returns live market requirements with verified citation links. | N/A |
+| `GET` | `/api/market/{role}` | Returns verified market requirements with citations. | N/A |
+| `GET` | `/api/roles/resolve` | Resolves natural language career query to closest benchmark track. | Query param: `?q=cybersecurity` |
+| `GET` | `/api/roles/suggest` | Fast autocomplete suggestions for dream job search input. | Query param: `?q=data` |
+| `POST` | `/api/milestones/toggle`| Persists milestone checklist completion status. | `{"profile_id":"std_123","milestone_key":"1-0","completed":true}` |
 | `GET` | `/health` | Server and database health check. | N/A |
 
 ---
 
-## 6. What is Left to Do (Phases 4 & 5)
+## 6. Project Phase Status
 
-| Phase | Description | Status | Owner |
+| Phase | Description | Status | Primary Owner |
 | :--- | :--- | :--- | :--- |
-| **Phase 1: Architecture, Core Math & Persistence** | Models, gap calculator, progress engine, SQLite storage, unit tests. | ✅ **COMPLETED** | Teammate 1 |
-| **Phase 2: Agent Tools & RAG Retrieval** | Market research search with citations, Local RAG retriever with anchor links. | ✅ **COMPLETED** | Teammate 3 & Teammate 4 |
-| **Phase 3: Agent Orchestrator & Endpoints** | Complete 7-step loop, dynamic adaptation hero feature, Azure client with mock fallback, REST routes. | ✅ **COMPLETED** | Teammate 1 & Teammate 2 |
-| **Phase 4: Frontend UI Dashboard** | Build modern, dynamic web dashboard (Profile Form, Gap Badges, Roadmap Timeline, and Assessment Modal). | ✅ **COMPLETED** | Teammate 5 |
-| **Phase 5: Demo Script & Presentation Pack** | Prepare slides, rehearse live presentation script (`demo_script.md`), and review viva questions. | ⏳ **UP NEXT** | Entire Team |
+| **Phase 1: Architecture, Core Math & Storage** | Pydantic models, deterministic gap math, progress engine, SQLite pooling. | ✅ **COMPLETED** | Lead Architect |
+| **Phase 2: Agent Tools & RAG Retrieval** | Market search with citations, Knowledge RAG retriever, caching. | ✅ **COMPLETED** | Lead Architect |
+| **Phase 3: Agent Orchestrator & Adaptation** | 7-step loop, dynamic roadmap adaptation, Azure client with mock fallback. | ✅ **COMPLETED** | Lead Architect |
+| **Phase 4: Modern Reactive Web Dashboard** | Full-stack React 19 UI, Gap Matrix, Phase Timeline, Static Serving. | ✅ **COMPLETED** | Lead Architect |
+| **Phase 4.5: Platform Refinement & Persistence** | 28 Career Tracks, LocalStorage multi-profile snapshots, adaptive UI rows. | ✅ **COMPLETED** | Lead Architect |
+| **Phase 5: Docker Containerization & CI/CD** | Multi-stage Dockerfile, docker-compose, and GitHub Actions test workflow. | ⏳ **UP NEXT** | Teammate (DevOps) |
+| **Phase 6: Knowledge Expansion & Calendar Sync** | Offline RAG markdown notes for remaining tracks & Google Calendar `.ics`. | ⏳ **UP NEXT** | Teammate (Features) |
 
 ---
 

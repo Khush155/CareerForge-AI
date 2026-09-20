@@ -1,156 +1,272 @@
-import React, { useState } from 'react';
-import type { StudentProfile } from '../../lib/schemas';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAppStore } from '../../lib/store';
-import { Copy, Sun, Moon, HelpCircle, Eye, EyeOff, Cpu } from 'lucide-react';
+import { getCartoonAvatarUrl } from '../../lib/avatar';
+import {
+  Compass,
+  Search,
+  Sparkles,
+  Sun,
+  Moon,
+  ChevronDown,
+  Layers,
+  GraduationCap,
+  Command as CommandIcon,
+  Download,
+  Keyboard,
+} from 'lucide-react';
 
-export interface TopBarProps {
-  profile: StudentProfile | null;
-  version: number;
-  onCopySummary?: () => void;
-}
+export const TopBar: React.FC = () => {
+  const {
+    theme,
+    toggleTheme,
+    profile,
+    roadmap,
+    openAssessment,
+    setCommandPaletteOpen,
+    setShortcutsOpen,
+    setExportOpen,
+    setCurrentSection,
+    avatar,
+    randomizeAvatar,
+    savedProfiles,
+    switchProfile,
+  } = useAppStore();
 
-export const TopBar: React.FC<TopBarProps> = ({
-  profile,
-  version,
-  onCopySummary,
-}) => {
-  const { theme, toggleTheme, showParticles, toggleParticles } = useAppStore();
-  const [showHelp, setShowHelp] = useState(false);
+  const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  const identityText = profile ? (
-    <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)] font-mono">
-      <span className="font-bold text-[var(--text-primary)] font-sans">{profile.name || 'Student'}</span>
-      <span className="text-[var(--border-strong)]">·</span>
-      <span className="hidden lg:inline">{profile.degree} {profile.branch}, Yr {profile.year}</span>
-      <span className="text-[var(--border-strong)] hidden lg:inline">·</span>
-      <span className="text-[var(--neon-cyan)] font-semibold">{profile.target_role}</span>
-    </div>
-  ) : (
-    <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)] font-mono">
-      <span className="font-bold text-[var(--text-primary)] font-sans">Aarav Sharma</span>
-      <span className="text-[var(--border-strong)]">·</span>
-      <span className="hidden lg:inline">B.Tech CS, Yr 3</span>
-      <span className="text-[var(--border-strong)] hidden lg:inline">·</span>
-      <span className="text-[var(--neon-cyan)] font-semibold">Backend Engineer</span>
-    </div>
-  );
+  // Close profile dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setProfileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
-    <header className="bg-[var(--glass-bg)] backdrop-blur-xl border-b border-[var(--border-subtle)] sticky top-0 z-30 flex flex-col select-none">
-      {/* Top Bar Header */}
-      <div className="h-16 flex items-center justify-between px-6 max-md:px-4">
-        {/* Left: Prominent CareerForge AI Brand + Identity */}
-        <div className="flex items-center gap-4 min-w-0">
-          <div className="flex items-center gap-2.5 shrink-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[var(--neon-cyan)] via-[var(--neon-indigo)] to-[var(--neon-violet)] flex items-center justify-center text-white shadow-[0_0_15px_rgba(0,242,254,0.35)]">
-              <Cpu className="w-5 h-5" />
-            </div>
-            <div className="flex flex-col">
-              <span className="brand-title text-base sm:text-lg tracking-tight leading-tight font-sans">
-                CareerForge <span className="brand-accent font-black">AI</span>
-              </span>
-              <span className="text-[10px] font-mono text-app-muted tracking-wider uppercase leading-none mt-0.5">
-                Placement System
-              </span>
+    <header className="sticky top-0 z-40 w-full h-14 bg-[var(--glass-bg)] backdrop-blur-md border-b border-[var(--border)] px-4 sm:px-6 flex items-center justify-between transition-colors select-none">
+      {/* Brand & Logo */}
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => setCurrentSection('home')}
+          className="flex items-center gap-2.5 cursor-pointer text-left group"
+        >
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[var(--accent-indigo)] via-[var(--accent-violet)] to-[var(--accent-pink)] p-0.5 shadow-md group-hover:scale-105 transition-transform">
+            <div className="w-full h-full bg-[var(--bg-elev-1)] rounded-[10px] flex items-center justify-center">
+              <Compass className="w-4 h-4 text-[var(--accent-sky)] animate-spin-slow" />
             </div>
           </div>
-
-          <span className="text-[var(--border-default)] hidden sm:inline">|</span>
-
-          {/* Student Context Profile */}
-          <div className="truncate hidden sm:flex items-center">
-            {identityText}
+          <div className="flex flex-col">
+            <span className="text-sm font-bold font-display tracking-tight text-[var(--text)]">
+              CareerForge <span className="text-brand-gradient">AI</span>
+            </span>
           </div>
-        </div>
+        </button>
 
-        {/* Right Controls */}
-        <div className="flex items-center gap-2.5 shrink-0">
-          <span className="font-mono text-xs font-bold bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] px-2.5 py-1 rounded-full border border-[var(--neon-cyan)]/30 tabular-nums shadow-sm">
-            Revision v{version}.0
+        {/* Plan Version Badge */}
+        {roadmap && (
+          <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] border border-[var(--accent-indigo)]/25">
+            <Layers className="w-3 h-3" />
+            v{roadmap.version.toFixed(1)}
           </span>
-
-          {/* Copy Summary Action */}
-          {onCopySummary && (
-            <button
-              type="button"
-              onClick={onCopySummary}
-              className="h-8 px-3.5 border border-[var(--border-default)] rounded-xl text-xs font-mono font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-raised)] hover:text-[var(--text-primary)] transition-all cursor-pointer flex items-center gap-1.5"
-              title="Copy markdown run report"
-            >
-              <Copy className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Copy Run</span>
-            </button>
-          )}
-
-          {/* Ambient Particles Toggle */}
-          <button
-            type="button"
-            onClick={toggleParticles}
-            aria-label={showParticles ? 'Turn off background particles' : 'Turn on background particles'}
-            title={showParticles ? 'Background Particles: ON' : 'Background Particles: OFF'}
-            className="w-8 h-8 border border-[var(--border-default)] rounded-xl flex items-center justify-center text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-raised)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
-          >
-            {showParticles ? <Eye className="w-3.5 h-3.5 text-[var(--neon-cyan)]" /> : <EyeOff className="w-3.5 h-3.5 text-[var(--text-muted)]" />}
-          </button>
-
-          {/* Theme Toggle */}
-          <button
-            type="button"
-            onClick={toggleTheme}
-            aria-label={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
-            title={`Current theme: ${theme}. Click to switch.`}
-            className="w-8 h-8 border border-[var(--border-default)] rounded-xl flex items-center justify-center text-sm text-[var(--text-primary)] hover:bg-[var(--bg-raised)] transition-colors cursor-pointer"
-          >
-            {theme === 'light' ? (
-              <Moon className="w-4 h-4 text-[var(--neon-violet)]" />
-            ) : (
-              <Sun className="w-4 h-4 text-[var(--neon-amber)]" />
-            )}
-          </button>
-
-          {/* Shortcuts Help */}
-          <button
-            type="button"
-            onClick={() => setShowHelp(!showHelp)}
-            aria-label="Show keyboard shortcuts"
-            className="w-8 h-8 border border-[var(--border-default)] rounded-xl flex items-center justify-center text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-raised)] transition-colors cursor-pointer"
-          >
-            <HelpCircle className="w-3.5 h-3.5" />
-          </button>
-        </div>
+        )}
       </div>
 
-      {/* Keyboard Shortcuts Popover */}
-      {showHelp && (
-        <div className="absolute right-6 top-16 z-50 glass-panel rounded-2xl p-4 shadow-xl border border-[var(--border-default)] text-xs font-mono w-72 flex flex-col gap-2">
-          <div className="flex justify-between items-center pb-1 border-b border-[var(--border-subtle)] font-bold text-[var(--text-primary)]">
-            <span>Keyboard Shortcuts</span>
-            <button
-              type="button"
-              onClick={() => setShowHelp(false)}
-              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
-            >
-              ✕
-            </button>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[var(--text-muted)]">Log Score Modal:</span>
-            <span className="px-1.5 py-0.2 rounded bg-[var(--bg-sunken)] text-[var(--neon-cyan)]">L</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[var(--text-muted)]">Toggle Theme:</span>
-            <span className="px-1.5 py-0.2 rounded bg-[var(--bg-sunken)] text-[var(--neon-cyan)]">T</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[var(--text-muted)]">Open Evidence:</span>
-            <span className="px-1.5 py-0.2 rounded bg-[var(--bg-sunken)] text-[var(--neon-cyan)]">E</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[var(--text-muted)]">Presenter Mode:</span>
-            <span className="px-1.5 py-0.2 rounded bg-[var(--bg-sunken)] text-[var(--neon-cyan)]">Shift + P</span>
-          </div>
+      {/* Global Search Field (Opens Command Palette) */}
+      <div className="flex-1 max-w-md mx-4 hidden md:block">
+        <button
+          type="button"
+          onClick={() => setCommandPaletteOpen(true)}
+          className="w-full h-9 px-3.5 rounded-xl bg-[var(--bg-elev-2)] hover:bg-[var(--bg-elev-3)] border border-[var(--border)] text-xs text-[var(--text-muted)] flex items-center justify-between transition-all cursor-pointer shadow-inner"
+        >
+          <span className="flex items-center gap-2 truncate">
+            <Search className="w-3.5 h-3.5 text-[var(--text-faint)]" />
+            <span className="truncate">Search commands, jobs, skills, guides...</span>
+          </span>
+          <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-[var(--bg-elev-1)] border border-[var(--border)] text-[10px] font-mono text-[var(--text-faint)]">
+            <CommandIcon className="w-2.5 h-2.5" /> K
+          </kbd>
+        </button>
+      </div>
+
+      {/* Actions & Utilities */}
+      <div className="flex items-center gap-2">
+        {/* Quick Search on Mobile */}
+        <button
+          type="button"
+          onClick={() => setCommandPaletteOpen(true)}
+          className="md:hidden p-2 rounded-xl text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-elev-2)] cursor-pointer"
+          aria-label="Open Command Palette"
+        >
+          <Search className="w-4 h-4" />
+        </button>
+
+        {/* Quick "Log Assessment" Button */}
+        <button
+          type="button"
+          onClick={openAssessment}
+          className="hidden sm:inline-flex items-center gap-1.5 h-8 px-3 rounded-xl text-xs font-semibold bg-[var(--bg-elev-2)] hover:bg-[var(--bg-elev-3)] border border-[var(--border)] text-[var(--text)] transition-colors cursor-pointer"
+          title="Quick log assessment (Shortcut: L)"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-[var(--accent-amber)]" />
+          <span>Assess</span>
+          <kbd className="text-[10px] font-mono text-[var(--text-faint)] px-1 rounded bg-[var(--bg-elev-1)] border border-[var(--border)]">
+            L
+          </kbd>
+        </button>
+
+        {/* Quick Export & Share Button */}
+        <button
+          type="button"
+          onClick={() => setExportOpen(true)}
+          className="hidden sm:inline-flex items-center gap-1.5 h-8 px-2.5 rounded-xl text-xs font-semibold bg-[var(--bg-elev-2)] hover:bg-[var(--bg-elev-3)] border border-[var(--border)] text-[var(--text)] transition-colors cursor-pointer"
+          title="Export plan as Markdown, PDF, or JSON (Shortcut: E)"
+        >
+          <Download className="w-3.5 h-3.5 text-[var(--accent-mint)]" />
+          <span>Export</span>
+          <kbd className="text-[10px] font-mono text-[var(--text-faint)] px-1 rounded bg-[var(--bg-elev-1)] border border-[var(--border)]">
+            E
+          </kbd>
+        </button>
+
+        {/* Keyboard Shortcuts Button */}
+        <button
+          type="button"
+          onClick={() => setShortcutsOpen(true)}
+          className="p-2 rounded-xl text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-elev-2)] border border-transparent hover:border-[var(--border)] transition-colors cursor-pointer"
+          aria-label="Keyboard shortcuts"
+          title="Keyboard shortcuts (Shortcut: ?)"
+        >
+          <Keyboard className="w-4 h-4 text-[var(--text-muted)]" />
+        </button>
+
+        {/* Theme Toggle Button */}
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="p-2 rounded-xl text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-elev-2)] border border-transparent hover:border-[var(--border)] transition-colors cursor-pointer"
+          aria-label="Toggle light and dark theme"
+        >
+          {theme === 'dark' ? (
+            <Sun className="w-4 h-4 text-[var(--accent-amber)]" />
+          ) : (
+            <Moon className="w-4 h-4 text-[var(--accent-indigo)]" />
+          )}
+        </button>
+
+        {/* Profile Dropdown Menu */}
+        <div className="relative" ref={menuRef}>
+          <button
+            type="button"
+            onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
+            className="flex items-center gap-2 pl-1.5 pr-2.5 py-1 rounded-xl hover:bg-[var(--bg-elev-2)] border border-transparent hover:border-[var(--border)] transition-all cursor-pointer group"
+            aria-expanded={isProfileMenuOpen}
+          >
+            <div className="w-8 h-8 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--border)] overflow-hidden flex items-center justify-center shadow-xs group-hover:border-[var(--accent-indigo)] transition-colors p-0.5 shrink-0">
+              <img
+                src={getCartoonAvatarUrl(profile?.avatar || avatar, 'bottts')}
+                alt="Cartoon Avatar"
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
+            <div className="hidden lg:flex flex-col text-left">
+              <span className="text-xs font-semibold text-[var(--text)] leading-tight truncate max-w-[110px]">
+                {profile ? profile.name : 'Student Profile'}
+              </span>
+              <span className="text-[10px] text-[var(--text-muted)] truncate max-w-[110px]">
+                {profile ? profile.target_role : 'Click to setup'}
+              </span>
+            </div>
+            <ChevronDown className="w-3.5 h-3.5 text-[var(--text-muted)]" />
+          </button>
+
+          {/* Dropdown Menu Box */}
+          {isProfileMenuOpen && (
+            <div className="absolute right-0 mt-2 w-64 rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-elev-1)] shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+              <div className="p-3 border-b border-[var(--border)] mb-1 flex items-center gap-3">
+                <div className="relative group shrink-0" title="Shuffle cartoon avatar">
+                  <div className="w-11 h-11 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--border)] overflow-hidden p-0.5 shadow-sm">
+                    <img
+                      src={getCartoonAvatarUrl(profile?.avatar || avatar, 'bottts')}
+                      alt="Cartoon Avatar"
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      randomizeAvatar();
+                    }}
+                    title="Shuffle cartoon avatar"
+                    className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[var(--accent-indigo)] text-white flex items-center justify-center text-[10px] shadow-sm hover:scale-110 active:scale-95 transition-all cursor-pointer border border-[var(--border)]"
+                  >
+                    🎲
+                  </button>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold text-[var(--text)] truncate">
+                    {profile ? profile.name : 'Guest Student'}
+                  </p>
+                  <p className="text-[11px] text-[var(--text-muted)] truncate">
+                    {profile ? `${profile.target_role} · Yr ${profile.year}` : 'No active profile'}
+                  </p>
+                </div>
+              </div>
+
+              {savedProfiles.filter((p) => p.name !== profile?.name || p.target_role !== profile?.target_role).length > 0 && (
+                <div className="py-1 border-b border-[var(--border)] mb-1">
+                  <div className="px-3 py-1 text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">
+                    Saved Profiles
+                  </div>
+                  {savedProfiles
+                    .filter((p) => p.name !== profile?.name || p.target_role !== profile?.target_role)
+                    .slice(0, 3)
+                    .map((p) => (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => {
+                          switchProfile(p.id);
+                          setProfileMenuOpen(false);
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs hover:bg-[var(--bg-elev-2)] text-left cursor-pointer transition-colors"
+                      >
+                        <div className="w-5 h-5 rounded-lg bg-[var(--bg-elev-2)] border border-[var(--border)] overflow-hidden shrink-0">
+                          <img
+                            src={getCartoonAvatarUrl(p.avatar || 'bottts', 'bottts')}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-semibold text-[var(--text)] truncate">{p.name}</p>
+                          <p className="text-[10px] text-[var(--text-muted)] truncate">{p.target_role}</p>
+                        </div>
+                      </button>
+                    ))}
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={() => {
+                  setCurrentSection('settings');
+                  setProfileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-[var(--text)] hover:bg-[var(--bg-elev-2)] transition-colors text-left cursor-pointer"
+              >
+                <GraduationCap className="w-4 h-4 text-[var(--accent-indigo)]" />
+                <span>Manage Profile & Targets</span>
+              </button>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </header>
   );
 };

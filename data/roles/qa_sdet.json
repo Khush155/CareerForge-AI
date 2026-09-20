@@ -1,0 +1,68 @@
+{
+  "id": "qa_sdet",
+  "title": "QA / SDET",
+  "category": "Software Engineering",
+  "aliases": [
+    "sdet",
+    "qa",
+    "qa engineer",
+    "software development engineer in test",
+    "automation tester",
+    "test engineer"
+  ],
+  "description": "Engineers automated test suites, end-to-end browser workflows, load testing harnesses, and quality governance pipelines.",
+  "skills": [
+    {
+      "name": "Test Automation (Playwright / Cypress)",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 35,
+      "prerequisites": [
+        "JavaScript"
+      ],
+      "source_url": "https://playwright.dev/docs/intro",
+      "category": "automation"
+    },
+    {
+      "name": "Python or Java for Testing",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://docs.pytest.org/en/stable/",
+      "category": "core"
+    },
+    {
+      "name": "API Testing (Postman / REST Assured)",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 20,
+      "prerequisites": [],
+      "source_url": "https://learning.postman.com/docs/",
+      "category": "api"
+    },
+    {
+      "name": "Performance Testing (JMeter / k6)",
+      "required_level": 3.0,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 20,
+      "prerequisites": [],
+      "source_url": "https://k6.io/docs/",
+      "category": "performance"
+    },
+    {
+      "name": "CI/CD Test Integration",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 20,
+      "prerequisites": [],
+      "source_url": "https://docs.github.com/en/actions",
+      "category": "ci"
+    }
+  ]
+}

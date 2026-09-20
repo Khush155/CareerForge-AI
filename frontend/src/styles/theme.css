@@ -4,180 +4,184 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
 
 @theme inline {
-  --color-base:        var(--bg-base);
-  --color-surface:     var(--bg-surface);
-  --color-raised:      var(--bg-raised);
-  --color-sunken:      var(--bg-sunken);
-  --color-line:        var(--border-default);
-  --color-line-subtle: var(--border-subtle);
-  --color-line-strong: var(--border-strong);
-  
-  --color-primary:     var(--text-primary);
-  --color-secondary:   var(--text-secondary);
-  --color-muted:       var(--text-muted);
-  
-  --color-ink:         var(--text-primary);
-  --color-ink-2:       var(--text-secondary);
-  --color-ink-3:       var(--text-muted);
-  
-  --color-accent:      var(--accent);
-  --color-high:        var(--priority-high);
-  --color-medium:      var(--priority-medium);
-  --color-low:         var(--priority-low);
-  --color-mastered:    var(--priority-mastered);
-  
-  --color-cyan:        var(--neon-cyan);
-  --color-indigo:      var(--neon-indigo);
-  --color-violet:      var(--neon-violet);
-  --color-emerald:     var(--neon-emerald);
-  --color-rose:        var(--neon-rose);
-  --color-amber:       var(--neon-amber);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
 
-  --font-sans: "Inter Tight Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", monospace;
+  --color-bg:          var(--bg);
+  --color-bg-elev-1:   var(--bg-elev-1);
+  --color-bg-elev-2:   var(--bg-elev-2);
+  --color-bg-elev-3:   var(--bg-elev-3);
 
-  /* Modern rounded corners */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 22px;
-  --radius-xl: 30px;
+  --color-border:        var(--border);
+  --color-border-strong: var(--border-strong);
 
-  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --color-text:        var(--text);
+  --color-text-muted:  var(--text-muted);
+  --color-text-faint:  var(--text-faint);
+
+  --color-brand:       var(--accent-indigo);
+  --color-sky:         var(--accent-sky);
+  --color-mint:        var(--accent-mint);
+  --color-amber:       var(--accent-amber);
+  --color-coral:       var(--accent-coral);
+  --color-violet:      var(--accent-violet);
+  --color-pink:        var(--accent-pink);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-card: var(--r-card);
+
+  --ease-spring: var(--motion-spring);
 }
 
-/* Global utility classes */
+/* ==========================================================================
+   Global Typography Base Rules (Guarantees font rendering everywhere)
+   ========================================================================== */
+
+html {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Crucial: ensures inputs and buttons inherit the font instead of browser system defaults */
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+code, pre, kbd, .num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
 
 :focus-visible {
-  outline: 2px solid var(--neon-cyan) !important;
-  outline-offset: 2px !important;
+  outline: 2px solid var(--accent-indigo);
+  outline-offset: 2px;
 }
 
-/* Brand Title Rules — Guaranteed White in Dark, Dark in Light */
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+select:focus-visible,
+.outline-none,
+.focus\:outline-none:focus,
+.focus\:outline-none:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+}
+
+/* Brand gradient text utility */
+.text-brand-gradient {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Card & Glass Utilities */
+.card-mission {
+  background: var(--bg-elev-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-card);
+}
+
+.glass-bar {
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+/* Backwards compatibility utility classes for existing views */
 .brand-title {
-  color: #0F172A;
+  font-family: var(--font-display);
   font-weight: 800;
-  transition: color 0.2s ease;
-}
-
-:root[data-theme="dark"] .brand-title,
-.dark .brand-title,
-[data-theme="dark"] .brand-title {
-  color: #FFFFFF !important;
+  letter-spacing: -0.02em;
 }
 
 .brand-accent {
-  color: #0284C7;
-  font-weight: 900;
+  color: var(--accent-sky);
+  font-weight: 800;
 }
 
-:root[data-theme="dark"] .brand-accent,
-.dark .brand-accent,
-[data-theme="dark"] .brand-accent {
-  color: #00F2FE !important;
-  text-shadow: 0 0 14px rgba(0, 242, 254, 0.45);
-}
-
-/* Core Color Utility Overrides */
-.text-app-primary {
-  color: var(--text-primary) !important;
-}
-
-.text-app-secondary {
-  color: var(--text-secondary) !important;
-}
-
-.text-app-muted {
-  color: var(--text-muted) !important;
-}
-
-.bg-app-surface {
-  background-color: var(--bg-surface) !important;
-}
-
-.bg-app-raised {
-  background-color: var(--bg-raised) !important;
-}
-
-.bg-app-sunken {
-  background-color: var(--bg-sunken) !important;
-}
-
-.border-app-default {
-  border-color: var(--border-default) !important;
-}
-
-.border-app-subtle {
-  border-color: var(--border-subtle) !important;
-}
-
-/* Glassmorphism & Cyber Card Effects with Rounded Corners */
 .glass-panel {
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-default);
-  box-shadow: var(--card-shadow);
-  border-radius: 24px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-xl);
 }
 
 .glass-card {
-  background: var(--glass-card);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--card-shadow);
-  border-radius: 20px;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--bg-elev-1);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--r-card);
+  transition: all 0.2s ease;
 }
 
 .glass-card:hover {
-  border-color: var(--border-default);
+  border-color: var(--border-strong);
   transform: translateY(-2px);
 }
 
-/* Gradient Text */
-.text-gradient-cyan {
-  background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Print Optimization for Roadmap Export */
+@media print {
+  header,
+  aside,
+  nav,
+  button,
+  .no-print,
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  body, #root {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .glass-panel,
+  .glass-card,
+  [class*="bg-[var(--bg-"] {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    break-inside: avoid;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
 }
 
-.text-gradient-violet {
-  background: linear-gradient(135deg, var(--neon-indigo) 0%, var(--neon-violet) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Animated Border Beam */
-.border-beam-container {
-  position: relative;
-  overflow: hidden;
-}
-
-.border-beam-container::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1.5px;
-  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, var(--neon-cyan) 60deg, var(--neon-violet) 120deg, transparent 180deg);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  animation: spin-beam 6s linear infinite;
-}
-
-@keyframes spin-beam {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Background grid */
-.cyber-bg-grid {
-  background-size: 32px 32px;
-  background-image: var(--cyber-grid);
-}

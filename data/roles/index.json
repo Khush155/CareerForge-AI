@@ -1,0 +1,2068 @@
+[
+  {
+    "id": "backend_developer",
+    "title": "Backend Developer",
+    "category": "Backend & Cloud",
+    "aliases": [
+      "backend",
+      "backend engineer",
+      "server-side developer",
+      "api engineer",
+      "python backend",
+      "node backend",
+      "go backend",
+      "java backend",
+      "swe backend"
+    ],
+    "description": "Designs, builds, and scales server-side systems, RESTful and GraphQL APIs, microservices, and database layers.",
+    "skills": [
+      {
+        "name": "Python",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://docs.python.org/3/",
+        "category": "core"
+      },
+      {
+        "name": "FastAPI",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://fastapi.tiangolo.com/",
+        "category": "core"
+      },
+      {
+        "name": "PostgreSQL",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "SQL"
+        ],
+        "source_url": "https://www.postgresql.org/docs/",
+        "category": "database"
+      },
+      {
+        "name": "SQL",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://mode.com/sql-tutorial/",
+        "category": "database"
+      },
+      {
+        "name": "Docker",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 20,
+        "prerequisites": [
+          "Linux"
+        ],
+        "source_url": "https://docs.docker.com/get-started/",
+        "category": "infrastructure"
+      },
+      {
+        "name": "Redis",
+        "required_level": 3.0,
+        "demand_level": "frequently mentioned",
+        "weight": 0.7,
+        "est_hours_to_learn": 15,
+        "prerequisites": [],
+        "source_url": "https://redis.io/docs/",
+        "category": "database"
+      },
+      {
+        "name": "Git",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.8,
+        "est_hours_to_learn": 15,
+        "prerequisites": [],
+        "source_url": "https://git-scm.com/doc",
+        "category": "tools"
+      },
+      {
+        "name": "REST APIs",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 20,
+        "prerequisites": [
+          "HTTP Basics"
+        ],
+        "source_url": "https://restfulapi.net/",
+        "category": "core"
+      },
+      {
+        "name": "System Design",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "PostgreSQL",
+          "REST APIs"
+        ],
+        "source_url": "https://github.com/donnemartin/system-design-primer",
+        "category": "architecture"
+      },
+      {
+        "name": "Linux",
+        "required_level": 3.0,
+        "demand_level": "frequently mentioned",
+        "weight": 0.7,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://linuxjourney.com/",
+        "category": "fundamentals"
+      }
+    ]
+  },
+  {
+    "id": "frontend_developer",
+    "title": "Frontend Developer",
+    "category": "Web & Mobile",
+    "aliases": [
+      "frontend",
+      "frontend engineer",
+      "ui engineer",
+      "react developer",
+      "web developer",
+      "client engineer",
+      "client-side developer"
+    ],
+    "description": "Crafts responsive, accessible, high-performance web applications using modern component libraries, state management, and web standards.",
+    "skills": [
+      {
+        "name": "JavaScript",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+        "category": "core"
+      },
+      {
+        "name": "TypeScript",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://www.typescriptlang.org/docs/",
+        "category": "core"
+      },
+      {
+        "name": "React",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://react.dev/",
+        "category": "core"
+      },
+      {
+        "name": "HTML/CSS",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://developer.mozilla.org/en-US/docs/Learn/CSS",
+        "category": "fundamentals"
+      },
+      {
+        "name": "Next.js",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "React"
+        ],
+        "source_url": "https://nextjs.org/docs",
+        "category": "core"
+      },
+      {
+        "name": "Tailwind CSS",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.75,
+        "est_hours_to_learn": 15,
+        "prerequisites": [
+          "HTML/CSS"
+        ],
+        "source_url": "https://tailwindcss.com/docs",
+        "category": "ui"
+      },
+      {
+        "name": "Web Performance",
+        "required_level": 3.0,
+        "demand_level": "frequently mentioned",
+        "weight": 0.7,
+        "est_hours_to_learn": 20,
+        "prerequisites": [
+          "HTML/CSS",
+          "JavaScript"
+        ],
+        "source_url": "https://web.dev/performance/",
+        "category": "optimization"
+      },
+      {
+        "name": "Git",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.8,
+        "est_hours_to_learn": 15,
+        "prerequisites": [],
+        "source_url": "https://git-scm.com/doc",
+        "category": "tools"
+      },
+      {
+        "name": "Testing (Vitest/Jest)",
+        "required_level": 3.0,
+        "demand_level": "frequently mentioned",
+        "weight": 0.7,
+        "est_hours_to_learn": 20,
+        "prerequisites": [
+          "TypeScript"
+        ],
+        "source_url": "https://vitest.dev/",
+        "category": "testing"
+      }
+    ]
+  },
+  {
+    "id": "full_stack_developer",
+    "title": "Full Stack Developer",
+    "category": "Web & Mobile",
+    "aliases": [
+      "fullstack",
+      "full stack",
+      "full stack engineer",
+      "mern developer",
+      "pern developer",
+      "fullstack web developer"
+    ],
+    "description": "Engineers end-to-end applications spanning responsive client interfaces, robust server APIs, background workers, and relational/NoSQL databases.",
+    "skills": [
+      {
+        "name": "TypeScript",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://www.typescriptlang.org/docs/",
+        "category": "core"
+      },
+      {
+        "name": "React",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://react.dev/",
+        "category": "frontend"
+      },
+      {
+        "name": "Node.js",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://nodejs.org/en/docs",
+        "category": "backend"
+      },
+      {
+        "name": "PostgreSQL",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "SQL"
+        ],
+        "source_url": "https://www.postgresql.org/docs/",
+        "category": "database"
+      },
+      {
+        "name": "REST APIs",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://restfulapi.net/",
+        "category": "backend"
+      },
+      {
+        "name": "Docker",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://docs.docker.com/",
+        "category": "devops"
+      },
+      {
+        "name": "Git",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.8,
+        "est_hours_to_learn": 15,
+        "prerequisites": [],
+        "source_url": "https://git-scm.com/doc",
+        "category": "tools"
+      },
+      {
+        "name": "System Design",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Node.js",
+          "PostgreSQL"
+        ],
+        "source_url": "https://github.com/donnemartin/system-design-primer",
+        "category": "architecture"
+      }
+    ]
+  },
+  {
+    "id": "sde_dsa",
+    "title": "Software Development Engineer (DSA-heavy)",
+    "category": "Software Engineering",
+    "aliases": [
+      "sde",
+      "swe",
+      "software engineer",
+      "sde 1",
+      "sde1",
+      "google sde",
+      "amazon sde",
+      "faang swe",
+      "dsa engineer",
+      "problem solver"
+    ],
+    "description": "Specializes in algorithmic problem solving, optimal data structures, dynamic programming, and low-level code efficiency for top product companies.",
+    "skills": [
+      {
+        "name": "Data Structures & Algorithms",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 60,
+        "prerequisites": [],
+        "source_url": "https://leetcode.com/explore/",
+        "category": "core"
+      },
+      {
+        "name": "C++",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 45,
+        "prerequisites": [],
+        "source_url": "https://en.cppreference.com/w/",
+        "category": "core"
+      },
+      {
+        "name": "Java",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://docs.oracle.com/en/java/",
+        "category": "core"
+      },
+      {
+        "name": "System Design",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Data Structures & Algorithms"
+        ],
+        "source_url": "https://github.com/donnemartin/system-design-primer",
+        "category": "architecture"
+      },
+      {
+        "name": "Operating Systems",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://pages.cs.wisc.edu/~remzi/OSTEP/",
+        "category": "fundamentals"
+      },
+      {
+        "name": "Computer Networks",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.75,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.geeksforgeeks.org/computer-network-tutorials/",
+        "category": "fundamentals"
+      },
+      {
+        "name": "DBMS & SQL",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://mode.com/sql-tutorial/",
+        "category": "fundamentals"
+      }
+    ]
+  },
+  {
+    "id": "devops_engineer",
+    "title": "DevOps Engineer",
+    "category": "Infrastructure & Cloud",
+    "aliases": [
+      "devops",
+      "devops engineer",
+      "platform engineer",
+      "infrastructure engineer",
+      "build engineer",
+      "ci cd engineer"
+    ],
+    "description": "Automates software delivery pipelines, container orchestrations, infrastructure as code, and continuous integration workflows.",
+    "skills": [
+      {
+        "name": "Docker",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Linux"
+        ],
+        "source_url": "https://docs.docker.com/",
+        "category": "containers"
+      },
+      {
+        "name": "Kubernetes",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Docker"
+        ],
+        "source_url": "https://kubernetes.io/docs/home/",
+        "category": "orchestration"
+      },
+      {
+        "name": "CI/CD (GitHub Actions)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Git"
+        ],
+        "source_url": "https://docs.github.com/en/actions",
+        "category": "automation"
+      },
+      {
+        "name": "Terraform",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "AWS Cloud"
+        ],
+        "source_url": "https://developer.hashicorp.com/terraform/docs",
+        "category": "iac"
+      },
+      {
+        "name": "Linux & Bash",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://linuxjourney.com/",
+        "category": "os"
+      },
+      {
+        "name": "AWS Cloud",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://aws.amazon.com/training/",
+        "category": "cloud"
+      }
+    ]
+  },
+  {
+    "id": "sre",
+    "title": "Site Reliability Engineer",
+    "category": "Infrastructure & Cloud",
+    "aliases": [
+      "sre",
+      "reliability engineer",
+      "production engineer",
+      "systems reliability engineer",
+      "systems engineer"
+    ],
+    "description": "Applies software engineering principles to operations, establishing SLOs/SLAs, automated incident recovery, telemetry, and high-availability architecture.",
+    "skills": [
+      {
+        "name": "Linux Kernel & Internals",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://linuxjourney.com/",
+        "category": "os"
+      },
+      {
+        "name": "Observability (Prometheus/Grafana)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Docker"
+        ],
+        "source_url": "https://prometheus.io/docs/introduction/overview/",
+        "category": "telemetry"
+      },
+      {
+        "name": "Python/Go Automation",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://go.dev/doc/",
+        "category": "automation"
+      },
+      {
+        "name": "Kubernetes",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Docker"
+        ],
+        "source_url": "https://kubernetes.io/docs/",
+        "category": "orchestration"
+      },
+      {
+        "name": "Incident Management & SLOs",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://sre.google/sre-book/table-of-contents/",
+        "category": "operations"
+      }
+    ]
+  },
+  {
+    "id": "cloud_engineer",
+    "title": "Cloud Engineer",
+    "category": "Infrastructure & Cloud",
+    "aliases": [
+      "cloud",
+      "cloud architect",
+      "aws engineer",
+      "azure engineer",
+      "gcp engineer",
+      "cloud solutions architect"
+    ],
+    "description": "Architects, provisions, and secures cloud computing environments across compute, networking, storage, and serverless stacks.",
+    "skills": [
+      {
+        "name": "AWS/Azure Cloud Services",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [],
+        "source_url": "https://docs.aws.amazon.com/",
+        "category": "cloud"
+      },
+      {
+        "name": "Cloud Networking (VPC, DNS, Subnets)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html",
+        "category": "networking"
+      },
+      {
+        "name": "Terraform",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://developer.hashicorp.com/terraform/docs",
+        "category": "iac"
+      },
+      {
+        "name": "IAM & Cloud Security",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html",
+        "category": "security"
+      },
+      {
+        "name": "Serverless (Lambda/Functions)",
+        "required_level": 3.0,
+        "demand_level": "frequently mentioned",
+        "weight": 0.75,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://docs.aws.amazon.com/lambda/",
+        "category": "compute"
+      }
+    ]
+  },
+  {
+    "id": "data_analyst",
+    "title": "Data Analyst",
+    "category": "Data & Analytics",
+    "aliases": [
+      "analyst",
+      "business intelligence",
+      "bi analyst",
+      "product analyst",
+      "data reporting analyst"
+    ],
+    "description": "Uncovers business insights through statistical exploration, SQL transformations, cohort analysis, and interactive dashboard storytelling.",
+    "skills": [
+      {
+        "name": "SQL & Advanced Queries",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://mode.com/sql-tutorial/",
+        "category": "core"
+      },
+      {
+        "name": "Power BI / Tableau",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "SQL"
+        ],
+        "source_url": "https://learn.microsoft.com/en-us/power-bi/",
+        "category": "visualization"
+      },
+      {
+        "name": "Python (Pandas/NumPy)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://pandas.pydata.org/docs/",
+        "category": "analysis"
+      },
+      {
+        "name": "Excel & Business Modeling",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://support.microsoft.com/en-us/excel",
+        "category": "reporting"
+      },
+      {
+        "name": "Statistical Analysis & A/B Testing",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.khanacademy.org/math/statistics-probability",
+        "category": "statistics"
+      }
+    ]
+  },
+  {
+    "id": "data_scientist",
+    "title": "Data Scientist",
+    "category": "AI & Data Science",
+    "aliases": [
+      "ds",
+      "data scientist",
+      "applied scientist",
+      "decision scientist",
+      "statistical modeler"
+    ],
+    "description": "Builds predictive statistical models, designs experiments, conducts feature engineering, and translates ambiguous data into business value.",
+    "skills": [
+      {
+        "name": "Python for Data Science",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://docs.python.org/3/",
+        "category": "core"
+      },
+      {
+        "name": "Machine Learning (Scikit-Learn)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Python for Data Science"
+        ],
+        "source_url": "https://scikit-learn.org/stable/",
+        "category": "ml"
+      },
+      {
+        "name": "Applied Statistics & Probability",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.statlearning.com/",
+        "category": "theory"
+      },
+      {
+        "name": "SQL & Data Wrangling",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://mode.com/sql-tutorial/",
+        "category": "data"
+      },
+      {
+        "name": "A/B Testing & Causal Inference",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Applied Statistics & Probability"
+        ],
+        "source_url": "https://exp-platform.com/",
+        "category": "experimentation"
+      }
+    ]
+  },
+  {
+    "id": "ml_engineer",
+    "title": "Machine Learning Engineer",
+    "category": "AI & Data Science",
+    "aliases": [
+      "mle",
+      "machine learning engineer",
+      "ml engineer",
+      "applied ml engineer",
+      "deep learning engineer",
+      "ai engineer ml"
+    ],
+    "description": "Designs, trains, and operationalizes machine learning systems, optimizing loss functions, distributed training, and real-time inference latency.",
+    "skills": [
+      {
+        "name": "PyTorch / TensorFlow",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://pytorch.org/docs/stable/index.html",
+        "category": "deep_learning"
+      },
+      {
+        "name": "Python & Optimization",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://docs.python.org/3/",
+        "category": "core"
+      },
+      {
+        "name": "MLOps (MLflow / Kubeflow)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Docker"
+        ],
+        "source_url": "https://mlflow.org/docs/latest/index.html",
+        "category": "mlops"
+      },
+      {
+        "name": "Model Serving (Triton / FastAPI)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "PyTorch / TensorFlow"
+        ],
+        "source_url": "https://fastapi.tiangolo.com/",
+        "category": "serving"
+      },
+      {
+        "name": "Feature Stores & Data Pipelines",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "SQL"
+        ],
+        "source_url": "https://feast.dev/",
+        "category": "data"
+      }
+    ]
+  },
+  {
+    "id": "ai_genai_engineer",
+    "title": "AI/GenAI Engineer",
+    "category": "AI & Data Science",
+    "aliases": [
+      "genai",
+      "genai engineer",
+      "llm engineer",
+      "ai engineer",
+      "generative ai engineer",
+      "rag engineer",
+      "agentic ai engineer"
+    ],
+    "description": "Constructs generative AI applications, multi-agent frameworks, semantic vector retrieval (RAG), fine-tuning pipelines, and prompt optimization systems.",
+    "skills": [
+      {
+        "name": "LLM Orchestration (LangChain / LlamaIndex)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://python.langchain.com/docs/",
+        "category": "ai"
+      },
+      {
+        "name": "Vector Databases (Pinecone / Chroma / pgvector)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://docs.trychroma.com/",
+        "category": "rag"
+      },
+      {
+        "name": "RAG Architecture & Evaluation",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "LLM Orchestration (LangChain / LlamaIndex)"
+        ],
+        "source_url": "https://www.promptingguide.ai/techniques/rag",
+        "category": "rag"
+      },
+      {
+        "name": "Python & Async Programming",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://docs.python.org/3/library/asyncio.html",
+        "category": "core"
+      },
+      {
+        "name": "Fine-Tuning & Quantization (LoRA/QLoRA)",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://huggingface.co/docs/peft/index",
+        "category": "models"
+      }
+    ]
+  },
+  {
+    "id": "data_engineer",
+    "title": "Data Engineer",
+    "category": "Data & Analytics",
+    "aliases": [
+      "de",
+      "data engineer",
+      "etl engineer",
+      "big data engineer",
+      "spark developer",
+      "data platform engineer"
+    ],
+    "description": "Constructs scalable streaming and batch pipelines, data lakes, distributed transformations, and data warehousing schemas.",
+    "skills": [
+      {
+        "name": "Apache Spark / PySpark",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Python",
+          "SQL"
+        ],
+        "source_url": "https://spark.apache.org/docs/latest/",
+        "category": "distributed"
+      },
+      {
+        "name": "SQL & Data Warehousing (Snowflake/BigQuery)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://docs.snowflake.com/",
+        "category": "warehouse"
+      },
+      {
+        "name": "Data Orchestration (Airflow / Prefect)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://airflow.apache.org/docs/",
+        "category": "orchestration"
+      },
+      {
+        "name": "Streaming (Kafka / Flink)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://kafka.apache.org/documentation/",
+        "category": "streaming"
+      },
+      {
+        "name": "Data Modeling & dbt",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "SQL & Data Warehousing (Snowflake/BigQuery)"
+        ],
+        "source_url": "https://docs.getdbt.com/",
+        "category": "modeling"
+      }
+    ]
+  },
+  {
+    "id": "android_developer",
+    "title": "Android Developer",
+    "category": "Web & Mobile",
+    "aliases": [
+      "android",
+      "android engineer",
+      "kotlin developer",
+      "native android",
+      "mobile android developer"
+    ],
+    "description": "Builds responsive native Android applications utilizing Kotlin, Jetpack Compose, Coroutines, and modern clean architecture.",
+    "skills": [
+      {
+        "name": "Kotlin",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://kotlinlang.org/docs/home.html",
+        "category": "language"
+      },
+      {
+        "name": "Jetpack Compose",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Kotlin"
+        ],
+        "source_url": "https://developer.android.com/jetpack/compose",
+        "category": "ui"
+      },
+      {
+        "name": "Android Architecture (MVVM/MVI)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Kotlin"
+        ],
+        "source_url": "https://developer.android.com/topic/architecture",
+        "category": "architecture"
+      },
+      {
+        "name": "Coroutines & Flow",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Kotlin"
+        ],
+        "source_url": "https://kotlinlang.org/docs/coroutines-overview.html",
+        "category": "async"
+      },
+      {
+        "name": "Room Database & Networking (Retrofit)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Android Architecture (MVVM/MVI)"
+        ],
+        "source_url": "https://square.github.io/retrofit/",
+        "category": "data"
+      }
+    ]
+  },
+  {
+    "id": "ios_developer",
+    "title": "iOS Developer",
+    "category": "Web & Mobile",
+    "aliases": [
+      "ios",
+      "ios engineer",
+      "swift developer",
+      "apple developer",
+      "swiftui engineer",
+      "native ios"
+    ],
+    "description": "Creates sleek native iOS, iPadOS, and watchOS experiences leveraging Swift, SwiftUI, Combine, and Apple HIG best practices.",
+    "skills": [
+      {
+        "name": "Swift",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://docs.swift.org/swift-book/",
+        "category": "language"
+      },
+      {
+        "name": "SwiftUI",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Swift"
+        ],
+        "source_url": "https://developer.apple.com/documentation/swiftui",
+        "category": "ui"
+      },
+      {
+        "name": "iOS Architecture & Combine",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Swift"
+        ],
+        "source_url": "https://developer.apple.com/documentation/combine",
+        "category": "architecture"
+      },
+      {
+        "name": "CoreData / SwiftData",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Swift"
+        ],
+        "source_url": "https://developer.apple.com/documentation/swiftdata",
+        "category": "data"
+      },
+      {
+        "name": "App Store Deployment & CI",
+        "required_level": 3.0,
+        "demand_level": "frequently mentioned",
+        "weight": 0.75,
+        "est_hours_to_learn": 15,
+        "prerequisites": [],
+        "source_url": "https://developer.apple.com/app-store/",
+        "category": "tools"
+      }
+    ]
+  },
+  {
+    "id": "mobile_cross_platform",
+    "title": "Cross-Platform Mobile Developer",
+    "category": "Web & Mobile",
+    "aliases": [
+      "flutter",
+      "react native",
+      "cross platform mobile",
+      "hybrid app developer",
+      "mobile engineer",
+      "mobile developer"
+    ],
+    "description": "Develops performant cross-platform mobile apps for iOS and Android using Flutter/Dart or React Native with native bridge integrations.",
+    "skills": [
+      {
+        "name": "Flutter & Dart",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://docs.flutter.dev/",
+        "category": "core"
+      },
+      {
+        "name": "React Native",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://reactnative.dev/docs/getting-started",
+        "category": "core"
+      },
+      {
+        "name": "Mobile State Management (Bloc/Riverpod/Redux)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://bloclibrary.dev/",
+        "category": "state"
+      },
+      {
+        "name": "Mobile Offline Storage & SQLite",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://docs.flutter.dev/cookbook/persistence/sqlite",
+        "category": "data"
+      },
+      {
+        "name": "App Performance & Bridging",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.75,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://reactnative.dev/docs/performance",
+        "category": "optimization"
+      }
+    ]
+  },
+  {
+    "id": "game_developer",
+    "title": "Game Developer",
+    "category": "Games & Graphics",
+    "aliases": [
+      "game dev",
+      "game programmer",
+      "unity developer",
+      "unreal developer",
+      "gameplay engineer",
+      "3d graphics engineer"
+    ],
+    "description": "Programs immersive gameplay mechanics, real-time rendering pipelines, physics simulations, and multiplayer networking in Unity or Unreal Engine.",
+    "skills": [
+      {
+        "name": "C++ / C#",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [],
+        "source_url": "https://en.cppreference.com/w/",
+        "category": "language"
+      },
+      {
+        "name": "Unity or Unreal Engine 5",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "C++ / C#"
+        ],
+        "source_url": "https://docs.unrealengine.com/5.0/en-US/",
+        "category": "engine"
+      },
+      {
+        "name": "3D Linear Algebra & Physics",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://www.scratchapixel.com/",
+        "category": "math"
+      },
+      {
+        "name": "Shaders & Computer Graphics (HLSL/GLSL)",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "3D Linear Algebra & Physics"
+        ],
+        "source_url": "https://thebookofshaders.com/",
+        "category": "graphics"
+      },
+      {
+        "name": "Game Architecture & ECS",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://gameprogrammingpatterns.com/",
+        "category": "architecture"
+      }
+    ]
+  },
+  {
+    "id": "cybersecurity_analyst",
+    "title": "Cybersecurity Analyst",
+    "category": "Security & Networks",
+    "aliases": [
+      "security",
+      "cyber security",
+      "soc analyst",
+      "security engineer",
+      "infosec analyst",
+      "penetration tester"
+    ],
+    "description": "Protects organizational assets by monitoring intrusion telemetry, performing vulnerability assessments, SIEM triage, and incident response.",
+    "skills": [
+      {
+        "name": "Network Security & Protocols (TCP/IP, TLS)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.wireshark.org/docs/",
+        "category": "networking"
+      },
+      {
+        "name": "SIEM & Log Analysis (Splunk/ELK)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://docs.splunk.com/",
+        "category": "operations"
+      },
+      {
+        "name": "Linux Security & Hardening",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://linuxjourney.com/",
+        "category": "os"
+      },
+      {
+        "name": "Web Vulnerabilities (OWASP Top 10)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://owasp.org/www-project-top-ten/",
+        "category": "appsec"
+      },
+      {
+        "name": "Cryptography Fundamentals",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.cryptopals.com/",
+        "category": "crypto"
+      }
+    ]
+  },
+  {
+    "id": "qa_sdet",
+    "title": "QA / SDET",
+    "category": "Software Engineering",
+    "aliases": [
+      "sdet",
+      "qa",
+      "qa engineer",
+      "software development engineer in test",
+      "automation tester",
+      "test engineer"
+    ],
+    "description": "Engineers automated test suites, end-to-end browser workflows, load testing harnesses, and quality governance pipelines.",
+    "skills": [
+      {
+        "name": "Test Automation (Playwright / Cypress)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://playwright.dev/docs/intro",
+        "category": "automation"
+      },
+      {
+        "name": "Python or Java for Testing",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://docs.pytest.org/en/stable/",
+        "category": "core"
+      },
+      {
+        "name": "API Testing (Postman / REST Assured)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://learning.postman.com/docs/",
+        "category": "api"
+      },
+      {
+        "name": "Performance Testing (JMeter / k6)",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://k6.io/docs/",
+        "category": "performance"
+      },
+      {
+        "name": "CI/CD Test Integration",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://docs.github.com/en/actions",
+        "category": "ci"
+      }
+    ]
+  },
+  {
+    "id": "embedded_iot_engineer",
+    "title": "Embedded & IoT Engineer",
+    "category": "Hardware & Systems",
+    "aliases": [
+      "embedded",
+      "iot",
+      "firmware engineer",
+      "embedded systems engineer",
+      "microcontroller developer",
+      "hardware engineer"
+    ],
+    "description": "Programs bare-metal and RTOS microcontrollers (ARM, ESP32, STM32) interfacing with sensors, actuators, and communication buses.",
+    "skills": [
+      {
+        "name": "Embedded C / C++",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [],
+        "source_url": "https://en.cppreference.com/w/",
+        "category": "language"
+      },
+      {
+        "name": "Microcontrollers & Hardware Peripherals (GPIO, I2C, SPI, UART)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Embedded C / C++"
+        ],
+        "source_url": "https://www.espressif.com/en/products/socs/esp32",
+        "category": "hardware"
+      },
+      {
+        "name": "FreeRTOS & Concurrency",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Embedded C / C++"
+        ],
+        "source_url": "https://www.freertos.org/Documentation/RTOS_book.html",
+        "category": "os"
+      },
+      {
+        "name": "IoT Protocols (MQTT, CoAP)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://mqtt.org/documentation/",
+        "category": "protocols"
+      },
+      {
+        "name": "Circuit Analysis & Debugging (Oscilloscope/Logic Analyzer)",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://learn.sparkfun.com/",
+        "category": "tools"
+      }
+    ]
+  },
+  {
+    "id": "blockchain_developer",
+    "title": "Blockchain Developer",
+    "category": "Emerging Tech",
+    "aliases": [
+      "web3",
+      "blockchain",
+      "smart contract developer",
+      "solidity engineer",
+      "crypto developer",
+      "ethereum developer"
+    ],
+    "description": "Codes decentralized applications, smart contract protocols, zero-knowledge proofs, and secure token economics on EVM-compatible chains.",
+    "skills": [
+      {
+        "name": "Solidity",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://docs.soliditylang.org/",
+        "category": "smart_contracts"
+      },
+      {
+        "name": "EVM Internals & Gas Optimization",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Solidity"
+        ],
+        "source_url": "https://ethereum.org/en/developers/docs/evm/",
+        "category": "theory"
+      },
+      {
+        "name": "Foundry / Hardhat Testing",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Solidity"
+        ],
+        "source_url": "https://book.getfoundry.sh/",
+        "category": "tools"
+      },
+      {
+        "name": "Web3.js / Ethers.js",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 20,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://docs.ethers.org/v6/",
+        "category": "client"
+      },
+      {
+        "name": "Smart Contract Security & Auditing",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Solidity"
+        ],
+        "source_url": "https://consensys.github.io/smart-contract-best-practices/",
+        "category": "security"
+      }
+    ]
+  },
+  {
+    "id": "product_manager_tech",
+    "title": "Technical Product Manager",
+    "category": "Product & Design",
+    "aliases": [
+      "pm",
+      "product manager",
+      "tpm",
+      "technical product manager",
+      "associate product manager",
+      "apm"
+    ],
+    "description": "Defines product vision, writes detailed PRDs, aligns cross-functional engineering teams, analyzes telemetry metrics, and guides sprint execution.",
+    "skills": [
+      {
+        "name": "Product Strategy & PRD Writing",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.productplan.com/learn/",
+        "category": "strategy"
+      },
+      {
+        "name": "Data Analytics & SQL for PMs",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://mode.com/sql-tutorial/",
+        "category": "analytics"
+      },
+      {
+        "name": "Agile & Scrum Methodologies",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://www.scrumguides.org/",
+        "category": "execution"
+      },
+      {
+        "name": "System Architecture Literacy",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://github.com/donnemartin/system-design-primer",
+        "category": "tech"
+      },
+      {
+        "name": "User Research & Prototyping",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://www.nngroup.com/articles/",
+        "category": "discovery"
+      }
+    ]
+  },
+  {
+    "id": "ui_ux_designer",
+    "title": "UI/UX Designer",
+    "category": "Product & Design",
+    "aliases": [
+      "designer",
+      "ui designer",
+      "ux designer",
+      "product designer",
+      "interaction designer",
+      "design system lead"
+    ],
+    "description": "Architects design systems, high-fidelity interactive Figma components, user journey flows, and conducts accessibility audits.",
+    "skills": [
+      {
+        "name": "Figma Mastery & Auto-Layout",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://help.figma.com/",
+        "category": "tools"
+      },
+      {
+        "name": "Design Systems & Token Architecture",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Figma Mastery & Auto-Layout"
+        ],
+        "source_url": "https://designsystemsrepo.com/",
+        "category": "systems"
+      },
+      {
+        "name": "UX Research & Wireframing",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.nngroup.com/",
+        "category": "research"
+      },
+      {
+        "name": "Web Accessibility (WCAG AA/AAA)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://www.w3.org/WAI/standards-guidelines/wcag/",
+        "category": "standards"
+      },
+      {
+        "name": "Micro-Animations & Prototyping",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 20,
+        "prerequisites": [
+          "Figma Mastery & Auto-Layout"
+        ],
+        "source_url": "https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma",
+        "category": "interaction"
+      }
+    ]
+  },
+  {
+    "id": "solutions_engineer",
+    "title": "Solutions Engineer",
+    "category": "Enterprise & Support",
+    "aliases": [
+      "solutions architect",
+      "sales engineer",
+      "technical solutions engineer",
+      "presales engineer",
+      "technical account manager"
+    ],
+    "description": "Bridges enterprise customer business requirements with technical product capabilities through POCs, API integrations, and cloud architectures.",
+    "skills": [
+      {
+        "name": "API Integrations & Webhooks",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://restfulapi.net/",
+        "category": "integration"
+      },
+      {
+        "name": "Cloud Infrastructure Basics (AWS/Azure)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://aws.amazon.com/training/",
+        "category": "cloud"
+      },
+      {
+        "name": "Python/JavaScript Scripting",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://docs.python.org/3/",
+        "category": "code"
+      },
+      {
+        "name": "Technical Presentations & Demo Architecture",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://www.commandofthemessage.com/",
+        "category": "communication"
+      },
+      {
+        "name": "Enterprise Security & SSO (OAuth, SAML)",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://auth0.com/docs/",
+        "category": "security"
+      }
+    ]
+  },
+  {
+    "id": "database_administrator",
+    "title": "Database Administrator",
+    "category": "Data & Infrastructure",
+    "aliases": [
+      "dba",
+      "database engineer",
+      "postgres dba",
+      "mysql dba",
+      "database reliability engineer"
+    ],
+    "description": "Guarantees database throughput, index tuning, write replication, disaster recovery, read-replica scaling, and high-concurrency vacuuming.",
+    "skills": [
+      {
+        "name": "Advanced PostgreSQL & Query Optimization",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "SQL"
+        ],
+        "source_url": "https://www.postgresql.org/docs/current/performance-tips.html",
+        "category": "database"
+      },
+      {
+        "name": "High Availability, Replication & Backups",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.postgresql.org/docs/current/high-availability.html",
+        "category": "ha"
+      },
+      {
+        "name": "Linux OS & Disk I/O Tuning",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://linuxjourney.com/",
+        "category": "os"
+      },
+      {
+        "name": "Database Security & Access Auditing",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.postgresql.org/docs/current/user-manag.html",
+        "category": "security"
+      },
+      {
+        "name": "Connection Pooling (PgBouncer)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 15,
+        "prerequisites": [],
+        "source_url": "https://www.pgbouncer.org/",
+        "category": "scaling"
+      }
+    ]
+  },
+  {
+    "id": "computer_vision_engineer",
+    "title": "Computer Vision Engineer",
+    "category": "AI & Data Science",
+    "aliases": [
+      "cv",
+      "computer vision",
+      "cv engineer",
+      "vision ai engineer",
+      "image processing engineer",
+      "object detection engineer"
+    ],
+    "description": "Constructs spatial image segmentation, object detection, edge inference, and generative diffusion models using OpenCV, PyTorch, and CUDA.",
+    "skills": [
+      {
+        "name": "OpenCV & Image Processing",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://docs.opencv.org/",
+        "category": "vision"
+      },
+      {
+        "name": "PyTorch & CNN / Vision Transformers",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://pytorch.org/vision/stable/index.html",
+        "category": "models"
+      },
+      {
+        "name": "Object Detection (YOLO / Detectron2)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "PyTorch & CNN / Vision Transformers"
+        ],
+        "source_url": "https://docs.ultralytics.com/",
+        "category": "detection"
+      },
+      {
+        "name": "Edge Deployment (TensorRT / ONNX)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://developer.nvidia.com/tensorrt",
+        "category": "optimization"
+      },
+      {
+        "name": "Linear Algebra & Camera Geometry",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://szeliski.org/Book/",
+        "category": "math"
+      }
+    ]
+  },
+  {
+    "id": "robotics_engineer",
+    "title": "Robotics Engineer",
+    "category": "Hardware & Systems",
+    "aliases": [
+      "robotics",
+      "ros developer",
+      "autonomous systems engineer",
+      "motion planning engineer",
+      "slam engineer"
+    ],
+    "description": "Engineers autonomous robotics stacks incorporating ROS 2, SLAM navigation, kinematics, sensor fusion, and control systems.",
+    "skills": [
+      {
+        "name": "ROS 2 (Robot Operating System)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "C++",
+          "Linux"
+        ],
+        "source_url": "https://docs.ros.org/en/humble/",
+        "category": "robotics"
+      },
+      {
+        "name": "C++ & Real-time Systems",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [],
+        "source_url": "https://en.cppreference.com/w/",
+        "category": "language"
+      },
+      {
+        "name": "SLAM & Sensor Fusion (LiDAR, IMU, Kalman Filter)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "ROS 2 (Robot Operating System)"
+        ],
+        "source_url": "https://navigation.ros.org/",
+        "category": "navigation"
+      },
+      {
+        "name": "Control Theory & Kinematics",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://modernrobotics.northwestern.edu/",
+        "category": "physics"
+      },
+      {
+        "name": "Simulation (Gazebo / Isaac Sim)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "ROS 2 (Robot Operating System)"
+        ],
+        "source_url": "https://gazebosim.org/docs",
+        "category": "simulation"
+      }
+    ]
+  },
+  {
+    "id": "systems_networking_engineer",
+    "title": "Systems & Networking Engineer",
+    "category": "Security & Networks",
+    "aliases": [
+      "network engineer",
+      "systems engineer",
+      "network architect",
+      "datacenter network engineer",
+      "infrastructure networking"
+    ],
+    "description": "Designs low-latency datacenter topologies, BGP/OSPF routing fabrics, SDN controllers, load balancers, and packet inspection pipelines.",
+    "skills": [
+      {
+        "name": "TCP/IP & Routing Protocols (BGP, OSPF)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [],
+        "source_url": "https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/26634-bgp-toc.html",
+        "category": "networking"
+      },
+      {
+        "name": "Linux Network Stack & eBPF",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://ebpf.io/",
+        "category": "kernel"
+      },
+      {
+        "name": "Network Automation (Ansible / Python Netmiko)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://docs.ansible.com/ansible/latest/network/index.html",
+        "category": "automation"
+      },
+      {
+        "name": "Load Balancing & Reverse Proxies (NGINX/HAProxy)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://www.haproxy.org/",
+        "category": "infrastructure"
+      },
+      {
+        "name": "Packet Analysis (Wireshark/tcpdump)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "TCP/IP & Routing Protocols (BGP, OSPF)"
+        ],
+        "source_url": "https://www.wireshark.org/docs/",
+        "category": "diagnostics"
+      }
+    ]
+  }
+]

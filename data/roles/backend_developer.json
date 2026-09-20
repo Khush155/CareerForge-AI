@@ -1,0 +1,130 @@
+{
+  "id": "backend_developer",
+  "title": "Backend Developer",
+  "category": "Backend & Cloud",
+  "aliases": [
+    "backend",
+    "backend engineer",
+    "server-side developer",
+    "api engineer",
+    "python backend",
+    "node backend",
+    "go backend",
+    "java backend",
+    "swe backend"
+  ],
+  "description": "Designs, builds, and scales server-side systems, RESTful and GraphQL APIs, microservices, and database layers.",
+  "skills": [
+    {
+      "name": "Python",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": [],
+      "source_url": "https://docs.python.org/3/",
+      "category": "core"
+    },
+    {
+      "name": "FastAPI",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 25,
+      "prerequisites": [
+        "Python"
+      ],
+      "source_url": "https://fastapi.tiangolo.com/",
+      "category": "core"
+    },
+    {
+      "name": "PostgreSQL",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 35,
+      "prerequisites": [
+        "SQL"
+      ],
+      "source_url": "https://www.postgresql.org/docs/",
+      "category": "database"
+    },
+    {
+      "name": "SQL",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 30,
+      "prerequisites": [],
+      "source_url": "https://mode.com/sql-tutorial/",
+      "category": "database"
+    },
+    {
+      "name": "Docker",
+      "required_level": 3.0,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 20,
+      "prerequisites": [
+        "Linux"
+      ],
+      "source_url": "https://docs.docker.com/get-started/",
+      "category": "infrastructure"
+    },
+    {
+      "name": "Redis",
+      "required_level": 3.0,
+      "demand_level": "frequently mentioned",
+      "weight": 0.7,
+      "est_hours_to_learn": 15,
+      "prerequisites": [],
+      "source_url": "https://redis.io/docs/",
+      "category": "database"
+    },
+    {
+      "name": "Git",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.8,
+      "est_hours_to_learn": 15,
+      "prerequisites": [],
+      "source_url": "https://git-scm.com/doc",
+      "category": "tools"
+    },
+    {
+      "name": "REST APIs",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 20,
+      "prerequisites": [
+        "HTTP Basics"
+      ],
+      "source_url": "https://restfulapi.net/",
+      "category": "core"
+    },
+    {
+      "name": "System Design",
+      "required_level": 3.0,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 35,
+      "prerequisites": [
+        "PostgreSQL",
+        "REST APIs"
+      ],
+      "source_url": "https://github.com/donnemartin/system-design-primer",
+      "category": "architecture"
+    },
+    {
+      "name": "Linux",
+      "required_level": 3.0,
+      "demand_level": "frequently mentioned",
+      "weight": 0.7,
+      "est_hours_to_learn": 20,
+      "prerequisites": [],
+      "source_url": "https://linuxjourney.com/",
+      "category": "fundamentals"
+    }
+  ]
+}

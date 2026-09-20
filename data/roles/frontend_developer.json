@@ -1,0 +1,120 @@
+{
+  "id": "frontend_developer",
+  "title": "Frontend Developer",
+  "category": "Web & Mobile",
+  "aliases": [
+    "frontend",
+    "frontend engineer",
+    "ui engineer",
+    "react developer",
+    "web developer",
+    "client engineer",
+    "client-side developer"
+  ],
+  "description": "Crafts responsive, accessible, high-performance web applications using modern component libraries, state management, and web standards.",
+  "skills": [
+    {
+      "name": "JavaScript",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": [],
+      "source_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+      "category": "core"
+    },
+    {
+      "name": "TypeScript",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 30,
+      "prerequisites": [
+        "JavaScript"
+      ],
+      "source_url": "https://www.typescriptlang.org/docs/",
+      "category": "core"
+    },
+    {
+      "name": "React",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 35,
+      "prerequisites": [
+        "JavaScript"
+      ],
+      "source_url": "https://react.dev/",
+      "category": "core"
+    },
+    {
+      "name": "HTML/CSS",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://developer.mozilla.org/en-US/docs/Learn/CSS",
+      "category": "fundamentals"
+    },
+    {
+      "name": "Next.js",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 25,
+      "prerequisites": [
+        "React"
+      ],
+      "source_url": "https://nextjs.org/docs",
+      "category": "core"
+    },
+    {
+      "name": "Tailwind CSS",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.75,
+      "est_hours_to_learn": 15,
+      "prerequisites": [
+        "HTML/CSS"
+      ],
+      "source_url": "https://tailwindcss.com/docs",
+      "category": "ui"
+    },
+    {
+      "name": "Web Performance",
+      "required_level": 3.0,
+      "demand_level": "frequently mentioned",
+      "weight": 0.7,
+      "est_hours_to_learn": 20,
+      "prerequisites": [
+        "HTML/CSS",
+        "JavaScript"
+      ],
+      "source_url": "https://web.dev/performance/",
+      "category": "optimization"
+    },
+    {
+      "name": "Git",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.8,
+      "est_hours_to_learn": 15,
+      "prerequisites": [],
+      "source_url": "https://git-scm.com/doc",
+      "category": "tools"
+    },
+    {
+      "name": "Testing (Vitest/Jest)",
+      "required_level": 3.0,
+      "demand_level": "frequently mentioned",
+      "weight": 0.7,
+      "est_hours_to_learn": 20,
+      "prerequisites": [
+        "TypeScript"
+      ],
+      "source_url": "https://vitest.dev/",
+      "category": "testing"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "mobile_cross_platform",
+  "title": "Cross-Platform Mobile Developer",
+  "category": "Web & Mobile",
+  "aliases": [
+    "flutter",
+    "react native",
+    "cross platform mobile",
+    "hybrid app developer",
+    "mobile engineer",
+    "mobile developer"
+  ],
+  "description": "Develops performant cross-platform mobile apps for iOS and Android using Flutter/Dart or React Native with native bridge integrations.",
+  "skills": [
+    {
+      "name": "Flutter & Dart",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": [],
+      "source_url": "https://docs.flutter.dev/",
+      "category": "core"
+    },
+    {
+      "name": "React Native",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": [
+        "JavaScript"
+      ],
+      "source_url": "https://reactnative.dev/docs/getting-started",
+      "category": "core"
+    },
+    {
+      "name": "Mobile State Management (Bloc/Riverpod/Redux)",
+      "required_level": 3.5,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://bloclibrary.dev/",
+      "category": "state"
+    },
+    {
+      "name": "Mobile Offline Storage & SQLite",
+      "required_level": 3.0,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 20,
+      "prerequisites": [],
+      "source_url": "https://docs.flutter.dev/cookbook/persistence/sqlite",
+      "category": "data"
+    },
+    {
+      "name": "App Performance & Bridging",
+      "required_level": 3.0,
+      "demand_level": "high-priority",
+      "weight": 0.75,
+      "est_hours_to_learn": 20,
+      "prerequisites": [],
+      "source_url": "https://reactnative.dev/docs/performance",
+      "category": "optimization"
+    }
+  ]
+}

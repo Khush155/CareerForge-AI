@@ -3,7 +3,9 @@ import { GapTrack } from '../../components/domain/GapTrack';
 import { HeroOrbitalCore } from '../../components/3d/HeroOrbitalCore';
 import { Card3DTilt } from '../../components/3d/Card3DTilt';
 import { useAppStore } from '../../lib/store';
+import { getCartoonAvatarUrl } from '../../lib/avatar';
 import type { StudentProfile } from '../../lib/schemas';
+import { toast } from 'sonner';
 import {
   Sparkles,
   Cpu,
@@ -117,16 +119,24 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
   isGenerating,
   stageName,
 }) => {
-  const { skills, setSkills, updateSkillProficiency, addSkill, removeSkill, marketRequirements } = useAppStore();
+  const {
+    skills,
+    updateSkillProficiency,
+    addSkill,
+    removeSkill,
+    marketRequirements,
+    avatar,
+    randomizeAvatar,
+  } = useAppStore();
 
-  const [name, setName] = useState('Aarav Sharma');
-  const [degree, setDegree] = useState('B.Tech');
-  const [branch, setBranch] = useState('Computer Science');
-  const [year, setYear] = useState(3);
-  const [targetRole, setTargetRole] = useState('Backend Engineer');
+  const [name, setName] = useState('');
+  const [degree, setDegree] = useState('');
+  const [branch, setBranch] = useState('');
+  const [year, setYear] = useState(1);
+  const [targetRole, setTargetRole] = useState('');
   const [weeklyHours, setWeeklyHours] = useState(20);
   const [newSkillText, setNewSkillText] = useState('');
-  const [selectedRoleCard, setSelectedRoleCard] = useState<string>('backend');
+  const [selectedRoleCard, setSelectedRoleCard] = useState<string>('');
 
   // Hero miniature demo track animation
   const [miniValue, setMiniValue] = useState(1.5);
@@ -138,11 +148,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
   const handleSelectRole = (role: CareerRoleCard) => {
     setSelectedRoleCard(role.id);
     setTargetRole(role.title);
-    setDegree(role.degree);
-    setBranch(role.branch);
-    setYear(role.year);
-    setWeeklyHours(role.weeklyHours);
-    setSkills(role.skills);
+    // User requested: selecting a role does NOT overwrite degree, branch, year, weekly hours, or inject skills!
   };
 
   const handleAddSkill = () => {
@@ -154,14 +160,36 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name.trim()) {
+      toast.error('Please enter your full name before advancing.');
+      return;
+    }
+    if (!targetRole.trim()) {
+      toast.error('Please enter or select a target career role.');
+      return;
+    }
+    if (!degree.trim()) {
+      toast.error('Please select your degree.');
+      return;
+    }
+    if (!branch.trim()) {
+      toast.error('Please enter your branch/discipline.');
+      return;
+    }
+    if (skills.length === 0) {
+      toast.error('Please add and calibrate at least one skill before building your roadmap.');
+      return;
+    }
+
     onSubmit({
-      name,
-      degree,
-      branch,
+      name: name.trim(),
+      degree: degree.trim(),
+      branch: branch.trim(),
       year,
-      target_role: targetRole,
+      target_role: targetRole.trim(),
       available_hours_per_week: weeklyHours,
       skills,
+      avatar,
     });
   };
 
@@ -292,18 +320,38 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                   </span>
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="input-name" className="text-xs font-mono font-medium text-[var(--text-secondary)]">
-                    Student Full Name
-                  </label>
-                  <input
-                    id="input-name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="h-10 bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-xl px-3 text-sm text-[var(--text-primary)] focus:border-[var(--neon-cyan)] outline-none transition-colors"
-                    required
-                  />
+                <div className="flex items-center gap-3">
+                  <div className="relative group shrink-0" title="Custom Cartoon Profile Avatar (Click 🎲 to shuffle)">
+                    <div className="w-12 h-12 rounded-2xl bg-[var(--bg-sunken)] border border-[var(--neon-cyan)]/40 overflow-hidden shadow-md flex items-center justify-center p-0.5">
+                      <img
+                        src={getCartoonAvatarUrl(avatar, 'bottts')}
+                        alt="Cartoon Profile Avatar"
+                        className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={randomizeAvatar}
+                      title="Shuffle cartoon avatar"
+                      className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[var(--accent)] text-white flex items-center justify-center text-[10px] shadow-sm hover:scale-110 transition-transform cursor-pointer border border-[var(--border-default)]"
+                    >
+                      🎲
+                    </button>
+                  </div>
+                  <div className="flex flex-col gap-1.5 flex-1">
+                    <label htmlFor="input-name" className="text-xs font-mono font-medium text-[var(--text-secondary)]">
+                      Student Full Name
+                    </label>
+                    <input
+                      id="input-name"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="e.g. Alex Rivera"
+                      className="h-10 bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-xl px-3 text-sm text-[var(--text-primary)] focus:border-[var(--neon-cyan)] outline-none transition-colors"
+                      required
+                    />
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
@@ -317,6 +365,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                       onChange={(e) => setDegree(e.target.value)}
                       className="h-10 bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-xl px-3 text-sm text-[var(--text-primary)] focus:border-[var(--neon-cyan)] outline-none transition-colors cursor-pointer"
                     >
+                      <option value="">Select Degree...</option>
                       <option value="B.Tech">B.Tech</option>
                       <option value="B.E.">B.E.</option>
                       <option value="BCA">BCA</option>
@@ -352,6 +401,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                     type="text"
                     value={branch}
                     onChange={(e) => setBranch(e.target.value)}
+                    placeholder="e.g. Computer Science"
                     className="h-10 bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-xl px-3 text-sm text-[var(--text-primary)] focus:border-[var(--neon-cyan)] outline-none transition-colors"
                     required
                   />
@@ -376,6 +426,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                     type="text"
                     value={targetRole}
                     onChange={(e) => setTargetRole(e.target.value)}
+                    placeholder="e.g. Backend Engineer or Full Stack"
                     className="h-10 bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-xl px-3 text-sm text-[var(--text-primary)] focus:border-[var(--neon-cyan)] outline-none transition-colors"
                     required
                   />
@@ -436,7 +487,17 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
 
               {/* Skills List with Steppers */}
               <div className="flex flex-col gap-3">
-                {skills.map((skill, idx) => {
+                {skills.length === 0 ? (
+                  <div className="p-5 rounded-2xl border border-dashed border-[var(--border-default)] bg-[var(--bg-sunken)]/30 text-center space-y-1">
+                    <p className="text-xs font-medium text-[var(--text-primary)]">
+                      No skills added yet
+                    </p>
+                    <p className="text-[11px] text-[var(--text-muted)] font-mono">
+                      Type a skill above or click quick tags below to calibrate your baseline.
+                    </p>
+                  </div>
+                ) : (
+                  skills.map((skill, idx) => {
                   const reqItem = marketRequirements.find(
                     (m) => m.skill.toLowerCase() === skill.name.toLowerCase()
                   );
@@ -505,7 +566,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                       </button>
                     </div>
                   );
-                })}
+                }))}
               </div>
 
               {/* Popular Skill Catalog Suggestions */}

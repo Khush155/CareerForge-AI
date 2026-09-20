@@ -91,7 +91,7 @@ def test_market_search_fallback_unknown_role(tmp_path):
     reqs = engine.search_market("Quantum Robotics Architect")
     assert len(reqs) > 0
     assert all(isinstance(r, MarketRequirement) for r in reqs)
-    assert any(r.skill == "Python" for r in reqs)
+    assert any("Robot" in r.skill or "C++" in r.skill for r in reqs)
 
 
 def test_market_search_corrupted_cache_recovery(tmp_path):

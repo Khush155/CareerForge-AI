@@ -1,0 +1,72 @@
+{
+  "id": "computer_vision_engineer",
+  "title": "Computer Vision Engineer",
+  "category": "AI & Data Science",
+  "aliases": [
+    "cv",
+    "computer vision",
+    "cv engineer",
+    "vision ai engineer",
+    "image processing engineer",
+    "object detection engineer"
+  ],
+  "description": "Constructs spatial image segmentation, object detection, edge inference, and generative diffusion models using OpenCV, PyTorch, and CUDA.",
+  "skills": [
+    {
+      "name": "OpenCV & Image Processing",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": [
+        "Python"
+      ],
+      "source_url": "https://docs.opencv.org/",
+      "category": "vision"
+    },
+    {
+      "name": "PyTorch & CNN / Vision Transformers",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": [
+        "Python"
+      ],
+      "source_url": "https://pytorch.org/vision/stable/index.html",
+      "category": "models"
+    },
+    {
+      "name": "Object Detection (YOLO / Detectron2)",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 30,
+      "prerequisites": [
+        "PyTorch & CNN / Vision Transformers"
+      ],
+      "source_url": "https://docs.ultralytics.com/",
+      "category": "detection"
+    },
+    {
+      "name": "Edge Deployment (TensorRT / ONNX)",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://developer.nvidia.com/tensorrt",
+      "category": "optimization"
+    },
+    {
+      "name": "Linear Algebra & Camera Geometry",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://szeliski.org/Book/",
+      "category": "math"
+    }
+  ]
+}

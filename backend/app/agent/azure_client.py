@@ -9,6 +9,7 @@ Adheres strictly to the architectural constraint:
 import json
 import logging
 import os
+import re
 
 import httpx
 from dotenv import load_dotenv
@@ -108,14 +109,20 @@ class AzureOpenAIClient:
             ])
             if response:
                 try:
-                    # Clean markdown fence if present
                     clean = response.strip()
-                    if clean.startswith("```"):
-                        clean = clean.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+                    # Extract JSON array from markdown code block or raw brackets
+                    match = re.search(r"```(?:json)?\s*(\[[\s\S]*?\])\s*```", clean)
+                    if match:
+                        clean = match.group(1).strip()
+                    else:
+                        bracket_match = re.search(r"(\[[\s\S]*\])", clean)
+                        if bracket_match:
+                            clean = bracket_match.group(1).strip()
+
                     parsed = json.loads(clean)
                     if isinstance(parsed, list) and all(isinstance(item, str) for item in parsed):
                         return parsed
-                except json.JSONDecodeError:
+                except (json.JSONDecodeError, AttributeError):
                     pass
 
         # Deterministic fallback

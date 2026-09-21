@@ -269,7 +269,7 @@ export const ProgressAnalytics: React.FC = () => {
               </h3>
             </div>
             <p className="text-xs text-[var(--text-muted)] mt-1">
-              Live checklist synchronized with SQLite storage. Click items to update completion status.
+              Live checklist synchronized with your active profile. Click items to update completion status.
             </p>
           </div>
 

@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { SkillGap } from '../../lib/schemas';
-import { formatLevel } from '../../lib/format';
+import { formatLevel, formatKnowledgeSource } from '../../lib/format';
 import {
   BookOpen,
   ExternalLink,
   X,
-  Terminal,
   ShieldCheck,
   TrendingUp,
   DollarSign,
@@ -549,11 +548,11 @@ export const EvidenceDrawer: React.FC<EvidenceDrawerProps> = ({
         {/* Source Citation Pill */}
         <div className="bg-[var(--bg-elev-2)] border border-[var(--border)] rounded-xl px-3.5 py-2.5 text-xs font-mono flex items-center justify-between">
           <div className="flex items-center gap-2 truncate text-[var(--text-muted)]">
-            <Terminal className="w-3.5 h-3.5 text-[var(--accent-purple)] shrink-0" />
-            <span className="truncate">{guide.sourceFile}</span>
+            <BookOpen className="w-3.5 h-3.5 text-[var(--accent-purple)] shrink-0" />
+            <span className="truncate">{formatKnowledgeSource(guide.sourceFile)}</span>
           </div>
           <span className="text-[var(--accent-mint)] font-semibold shrink-0">
-            {guide.similarity}
+            Verified Curriculum Benchmark
           </span>
         </div>
 

@@ -624,7 +624,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
           resources: [
             {
               title: 'SQL Relational DB Prep Guide',
-              url_or_ref: 'sql_relational_db_prep.md',
+              url_or_ref: 'Curated SQL Relational Database Guide',
               resource_type: 'guide',
             },
           ],
@@ -639,7 +639,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
           resources: [
             {
               title: 'Docker & Cloud DevOps Prep Guide',
-              url_or_ref: 'cloud_devops_docker_prep.md',
+              url_or_ref: 'Curated Docker & Cloud DevOps Guide',
               resource_type: 'guide',
             },
           ],

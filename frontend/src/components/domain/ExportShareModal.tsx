@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAppStore } from '../../lib/store';
-import { formatLevel } from '../../lib/format';
+import { formatLevel, formatResourceRef } from '../../lib/format';
 import {
   X,
   FileText,
@@ -79,7 +79,7 @@ ${roadmap.phases
 ${(phase.learning_objectives || []).map((m) => `  - [ ] ${m}`).join('\n')}
 
 #### Recommended Guides & Resources:
-${(phase.resources || []).map((r) => `  - [${r.title}](${r.url_or_ref}) (${r.resource_type})`).join('\n')}
+${(phase.resources || []).map((r) => `  - [${r.title}](${r.url_or_ref.startsWith('http') ? r.url_or_ref : '#'}) (${formatResourceRef(r.url_or_ref)})`).join('\n')}
 `
   )
   .join('\n')}

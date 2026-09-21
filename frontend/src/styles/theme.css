@@ -5,6 +5,7 @@
 
 @theme inline {
   --font-sans: var(--font-body);
+  --font-body: var(--font-body);
   --font-display: var(--font-display);
   --font-mono: var(--font-mono);
 
@@ -41,7 +42,7 @@
    Global Typography Base Rules (Guarantees font rendering everywhere)
    ========================================================================== */
 
-html {
+html, body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -57,9 +58,26 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-/* Crucial: ensures inputs and buttons inherit the font instead of browser system defaults */
-button, input, select, textarea {
-  font: inherit;
+/* Explicit font utility classes ensuring zero fallback to browser default */
+.font-body {
+  font-family: var(--font-body) !important;
+}
+
+.font-sans {
+  font-family: var(--font-body) !important;
+}
+
+.font-display {
+  font-family: var(--font-display) !important;
+}
+
+.font-mono {
+  font-family: var(--font-mono) !important;
+}
+
+/* Crucial: ensures inputs, options and buttons inherit the font instead of browser system defaults */
+button, input, select, textarea, optgroup, option {
+  font-family: inherit;
   color: inherit;
 }
 

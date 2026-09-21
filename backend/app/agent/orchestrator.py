@@ -120,7 +120,12 @@ class CareerForgeAgent:
         current_level = 0.0
         norm_target_skill = assessment_input.skill.strip().lower()
         for s in profile.skills:
-            if s.name.strip().lower() == norm_target_skill:
+            s_name = s.name.strip().lower()
+            if (
+                s_name == norm_target_skill
+                or (len(norm_target_skill) > 4 and norm_target_skill in s_name)
+                or (len(s_name) > 4 and s_name in norm_target_skill)
+            ):
                 current_level = s.proficiency
                 break
 
@@ -142,19 +147,32 @@ class CareerForgeAgent:
         new_gaps = calculate_skill_gaps(updated_profile.skills, market_reqs)
 
         # Step 7: Adapt Roadmap dynamically
-        assessed_gap = next((g for g in new_gaps if g.skill.lower() == norm_target_skill), None)
+        assessed_gap = next(
+            (
+                g for g in new_gaps
+                if g.skill.strip().lower() == norm_target_skill
+                or (len(norm_target_skill) > 4 and norm_target_skill in g.skill.strip().lower())
+                or (len(g.skill.strip()) > 4 and g.skill.strip().lower() in norm_target_skill)
+            ),
+            None
+        )
         is_mastered = (assessed_gap is not None and assessed_gap.priority == PriorityLevel.MASTERED) or (assessed_gap is None)
 
         hours_adjusted = 0
         updated_phases: list[RoadmapPhase] = []
 
         for phase in current_roadmap.phases:
-            matching_skills = [s for s in phase.skills_covered if s.strip().lower() == norm_target_skill]
+            matching_skills = [
+                s for s in phase.skills_covered
+                if s.strip().lower() == norm_target_skill
+                or (len(norm_target_skill) > 3 and norm_target_skill in s.strip().lower())
+                or (len(s.strip()) > 3 and s.strip().lower() in norm_target_skill)
+            ]
 
             if matching_skills:
                 if is_mastered:
                     # Deprioritize: if all skills in phase are mastered, mark phase completed
-                    rem_skills = [s for s in phase.skills_covered if s.strip().lower() != norm_target_skill]
+                    rem_skills = [s for s in phase.skills_covered if s not in matching_skills]
                     if not rem_skills:
                         hours_adjusted += phase.estimated_hours
                         phase.status = PhaseStatus.COMPLETED
@@ -206,27 +224,26 @@ class CareerForgeAgent:
         profile: StudentProfile,
         gaps: list[SkillGap]
     ) -> list[RoadmapPhase]:
-        """Deterministically partitions skills into 3 progressive phases and retrieves curated RAG guides."""
-        high_priority = [g for g in gaps if g.priority == PriorityLevel.HIGH]
-        medium_priority = [g for g in gaps if g.priority == PriorityLevel.MEDIUM]
-        low_priority = [g for g in gaps if g.priority == PriorityLevel.LOW]
+        """Deterministically partitions skills into balanced progressive phases with pedagogical reasoning."""
+        unmastered = [g for g in gaps if g.priority != PriorityLevel.MASTERED]
         mastered = [g for g in gaps if g.priority == PriorityLevel.MASTERED]
 
         phases: list[RoadmapPhase] = []
 
-        # If everything is mastered, provide an interview readiness & production polish phase
-        if not high_priority and not medium_priority and not low_priority:
+        # If every single skill is already mastered, provide advanced mock evaluation phase
+        if not unmastered:
             resources = retrieve_knowledge_base(f"{profile.target_role} interview preparation", top_k=3)
             phases.append(
                 RoadmapPhase(
                     phase_number=1,
-                    title="Placement Mock Interviews & System Design Polish",
-                    skills_covered=[m.skill for m in mastered[:3]] or ["Interview Readiness"],
+                    title="Phase 1: Advanced Mock Interviews & Placement Polish",
+                    skills_covered=[m.skill for m in mastered[:3]] or ["Comprehensive Domain Competency"],
                     estimated_hours=max(10, profile.available_hours_per_week * 2),
+
                     learning_objectives=[
-                        "Review campus placement coding question banks and system design patterns.",
-                        "Conduct peer mock technical interviews with timed constraints.",
-                        "Finalize portfolio project documentation and resume alignment."
+                        f"Review high-frequency interview question banks and scenario patterns for {profile.target_role}.",
+                        "Participate in timed peer mock interviews and technical/clinical problem solving under pressure.",
+                        "Finalize case studies, portfolio artifacts, and resume alignment for top-tier placement rounds."
                     ],
                     resources=resources,
                     status=PhaseStatus.IN_PROGRESS
@@ -234,54 +251,76 @@ class CareerForgeAgent:
             )
             return phases
 
-        # Phase 1: High Priority Foundations (Critical Gaps)
-        p1_skills = [g.skill for g in high_priority]
-        if not p1_skills and medium_priority:
-            p1_skills = [medium_priority.pop(0).skill]
+        # Progressive distribution: Sort gaps to ensure logical curriculum flow
+        # Prioritize core foundations first, then intermediate execution, then advanced integration
+        sorted_gaps = list(unmastered)
+        total_unmastered = len(sorted_gaps)
 
-        if p1_skills:
-            p1_gap_sum = sum(g.gap for g in gaps if g.skill in p1_skills)
-            p1_hours = max(10, round(p1_gap_sum * HOURS_PER_GAP_UNIT))
-            p1_resources = self._gather_resources_for_skills(p1_skills, profile.target_role)
-            p1_objectives = self.llm.enrich_phase_objectives(
-                phase_title="Phase 1: High-Priority Foundations",
-                skills=p1_skills,
-                allocated_hours=p1_hours,
-                target_role=profile.target_role,
-                student_level=profile.current_prep_level
+        # Distribute unmastered competencies across up to 3 progressive domain phases:
+        # Phase 1: Core Foundations & Bedrock
+        # Phase 2: Core Domain Competency & Systems
+        # Phase 3: Advanced Scenarios & Applied Integration
+        # Phase 4 (Final): Placement Readiness, Mock Interviews & Capstone Defense
+        p1_gaps: list[SkillGap] = []
+        p2_gaps: list[SkillGap] = []
+        p3_gaps: list[SkillGap] = []
+
+        if total_unmastered >= 3:
+            s1 = math.ceil(total_unmastered / 3)
+            s2 = math.ceil(2 * total_unmastered / 3)
+            p1_gaps = sorted_gaps[:s1]
+            p2_gaps = sorted_gaps[s1:s2]
+            p3_gaps = sorted_gaps[s2:]
+        elif total_unmastered == 2:
+            p1_gaps = [sorted_gaps[0]]
+            p2_gaps = [sorted_gaps[1]]
+            p3_gaps = []
+        else:  # exactly 1 unmastered skill
+            p1_gaps = [sorted_gaps[0]]
+            p2_gaps = []
+            p3_gaps = []
+
+        # Phase 1: Core Foundations & Prerequisites
+        p1_skills = [g.skill for g in p1_gaps]
+        p1_hours = max(10, round(sum(g.gap for g in p1_gaps) * HOURS_PER_GAP_UNIT))
+        p1_resources = self._gather_resources_for_skills(p1_skills, profile.target_role)
+        p1_objectives = self.llm.enrich_phase_objectives(
+            phase_title=f"Phase 1: Foundations & Prerequisites for {profile.target_role}",
+            skills=p1_skills,
+            allocated_hours=p1_hours,
+            target_role=profile.target_role,
+            student_level=profile.current_prep_level
+        )
+        p1_skill_names_short = ", ".join(p1_skills[:2])
+        phases.append(
+            RoadmapPhase(
+                phase_number=1,
+                title=f"Phase 1: Foundations & Core Bedrock ({p1_skill_names_short})",
+                skills_covered=p1_skills,
+                estimated_hours=p1_hours,
+                learning_objectives=p1_objectives,
+                resources=p1_resources,
+                status=PhaseStatus.IN_PROGRESS
             )
-            phases.append(
-                RoadmapPhase(
-                    phase_number=1,
-                    title="Phase 1: Core Fundamentals & Critical Requirements",
-                    skills_covered=p1_skills,
-                    estimated_hours=p1_hours,
-                    learning_objectives=p1_objectives,
-                    resources=p1_resources,
-                    status=PhaseStatus.IN_PROGRESS
-                )
-            )
+        )
 
-        # Phase 2: Core Stack & Medium Priority
-        p2_skills = [g.skill for g in medium_priority]
-        if not p2_skills and low_priority:
-            p2_skills = [low_priority.pop(0).skill]
-
-        if p2_skills:
-            p2_gap_sum = sum(g.gap for g in gaps if g.skill in p2_skills)
-            p2_hours = max(8, round(p2_gap_sum * HOURS_PER_GAP_UNIT))
+        # Phase 2: Core Domain Execution & Systems
+        if p2_gaps:
+            p2_skills = [g.skill for g in p2_gaps]
+            p2_hours = max(8, round(sum(g.gap for g in p2_gaps) * HOURS_PER_GAP_UNIT))
             p2_resources = self._gather_resources_for_skills(p2_skills, profile.target_role)
             p2_objectives = self.llm.enrich_phase_objectives(
-                phase_title="Phase 2: Core Stack Mastery",
+                phase_title=f"Phase 2: Core Domain Systems & Execution for {profile.target_role}",
                 skills=p2_skills,
                 allocated_hours=p2_hours,
                 target_role=profile.target_role,
                 student_level=profile.current_prep_level
             )
+            p2_skill_names_short = ", ".join(p2_skills[:2])
             phases.append(
                 RoadmapPhase(
-                    phase_number=len(phases) + 1,
-                    title="Phase 2: Core Stack Integration & Architecture",
+                    phase_number=2,
+                    title=f"Phase 2: Core Domain Execution & Systems ({p2_skill_names_short})",
                     skills_covered=p2_skills,
                     estimated_hours=p2_hours,
                     learning_objectives=p2_objectives,
@@ -290,34 +329,58 @@ class CareerForgeAgent:
                 )
             )
 
-        # Phase 3: Applied Projects & Polish (Low Priority + Productionizing)
-        p3_skills = [g.skill for g in low_priority]
-        if not p3_skills:
-            p3_skills = ["Project Deployment & Mock Interviews"]
+        # Phase 3: Advanced Scenarios & Applied Integration
+        if p3_gaps:
+            p3_skills = [g.skill for g in p3_gaps]
+            p3_num = len(phases) + 1
+            p3_hours = max(8, round(sum(g.gap for g in p3_gaps) * HOURS_PER_GAP_UNIT))
+            p3_resources = self._gather_resources_for_skills(p3_skills, profile.target_role)
+            p3_objectives = self.llm.enrich_phase_objectives(
+                phase_title=f"Phase {p3_num}: Advanced Scenarios & Integration for {profile.target_role}",
+                skills=p3_skills,
+                allocated_hours=p3_hours,
+                target_role=profile.target_role,
+                student_level=profile.current_prep_level
+            )
+            p3_skill_names_short = ", ".join(p3_skills[:2])
+            phases.append(
+                RoadmapPhase(
+                    phase_number=p3_num,
+                    title=f"Phase {p3_num}: Advanced Scenarios & Applied Integration ({p3_skill_names_short})",
+                    skills_covered=p3_skills,
+                    estimated_hours=p3_hours,
+                    learning_objectives=p3_objectives,
+                    resources=p3_resources,
+                    status=PhaseStatus.NOT_STARTED
+                )
+            )
 
-        p3_gap_sum = sum(g.gap for g in gaps if g.skill in p3_skills)
-        p3_hours = max(6, round((p3_gap_sum or 1.0) * HOURS_PER_GAP_UNIT))
-        p3_resources = self._gather_resources_for_skills(p3_skills, profile.target_role)
-        p3_objectives = self.llm.enrich_phase_objectives(
-            phase_title="Phase 3: Production Practice & Interview Prep",
-            skills=p3_skills,
-            allocated_hours=p3_hours,
+        # Phase Final: Placement Readiness, Mock Interviews & Capstone Defense
+        final_num = len(phases) + 1
+        final_hours = max(8, profile.available_hours_per_week)
+        final_resources = retrieve_knowledge_base(f"{profile.target_role} interview preparation", top_k=3)
+        final_skills = [g.skill for g in sorted_gaps[:3]] or ["Interview Evaluation & Placement Strategy"]
+        final_objectives = self.llm.enrich_phase_objectives(
+            phase_title=f"Phase {final_num}: Placement Readiness & Mock Evaluations for {profile.target_role}",
+            skills=final_skills,
+            allocated_hours=final_hours,
             target_role=profile.target_role,
             student_level=profile.current_prep_level
         )
         phases.append(
             RoadmapPhase(
-                phase_number=len(phases) + 1,
-                title="Phase 3: Applied Projects, Testing & Interview Polish",
-                skills_covered=p3_skills,
-                estimated_hours=p3_hours,
-                learning_objectives=p3_objectives,
-                resources=p3_resources,
+                phase_number=final_num,
+                title=f"Phase {final_num}: Placement Readiness, Mock Interviews & Capstone Defense",
+                skills_covered=final_skills,
+                estimated_hours=final_hours,
+                learning_objectives=final_objectives,
+                resources=final_resources,
                 status=PhaseStatus.NOT_STARTED
             )
         )
 
         return phases
+
 
     def _gather_resources_for_skills(self, skills: list[str], role: str) -> list[ResourceItem]:
         """Aggregate curated study resources from local RAG or authentic role benchmark docs."""

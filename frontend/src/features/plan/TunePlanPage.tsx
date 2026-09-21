@@ -65,20 +65,54 @@ export const TunePlanPage: React.FC<TunePlanPageProps> = ({
     return profile?.name && profile.name !== 'Aarav Sharma' ? profile.name : '';
   });
 
+  const degreeOptions = useMemo(() => {
+    return resolvedData.suggested_degrees && resolvedData.suggested_degrees.length > 0
+      ? resolvedData.suggested_degrees
+      : ['B.Tech / B.E.', 'BCA / MCA', 'B.Sc / M.Sc', 'B.Com / BBA', 'MBBS / Medical'];
+  }, [resolvedData.suggested_degrees]);
+
+  const branchOptions = useMemo(() => {
+    return resolvedData.suggested_branches && resolvedData.suggested_branches.length > 0
+      ? resolvedData.suggested_branches
+      : ['Computer Science & Engineering', 'Information Technology', 'AI & Data Science', 'Electronics & Comm'];
+  }, [resolvedData.suggested_branches]);
+
+  const [isCustomDegree, setIsCustomDegree] = useState(false);
+  const [isCustomBranch, setIsCustomBranch] = useState(false);
+
   const [degree, setDegree] = useState(() => {
     if (typeof window !== 'undefined') {
       const s = localStorage.getItem('careerforge_draft_degree');
       if (s) return s;
     }
-    return profile?.degree && profile.degree !== 'B.Tech' ? profile.degree : '';
+    return resolvedData.suggested_degrees?.[0] || 'B.Tech';
   });
+
   const [branch, setBranch] = useState(() => {
     if (typeof window !== 'undefined') {
       const s = localStorage.getItem('careerforge_draft_branch');
       if (s) return s;
     }
-    return profile?.branch && profile.branch !== 'Computer Science' && profile.branch !== 'Computer Science & Engineering' ? profile.branch : '';
+    return resolvedData.suggested_branches?.[0] || 'Computer Science & Engineering';
   });
+
+  // When career track changes, sync degree/branch to target field options
+  useEffect(() => {
+    if (degreeOptions.length > 0 && !isCustomDegree) {
+      if (!degree || !degreeOptions.includes(degree)) {
+        setDegree(degreeOptions[0]);
+      }
+    }
+  }, [degreeOptions]);
+
+  useEffect(() => {
+    if (branchOptions.length > 0 && !isCustomBranch) {
+      if (!branch || !branchOptions.includes(branch)) {
+        setBranch(branchOptions[0]);
+      }
+    }
+  }, [branchOptions]);
+
   const [year, setYear] = useState(() => {
     if (typeof window !== 'undefined') {
       const s = localStorage.getItem('careerforge_draft_year');
@@ -92,12 +126,31 @@ export const TunePlanPage: React.FC<TunePlanPageProps> = ({
     }
     return '';
   });
+  const activeTiers = useMemo(() => {
+    if (resolvedData.target_tiers && resolvedData.target_tiers.length > 0) {
+      return resolvedData.target_tiers;
+    }
+    return COMPANY_TIERS;
+  }, [resolvedData.target_tiers]);
+
   const [companyTarget, setCompanyTarget] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('careerforge_draft_company_target') || COMPANY_TIERS[0];
+      const saved = localStorage.getItem('careerforge_draft_company_target');
+      if (saved && (resolvedData.target_tiers?.includes(saved) || COMPANY_TIERS.includes(saved))) {
+        return saved;
+      }
     }
-    return COMPANY_TIERS[0];
+    return resolvedData.target_tiers?.[0] || COMPANY_TIERS[0];
   });
+
+  // Automatically adapt target tier when role changes to non-tech or new career track
+  useEffect(() => {
+    if (activeTiers.length > 0 && !activeTiers.includes(companyTarget)) {
+      setCompanyTarget(activeTiers[0]);
+    }
+  }, [activeTiers, companyTarget]);
+
+
   const [weeklyHours, setWeeklyHours] = useState(() => {
     if (typeof window !== 'undefined') {
       const s = localStorage.getItem('careerforge_draft_weekly_hours');
@@ -477,17 +530,17 @@ export const TunePlanPage: React.FC<TunePlanPageProps> = ({
                   </div>
                 </div>
 
-                {/* 2. Target Company Tier */}
+                {/* 2. Target Organization / Company Tier (Domain Adaptive) */}
                 <div>
                   <label className="block text-xs font-mono font-medium text-[var(--text-muted)] uppercase tracking-wider mb-1.5">
-                    Target Company Tier
+                    {resolvedData.tier_label || 'Target Company Tier'}
                   </label>
                   <select
                     value={companyTarget}
                     onChange={(e) => setCompanyTarget(e.target.value)}
                     className="w-full h-11 px-3.5 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--border)] text-xs text-[var(--text)] focus:border-[var(--accent-indigo)] outline-none cursor-pointer"
                   >
-                    {COMPANY_TIERS.map((tier) => (
+                    {activeTiers.map((tier) => (
                       <option key={tier} value={tier}>
                         {tier}
                       </option>
@@ -495,32 +548,110 @@ export const TunePlanPage: React.FC<TunePlanPageProps> = ({
                   </select>
                 </div>
 
-                {/* 3. Degree */}
+                {/* 3. Degree / Qualification (Adaptive Dropdown with Custom Input) */}
                 <div>
-                  <label className="block text-xs font-mono font-medium text-[var(--text-muted)] uppercase tracking-wider mb-1.5">
-                    Degree / Qualification
-                  </label>
-                  <input
-                    type="text"
-                    value={degree}
-                    onChange={(e) => setDegree(e.target.value)}
-                    placeholder="e.g. B.Tech / B.S."
-                    className="w-full h-11 px-3.5 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--border)] text-sm text-[var(--text)] focus:border-[var(--accent-indigo)] outline-none font-body transition-colors"
-                  />
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-mono font-medium text-[var(--text-muted)] uppercase tracking-wider">
+                      {resolvedData.degree_label || 'Degree / Qualification'}
+                    </label>
+                    {isCustomDegree && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsCustomDegree(false);
+                          setDegree(degreeOptions[0] || '');
+                        }}
+                        className="text-[10px] text-[var(--accent-indigo)] hover:underline cursor-pointer font-mono"
+                      >
+                        ← Back to List
+                      </button>
+                    )}
+                  </div>
+
+                  {!isCustomDegree ? (
+                    <select
+                      value={degreeOptions.includes(degree) ? degree : '__custom__'}
+                      onChange={(e) => {
+                        if (e.target.value === '__custom__') {
+                          setIsCustomDegree(true);
+                          setDegree('');
+                        } else {
+                          setDegree(e.target.value);
+                        }
+                      }}
+                      className="w-full h-11 px-3.5 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--border)] text-xs text-[var(--text)] focus:border-[var(--accent-indigo)] outline-none cursor-pointer"
+                    >
+                      {degreeOptions.map((deg) => (
+                        <option key={deg} value={deg}>
+                          {deg}
+                        </option>
+                      ))}
+                      <option value="__custom__">✏️ Other / Enter Custom Qualification...</option>
+                    </select>
+                  ) : (
+                    <input
+                      type="text"
+                      value={degree}
+                      onChange={(e) => setDegree(e.target.value)}
+                      placeholder={`Enter your specific ${resolvedData.degree_label || 'degree'} (e.g. MBBS, B.Tech)`}
+                      className="w-full h-11 px-3.5 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--accent-indigo)] text-sm text-[var(--text)] focus:border-[var(--accent-indigo)] outline-none font-body transition-colors"
+                      autoFocus
+                      required
+                    />
+                  )}
                 </div>
 
-                {/* 4. Branch / Major */}
+                {/* 4. Branch / Specialization (Adaptive Dropdown with Custom Input) */}
                 <div>
-                  <label className="block text-xs font-mono font-medium text-[var(--text-muted)] uppercase tracking-wider mb-1.5">
-                    Branch / Specialization
-                  </label>
-                  <input
-                    type="text"
-                    value={branch}
-                    onChange={(e) => setBranch(e.target.value)}
-                    placeholder="e.g. Computer Science"
-                    className="w-full h-11 px-3.5 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--border)] text-sm text-[var(--text)] focus:border-[var(--accent-indigo)] outline-none font-body transition-colors"
-                  />
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-mono font-medium text-[var(--text-muted)] uppercase tracking-wider">
+                      {resolvedData.branch_label || 'Branch / Specialization'}
+                    </label>
+                    {isCustomBranch && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsCustomBranch(false);
+                          setBranch(branchOptions[0] || '');
+                        }}
+                        className="text-[10px] text-[var(--accent-indigo)] hover:underline cursor-pointer font-mono"
+                      >
+                        ← Back to List
+                      </button>
+                    )}
+                  </div>
+
+                  {!isCustomBranch ? (
+                    <select
+                      value={branchOptions.includes(branch) ? branch : '__custom__'}
+                      onChange={(e) => {
+                        if (e.target.value === '__custom__') {
+                          setIsCustomBranch(true);
+                          setBranch('');
+                        } else {
+                          setBranch(e.target.value);
+                        }
+                      }}
+                      className="w-full h-11 px-3.5 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--border)] text-xs text-[var(--text)] focus:border-[var(--accent-indigo)] outline-none cursor-pointer"
+                    >
+                      {branchOptions.map((br) => (
+                        <option key={br} value={br}>
+                          {br}
+                        </option>
+                      ))}
+                      <option value="__custom__">✏️ Other / Enter Custom Specialization...</option>
+                    </select>
+                  ) : (
+                    <input
+                      type="text"
+                      value={branch}
+                      onChange={(e) => setBranch(e.target.value)}
+                      placeholder={`Enter your specific ${resolvedData.branch_label || 'specialization'} (e.g. Cardiology)`}
+                      className="w-full h-11 px-3.5 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--accent-indigo)] text-sm text-[var(--text)] focus:border-[var(--accent-indigo)] outline-none font-body transition-colors"
+                      autoFocus
+                      required
+                    />
+                  )}
                 </div>
 
                 {/* 5. Academic Year */}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import {
   Search,
   Sparkles,
@@ -16,6 +16,12 @@ import {
   Clock,
   Loader2,
   CheckCircle2,
+  HeartPulse,
+  Wrench,
+  Scale,
+  Plane,
+  Palette,
+  Briefcase,
 } from 'lucide-react';
 import { useAppStore } from '../../lib/store';
 import { fetchRoleSuggestions, fetchRolesGrouped, type RoleSuggestion, type RoleGroupedItem } from '../../lib/api';
@@ -54,23 +60,50 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
       .catch((err) => console.error('Failed to load grouped roles:', err));
   }, []);
 
-  // Debounced autocomplete suggestions (150ms)
+  // Compute effective suggestions: ALWAYS includes the searched job even if not in DB or network is loading
+  const effectiveSuggestions: RoleSuggestion[] = useMemo(() => {
+    const trimmed = query.trim();
+    if (!trimmed || trimmed.length < 2) return suggestions;
+
+    const hasMatch = suggestions.some(
+      (s) => s.title.toLowerCase() === trimmed.toLowerCase()
+    );
+    if (hasMatch || suggestions.length > 0) {
+      return suggestions;
+    }
+
+    const title = trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+    return [
+      {
+        id: `custom_${trimmed.toLowerCase().replace(/\s+/g, '_')}`,
+        title,
+        category: 'Adaptive Career Track',
+        tagline: `Explore customized market requirements & skill roadmap for ${title}`,
+        demand_level: 'AI Adaptive',
+      },
+    ];
+  }, [query, suggestions]);
+
+  // Debounced autocomplete suggestions (120ms)
   useEffect(() => {
-    if (!query.trim()) {
+    const trimmed = query.trim();
+    if (!trimmed || trimmed.length < 2) {
       setSuggestions([]);
+      setShowDropdown(false);
+      setSelectedIndex(-1);
       return;
     }
 
+    setShowDropdown(true);
     const timer = setTimeout(() => {
       setIsLoadingSuggestions(true);
-      fetchRoleSuggestions(query)
+      fetchRoleSuggestions(trimmed)
         .then((res) => {
           setSuggestions(res);
-          setShowDropdown(true);
         })
         .catch(() => setSuggestions([]))
         .finally(() => setIsLoadingSuggestions(false));
-    }, 150);
+    }, 120);
 
     return () => clearTimeout(timer);
   }, [query]);
@@ -88,7 +121,7 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
 
   // Keyboard navigation for suggestions
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!showDropdown || suggestions.length === 0) {
+    if (!showDropdown || effectiveSuggestions.length === 0) {
       if (e.key === 'Enter' && query.trim()) {
         onSelectRole(query.trim());
       }
@@ -97,14 +130,14 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setSelectedIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : 0));
+      setSelectedIndex((prev) => (prev < effectiveSuggestions.length - 1 ? prev + 1 : 0));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : suggestions.length - 1));
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : effectiveSuggestions.length - 1));
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      if (selectedIndex >= 0 && suggestions[selectedIndex]) {
-        onSelectRole(suggestions[selectedIndex].title);
+      if (selectedIndex >= 0 && effectiveSuggestions[selectedIndex]) {
+        onSelectRole(effectiveSuggestions[selectedIndex].title);
       } else if (query.trim()) {
         onSelectRole(query.trim());
       }
@@ -115,14 +148,27 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
   };
 
   const getRoleIcon = (cat: string) => {
-    const c = cat.toLowerCase();
+    const c = (cat || '').toLowerCase();
+    if (c.includes('health') || c.includes('medicine') || c.includes('cardio') || c.includes('clinic'))
+      return <HeartPulse className="w-4 h-4 text-[var(--accent-coral)]" />;
+    if (c.includes('finance') || c.includes('bank') || c.includes('invest') || c.includes('account'))
+      return <TrendingUp className="w-4 h-4 text-[var(--accent-emerald)]" />;
+    if (c.includes('core') || c.includes('civil') || c.includes('mech') || c.includes('engineer'))
+      return <Wrench className="w-4 h-4 text-[var(--accent-amber)]" />;
+    if (c.includes('law') || c.includes('legal') || c.includes('counsel'))
+      return <Scale className="w-4 h-4 text-[var(--accent-violet)]" />;
+    if (c.includes('aviation') || c.includes('flight') || c.includes('pilot') || c.includes('aerospace'))
+      return <Plane className="w-4 h-4 text-[var(--accent-sky)]" />;
+    if (c.includes('design') || c.includes('creative') || c.includes('art'))
+      return <Palette className="w-4 h-4 text-[var(--accent-pink)]" />;
     if (c.includes('backend')) return <Server className="w-4 h-4 text-[var(--accent-indigo)]" />;
-    if (c.includes('frontend') || c.includes('design')) return <Code2 className="w-4 h-4 text-[var(--accent-pink)]" />;
+    if (c.includes('frontend')) return <Code2 className="w-4 h-4 text-[var(--accent-pink)]" />;
     if (c.includes('data') || c.includes('ai') || c.includes('ml')) return <Database className="w-4 h-4 text-[var(--accent-sky)]" />;
     if (c.includes('cloud') || c.includes('devops')) return <Layers className="w-4 h-4 text-[var(--accent-amber)]" />;
     if (c.includes('security')) return <Shield className="w-4 h-4 text-[var(--accent-coral)]" />;
     if (c.includes('mobile')) return <Smartphone className="w-4 h-4 text-[var(--accent-violet)]" />;
     if (c.includes('game')) return <Gamepad2 className="w-4 h-4 text-[var(--accent-pink)]" />;
+    if (c.includes('business') || c.includes('management')) return <Briefcase className="w-4 h-4 text-[var(--accent-indigo)]" />;
     return <Cpu className="w-4 h-4 text-[var(--accent-indigo)]" />;
   };
 
@@ -145,9 +191,11 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
           <div className="w-[500px] h-[280px] rounded-full bg-gradient-to-r from-[var(--accent-indigo)]/12 via-[var(--accent-violet)]/10 to-[var(--accent-pink)]/12 blur-3xl" />
         </div>
 
+
+
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--accent-indigo)]/10 border border-[var(--accent-indigo)]/25 text-xs font-semibold text-[var(--accent-indigo)] shadow-sm">
           <Sparkles className="w-3.5 h-3.5 text-[var(--accent-amber)]" />
-          <span>Precision Placement Engine · 27+ Verified Curriculums</span>
+          <span>Precision Career &amp; Placement Intelligence Engine</span>
         </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display tracking-tight text-[var(--text)] leading-[1.1]">
@@ -172,10 +220,10 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => {
-                if (suggestions.length > 0) setShowDropdown(true);
+                if (query.trim().length >= 2 || effectiveSuggestions.length > 0) setShowDropdown(true);
               }}
               onKeyDown={handleKeyDown}
-              placeholder="e.g. SDE Tier 1, ML Engineer, Game Developer, DevOps SRE..."
+              placeholder="e.g. SDE Tier 1, Cardiologist, ML Engineer, Civil Engineer, Pilot..."
               className="w-full h-full bg-transparent text-base text-[var(--text)] placeholder-[var(--text-faint)] outline-none focus:outline-none border-none focus:border-none ring-0 focus:ring-0 shadow-none pr-32 font-body"
               autoComplete="off"
             />
@@ -208,12 +256,15 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
           </div>
 
           {/* Live Suggestions Dropdown */}
-          {showDropdown && suggestions.length > 0 && (
+          {showDropdown && effectiveSuggestions.length > 0 && (
             <div className="absolute left-0 right-0 top-18 z-50 rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-elev-1)] shadow-2xl p-2 max-h-80 overflow-y-auto animate-in fade-in slide-in-from-top-2 text-left">
-              <div className="px-3 py-1.5 text-[11px] font-mono text-[var(--text-faint)] uppercase tracking-wider">
-                Matching Role Standards
+              <div className="px-3 py-1.5 flex items-center justify-between text-[11px] font-mono text-[var(--text-faint)] uppercase tracking-wider">
+                <span>Matching Career Roles & Standards</span>
+                <span className="text-[10px] text-[var(--accent-indigo)] font-semibold flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 text-[var(--accent-amber)]" /> AI Adaptive Search
+                </span>
               </div>
-              {suggestions.map((item, idx) => (
+              {effectiveSuggestions.map((item, idx) => (
                 <button
                   key={item.id}
                   type="button"
@@ -232,7 +283,20 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
                       {getRoleIcon(item.category)}
                     </div>
                     <div className="truncate">
-                      <div className="text-sm font-bold font-display truncate">{item.title}</div>
+                      <div className="text-sm font-bold font-display truncate flex items-center gap-2">
+                        <span>{item.title}</span>
+                        {item.id.startsWith('custom_') && (
+                          <span
+                            className={`text-[10px] font-mono font-medium px-1.5 py-0.5 rounded ${
+                              selectedIndex === idx
+                                ? 'bg-white/25 text-white'
+                                : 'bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] border border-[var(--accent-indigo)]/25'
+                            }`}
+                          >
+                            AI Track
+                          </span>
+                        )}
+                      </div>
                       <div className={`text-xs truncate ${selectedIndex === idx ? 'text-white/80' : 'text-[var(--text-muted)]'}`}>
                         {item.tagline}
                       </div>
@@ -368,7 +432,7 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
 
           {/* Category Filter Pills */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full">
-            {categories.slice(0, 5).map((cat) => (
+            {categories.map((cat) => (
               <button
                 key={cat}
                 type="button"

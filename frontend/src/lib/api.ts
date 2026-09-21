@@ -141,7 +141,14 @@ export interface RoleResolveResult {
   benchmark: RoleSkillItem[];
   source_type: string;
   message: string;
+  tier_label?: string;
+  target_tiers?: string[];
+  degree_label?: string;
+  branch_label?: string;
+  suggested_degrees?: string[];
+  suggested_branches?: string[];
 }
+
 
 export async function fetchRolesGrouped(): Promise<Record<string, RoleGroupedItem[]>> {
   return await request<Record<string, RoleGroupedItem[]>>('/api/roles');

@@ -136,11 +136,18 @@ class DatabaseManager:
         return profile
 
     def get_profile(self, profile_id: str) -> StudentProfile | None:
-        """Fetch a student profile by ID."""
+        """Fetch a student profile by ID, or fallback to the latest profile."""
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM profiles WHERE id = ?", (profile_id,))
+            if profile_id == "current" or not profile_id:
+                cursor.execute("SELECT * FROM profiles ORDER BY created_at DESC LIMIT 1")
+            else:
+                cursor.execute("SELECT * FROM profiles WHERE id = ?", (profile_id,))
             row = cursor.fetchone()
+            if not row and profile_id != "current":
+                # Fallback to the latest created profile
+                cursor.execute("SELECT * FROM profiles ORDER BY created_at DESC LIMIT 1")
+                row = cursor.fetchone()
             if not row:
                 return None
 
@@ -165,11 +172,15 @@ class DatabaseManager:
         if not profile:
             return None
 
-        # Update existing skill or append
         updated = False
         target_name_lower = skill_name.strip().lower()
         for s in profile.skills:
-            if s.name.strip().lower() == target_name_lower:
+            s_name = s.name.strip().lower()
+            if (
+                s_name == target_name_lower
+                or (len(target_name_lower) > 4 and target_name_lower in s_name)
+                or (len(s_name) > 4 and s_name in target_name_lower)
+            ):
                 s.proficiency = new_level
                 updated = True
                 break
@@ -213,11 +224,18 @@ class DatabaseManager:
         return roadmap
 
     def get_roadmap(self, profile_id: str) -> Roadmap | None:
-        """Fetch the roadmap for a profile."""
+        """Fetch the roadmap for a profile, or fallback to the latest roadmap."""
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM roadmaps WHERE profile_id = ?", (profile_id,))
+            if profile_id == "current" or not profile_id:
+                cursor.execute("SELECT * FROM roadmaps ORDER BY updated_at DESC LIMIT 1")
+            else:
+                cursor.execute("SELECT * FROM roadmaps WHERE profile_id = ?", (profile_id,))
             row = cursor.fetchone()
+            if not row and profile_id != "current":
+                # Fallback to the latest saved roadmap
+                cursor.execute("SELECT * FROM roadmaps ORDER BY updated_at DESC LIMIT 1")
+                row = cursor.fetchone()
             if not row:
                 return None
 
@@ -281,6 +299,9 @@ class DatabaseManager:
     # --- Milestone Completion Operations ---
     def set_milestone_completion(self, profile_id: str, milestone_key: str, completed: bool) -> dict[str, bool]:
         """Save milestone completion status and return all completed milestones for the profile."""
+        prof = self.get_profile(profile_id)
+        pid = prof.id if (prof and prof.id) else profile_id
+
         with self._get_connection() as conn:
             cursor = conn.cursor()
             if completed:
@@ -290,25 +311,28 @@ class DatabaseManager:
                     ON CONFLICT(profile_id, milestone_key) DO UPDATE SET
                         completed=1,
                         updated_at=CURRENT_TIMESTAMP
-                """, (profile_id, milestone_key))
+                """, (pid, milestone_key))
             else:
                 cursor.execute("""
                     DELETE FROM completed_milestones
                     WHERE profile_id = ? AND milestone_key = ?
-                """, (profile_id, milestone_key))
+                """, (pid, milestone_key))
             conn.commit()
 
-        return self.get_completed_milestones(profile_id)
+        return self.get_completed_milestones(pid)
 
     def get_completed_milestones(self, profile_id: str) -> dict[str, bool]:
         """Retrieve map of completed milestones for a profile."""
+        prof = self.get_profile(profile_id)
+        pid = prof.id if (prof and prof.id) else profile_id
+
         with self._get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("""
                 SELECT milestone_key, completed
                 FROM completed_milestones
                 WHERE profile_id = ?
-            """, (profile_id,))
+            """, (pid,))
             rows = cursor.fetchall()
             return {r["milestone_key"]: bool(r["completed"]) for r in rows}
 

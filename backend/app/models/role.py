@@ -49,3 +49,10 @@ class RoleResolveResponse(BaseModel):
     benchmark: list[RoleSkillBenchmark]
     source_type: str  # "curated" | "ai_estimated" | "estimated"
     message: str = ""
+    tier_label: str = "Target Organization Tier"
+    target_tiers: list[str] = Field(default_factory=list)
+    degree_label: str = "Degree / Program"
+    branch_label: str = "Specialization / Stream"
+    suggested_degrees: list[str] = Field(default_factory=list)
+    suggested_branches: list[str] = Field(default_factory=list)
+

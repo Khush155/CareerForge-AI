@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ShieldCheck,
@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import type { Skill } from '../../lib/schemas';
 import { formatLevel } from '../../lib/format';
+import { SkillSelectDropdown, type SelectableSkillItem } from './SkillSelectDropdown';
 
 export interface AssessmentDialogProps {
   isOpen: boolean;
@@ -33,6 +34,15 @@ export const AssessmentDialog: React.FC<AssessmentDialogProps> = ({
   onClose,
   onApplyScore,
 }) => {
+  const selectableItems = useMemo<SelectableSkillItem[]>(() => {
+    return skills.map((s) => ({
+      name: s.name,
+      proficiency: s.proficiency,
+      source: 'Competency',
+      category: 'gap' as const,
+    }));
+  }, [skills]);
+
   const [selectedSkill, setSelectedSkill] = useState(defaultSkill || skills[0]?.name || 'SQL');
   const [score, setScore] = useState(85);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -85,7 +95,7 @@ export const AssessmentDialog: React.FC<AssessmentDialogProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 12 }}
           transition={{ duration: 0.2 }}
-          className="w-[560px] max-w-full bg-[var(--bg-elev-1)] border border-[var(--border-strong)] rounded-3xl shadow-2xl p-6 sm:p-7 flex flex-col gap-6 relative overflow-hidden"
+          className="w-[560px] max-w-full bg-[var(--bg-elev-1)] border border-[var(--border-strong)] rounded-3xl shadow-2xl p-6 sm:p-7 flex flex-col gap-6 relative overflow-visible"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Top Header */}
@@ -120,18 +130,12 @@ export const AssessmentDialog: React.FC<AssessmentDialogProps> = ({
               <label htmlFor="eval-skill-select" className="text-xs font-mono font-semibold text-[var(--text-muted)] uppercase tracking-wider block">
                 Target Skill Domain:
               </label>
-              <select
+              <SkillSelectDropdown
                 id="eval-skill-select"
-                value={selectedSkill}
-                onChange={(e) => setSelectedSkill(e.target.value)}
-                className="w-full h-11 bg-[var(--bg-elev-2)] border border-[var(--border)] focus:border-[var(--accent-indigo)] rounded-xl px-3.5 text-sm text-[var(--text)] font-semibold outline-none transition-colors cursor-pointer font-body"
-              >
-                {skills.map((s) => (
-                  <option key={s.name} value={s.name}>
-                    {s.name} (Current: {formatLevel(s.proficiency)} / 5.0)
-                  </option>
-                ))}
-              </select>
+                skills={selectableItems}
+                selectedSkill={selectedSkill}
+                onSelect={(name) => setSelectedSkill(name)}
+              />
             </div>
 
             {/* 2. Interactive Score Slider & Presets */}

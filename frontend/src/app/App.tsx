@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import { AppShell, PageHeader } from '../components/layout/AppShell';
 import { SearchHome } from '../features/home/SearchHome';
@@ -20,7 +20,7 @@ import { ExportShareModal } from '../components/domain/ExportShareModal';
 import { useAppStore } from '../lib/store';
 import { getCartoonAvatarUrl } from '../lib/avatar';
 import { submitProfile, submitAssessment, resolveRoleQuery, type RoleResolveResult } from '../lib/api';
-import type { StudentProfile } from '../lib/schemas';
+import type { StudentProfile, Skill } from '../lib/schemas';
 import {
   ShieldCheck,
   BookOpen,
@@ -38,6 +38,7 @@ export const App: React.FC = () => {
     previousRoadmap,
     gaps,
     skills,
+    marketRequirements,
     currentSection,
     setCurrentSection,
     isAssessmentOpen,
@@ -87,6 +88,53 @@ export const App: React.FC = () => {
   });
   const [isResolvingRole, setIsResolvingRole] = useState(false);
   const [targetAssessmentSkill, setTargetAssessmentSkill] = useState<string | null>(null);
+
+  // Compute all discovered career skills (combines calibrated profile skills, AI discovered gaps, market reqs, and roadmap phases)
+  const allCareerSkills = useMemo(() => {
+    const map = new Map<string, Skill>();
+
+    (profile?.skills || []).forEach((s) => {
+      map.set(s.name.toLowerCase().trim(), s);
+    });
+
+    (gaps || []).forEach((g) => {
+      const key = g.skill.toLowerCase().trim();
+      if (!map.has(key)) {
+        map.set(key, {
+          name: g.skill,
+          proficiency: g.current_level,
+        });
+      }
+    });
+
+    (marketRequirements || []).forEach((m) => {
+      const key = m.skill.toLowerCase().trim();
+      if (!map.has(key)) {
+        map.set(key, {
+          name: m.skill,
+          proficiency: 0.0,
+        });
+      }
+    });
+
+    (roadmap?.phases || []).forEach((p) => {
+      (p.skills_covered || []).forEach((s) => {
+        const key = s.toLowerCase().trim();
+        if (!map.has(key)) {
+          map.set(key, {
+            name: s,
+            proficiency: 0.0,
+          });
+        }
+      });
+    });
+
+    if (map.size === 0) {
+      skills.forEach((s) => map.set(s.name.toLowerCase().trim(), s));
+    }
+
+    return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
+  }, [profile, gaps, marketRequirements, roadmap, skills]);
 
   const handleOpenAssessment = (skill?: string) => {
     if (skill) {
@@ -374,8 +422,8 @@ export const App: React.FC = () => {
       {currentSection === 'assess' && (
         <div className="space-y-6">
           <PageHeader
-            title="Adaptation & Assessment Studio"
-            subtitle="Simulate skill assessments (0–100%). Watch dynamic recalculation adapt remaining roadmap hours in real time."
+            title="Live Skill Recalibration Studio"
+            subtitle="Closed-loop assessment engine. Test competencies or simulate quiz scores to watch the AI agent dynamically rebalance phases, free up bandwidth, and shift remaining hours in real time."
           />
           <AdaptationStudio onApplyScore={handleApplyScore} />
         </div>
@@ -397,41 +445,47 @@ export const App: React.FC = () => {
         <div className="space-y-6">
           <PageHeader
             title="Curated Study Guides & Documentation"
-            subtitle="High-yield placement preparation guides stored locally and cited with verified benchmarks."
+            subtitle="High-yield placement preparation guides cited with verified industry benchmarks."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {gaps.map((gap) => (
-              <div
-                key={gap.skill}
-                className="p-5 rounded-2xl bg-[var(--bg-elev-1)] border border-[var(--border)] hover:border-[var(--border-strong)] transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-mono text-[var(--accent-indigo)] font-semibold uppercase">
-                      {gap.priority} Priority
-                    </span>
-                    <span className="text-xs font-mono text-[var(--text-muted)]">
-                      Gap: {gap.gap.toFixed(1)} pts
-                    </span>
-                  </div>
-                  <h4 className="text-base font-bold font-display text-[var(--text)] mb-1">
-                    {gap.skill} Preparation Guide
-                  </h4>
-                  <p className="text-xs text-[var(--text-muted)] line-clamp-2">
-                    Industry benchmark: Level {gap.required_level.toFixed(1)} ({gap.demand_level} demand).
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => openEvidence(gap.skill)}
-                  className="mt-4 w-full py-2 rounded-xl bg-[var(--bg-elev-2)] hover:bg-[var(--bg-elev-3)] text-xs font-semibold text-[var(--text)] transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+          {gaps.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {gaps.map((gap) => (
+                <div
+                  key={gap.skill}
+                  className="p-5 rounded-2xl bg-[var(--bg-elev-1)] border border-[var(--border)] hover:border-[var(--border-strong)] transition-all flex flex-col justify-between"
                 >
-                  <BookOpen className="w-3.5 h-3.5 text-[var(--accent-sky)]" />
-                  <span>Read Study Guide</span>
-                </button>
-              </div>
-            ))}
-          </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-mono text-[var(--accent-indigo)] font-semibold uppercase">
+                        {gap.priority} Priority
+                      </span>
+                      <span className="text-xs font-mono text-[var(--text-muted)]">
+                        Gap: {gap.gap.toFixed(1)} pts
+                      </span>
+                    </div>
+                    <h4 className="text-base font-bold font-display text-[var(--text)] mb-1">
+                      {gap.skill} Preparation Guide
+                    </h4>
+                    <p className="text-xs text-[var(--text-muted)] line-clamp-2">
+                      Industry benchmark: Level {gap.required_level.toFixed(1)} ({gap.demand_level} demand).
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => openEvidence(gap.skill)}
+                    className="mt-4 w-full py-2 rounded-xl bg-[var(--bg-elev-2)] hover:bg-[var(--bg-elev-3)] text-xs font-semibold text-[var(--text)] transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <BookOpen className="w-3.5 h-3.5 text-[var(--accent-sky)]" />
+                    <span>Read Study Guide</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-12 text-center text-sm text-[var(--text-muted)] bg-[var(--bg-elev-1)] rounded-2xl border border-[var(--border)]">
+              No study guides available yet. Generate a roadmap on the Home screen or load the demo student to explore curated preparation guides.
+            </div>
+          )}
         </div>
       )}
 
@@ -528,20 +582,20 @@ export const App: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 2: Saved Profiles in Local Storage */}
+          {/* Card 2: Saved Student Profiles */}
           <div className="p-6 sm:p-7 rounded-3xl bg-[var(--bg-elev-1)] border border-[var(--border)] shadow-sm space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4 text-[var(--accent-indigo)]" />
                 <h3 className="text-sm font-bold font-display text-[var(--text)]">
-                  Saved Profiles in Local Storage
+                  Saved Student Profiles
                 </h3>
                 <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-[var(--bg-elev-2)] text-[var(--text-muted)] border border-[var(--border)] font-semibold">
                   {savedProfiles.length}
                 </span>
               </div>
               <span className="text-[11px] font-mono text-[var(--text-muted)]">
-                Persisted across page refreshes
+                Quick profile switcher
               </span>
             </div>
 
@@ -622,26 +676,7 @@ export const App: React.FC = () => {
             )}
           </div>
 
-          {/* Card 3: AI Engine Status */}
-          <div className="p-6 rounded-3xl bg-[var(--bg-elev-1)] border border-[var(--border)] shadow-sm space-y-4">
-            <h3 className="text-sm font-bold font-display text-[var(--text)]">
-              AI Engine & Persistence Architecture
-            </h3>
-            <div className="space-y-2 text-xs text-[var(--text-muted)]">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[var(--accent-mint)] animate-pulse" />
-                <span>AI Engine: Online / Offline Curated Role Standards Active (28 Industry Tracks)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[var(--accent-sky)]" />
-                <span>Deterministic Math: Zero LLM hallucinations for gaps, hours, and adaptive formulas</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[var(--accent-indigo)]" />
-                <span>Database: SQLite Persistent Storage (`data/careerforge.db`)</span>
-              </div>
-            </div>
-          </div>
+
         </div>
       )}
 
@@ -656,8 +691,8 @@ export const App: React.FC = () => {
       {/* Assessment Diagnostic Dialog (Quick Modal) */}
       <AssessmentDialog
         isOpen={isAssessmentOpen}
-        skills={skills}
-        defaultSkill={targetAssessmentSkill || gaps.find((g) => g.priority === 'High')?.skill || skills[0]?.name}
+        skills={allCareerSkills}
+        defaultSkill={targetAssessmentSkill || gaps.find((g) => g.priority === 'High')?.skill || allCareerSkills[0]?.name}
         onClose={() => {
           setTargetAssessmentSkill(null);
           closeAssessment();

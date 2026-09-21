@@ -87,12 +87,13 @@ class AzureOpenAIClient:
     ) -> list[str]:
         """Generate pedagogical, practical learning milestones for a roadmap phase.
 
-        Uses gpt-4o-mini if available; otherwise returns crisp deterministic milestones.
+        Uses gpt-4o-mini / Azure OpenAI if available; otherwise returns crisp deterministic milestones.
         """
         if self.is_configured:
             system_prompt = (
-                "You are an expert technical career coach. Generate 3 to 4 concise, practical, "
-                "action-oriented learning milestones for a college student preparing for placements. "
+                "You are an expert career coach and workforce mentor across tech, healthcare, engineering, finance, and law. "
+                "Generate 3 to 4 concise, practical, action-oriented learning milestones for a student preparing for placements. "
+                "Ensure milestones are specific to the profession (e.g. clinical/patient scenarios for medical, modeling/valuation for finance, coding/system design for tech). "
                 "Output ONLY a JSON array of strings (e.g. [\"Milestone 1\", \"Milestone 2\"])."
             )
             user_prompt = (
@@ -101,7 +102,7 @@ class AzureOpenAIClient:
                 f"Phase: {phase_title}\n"
                 f"Skills: {', '.join(skills)}\n"
                 f"Allocated Hours: {allocated_hours}\n"
-                "Provide 3-4 specific milestones (hands-on coding, concepts to master, interview topics)."
+                "Provide 3-4 specific milestones (practical applications, concepts to master, real-world case scenarios, and interview evaluation topics)."
             )
             response = self._call_azure_openai([
                 {"role": "system", "content": system_prompt},
@@ -125,13 +126,15 @@ class AzureOpenAIClient:
                 except (json.JSONDecodeError, AttributeError):
                     pass
 
-        # Deterministic fallback
+        # Deterministic domain-appropriate fallback
+        lead_skill = skills[0] if skills else target_role
         return [
-            f"Master core fundamentals and syntax of {', '.join(skills)}.",
-            f"Implement 3 hands-on practical exercises or mini-problems aligned with {target_role}.",
-            f"Review college placement interview questions and edge cases for {skills[0]}.",
-            f"Complete a timed self-assessment covering {', '.join(skills)}."
+            f"Master core principles and foundational knowledge of {', '.join(skills)}.",
+            f"Complete hands-on practical exercises, case studies, or application scenarios aligned with {target_role}.",
+            f"Review top placement interview questions and critical real-world edge cases for {lead_skill}.",
+            f"Conduct a timed self-assessment and practical evaluation covering {', '.join(skills)}."
         ]
+
 
     def generate_adaptation_summary(
         self,
@@ -175,3 +178,91 @@ class AzureOpenAIClient:
             f"{previous_level} to {updated_level} (+{round(updated_level - previous_level, 1)}). "
             f"Your remaining phases have been adjusted to optimize your remaining preparation timeline."
         )
+
+    def synthesize_role_benchmark(self, query: str) -> dict | None:
+        """Dynamically generate a comprehensive career benchmark for any profession using live Azure OpenAI."""
+        if not self.is_configured:
+            return None
+
+        system_prompt = (
+            "You are an expert global career, placement, and workforce intelligence system. "
+            "Given any career or dream job (e.g. Cardiologist, Investment Banker, Civil Engineer, Aerospace Engineer, etc.), "
+            "return a complete, professional, and authentic curriculum benchmark in JSON. "
+            "Output ONLY valid JSON matching this schema with NO extra commentary:\n"
+            "{\n"
+            '  "matched_role": "Canonical Job Title",\n'
+            '  "category": "Domain Category (e.g. Medicine & Healthcare, Finance & Banking, Core Engineering, Law & Legal)",\n'
+            '  "tagline": "Concise 1-sentence description of the career path.",\n'
+            '  "tier_label": "Label for target organizations (e.g. Target Hospital Tier, Target Financial Firm Tier, Target Engineering Firm Tier)",\n'
+            '  "target_tiers": ["Top Tier 1 (e.g. AIIMS / Mayo Clinic)", "Tier 2", "Tier 3", "Tier 4", "Tier 5"],\n'
+            '  "degree_label": "Degree label (e.g. Medical Qualification, Engineering Degree, Finance Degree)",\n'
+            '  "branch_label": "Specialization label (e.g. Medical Specialty, Department, Concentration)",\n'
+            '  "suggested_degrees": ["Degree 1", "Degree 2", "Degree 3"],\n'
+            '  "suggested_branches": ["Spec 1", "Spec 2", "Spec 3"],\n'
+            '  "skills": [\n'
+            '    {"name": "Skill Name", "required_level": 4.5, "demand_level": "critical", "est_hours": 40, "category": "core"}\n'
+            "  ]\n"
+            "}\n"
+            "Rules:\n"
+            "- If the profession is NOT in Tech, do NOT mention FAANG or software engineering terms in target_tiers.\n"
+            "- Include 4 to 6 critical competencies relevant specifically to this profession.\n"
+            "- 'est_hours' should be reasonable preparation hours between 15 and 50 hours per competency.\n"
+            "- 'demand_level' must be one of: 'critical', 'high-priority', 'frequently mentioned', 'moderate'."
+        )
+
+        user_prompt = f"Analyze the career and return the benchmark standard: '{query}'."
+
+        response = self._call_azure_openai([
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ], temperature=0.2)
+
+        if response:
+            try:
+                clean = response.strip()
+                match = re.search(r"```(?:json)?\s*(\{[\s\S]*?\})\s*```", clean)
+                if match:
+                    clean = match.group(1).strip()
+                else:
+                    brace_match = re.search(r"(\{[\s\S]*\})", clean)
+                    if brace_match:
+                        clean = brace_match.group(1).strip()
+
+                data = json.loads(clean)
+                if isinstance(data, dict) and "matched_role" in data and "skills" in data:
+                    # Sanitize skills
+                    sanitized_skills = []
+                    for s in data.get("skills", []):
+                        if isinstance(s, dict) and s.get("name"):
+                            req_lvl = float(s.get("required_level", 4.0))
+                            req_lvl = min(5.0, max(1.0, round(req_lvl, 1)))
+
+                            # Cap est_hours to reasonable learning units (10 - 60)
+                            raw_hours = s.get("est_hours", 30)
+                            try:
+                                h = int(raw_hours)
+                                if h > 80:  # If model returned career lifetime hours (e.g. 3000)
+                                    h = min(50, max(20, round(h / 100)))
+                            except (ValueError, TypeError):
+                                h = 30
+
+                            demand = str(s.get("demand_level", "critical")).lower()
+                            if demand not in ["critical", "high-priority", "frequently mentioned", "moderate"]:
+                                demand = "critical" if req_lvl >= 4.0 else "high-priority"
+
+                            sanitized_skills.append({
+                                "name": str(s["name"]).strip(),
+                                "required_level": req_lvl,
+                                "demand_level": demand,
+                                "est_hours": h,
+                                "category": str(s.get("category", "core"))
+                            })
+
+                    if sanitized_skills:
+                        data["skills"] = sanitized_skills
+                        return data
+            except Exception as exc:
+                logger.warning("Failed to parse custom role synthesized by Azure OpenAI: %s", exc)
+
+        return None
+

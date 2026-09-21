@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useAppStore } from '../../lib/store';
 import { getCartoonAvatarUrl } from '../../lib/avatar';
 import {
-  Compass,
   Search,
   Sparkles,
   Sun,
@@ -55,10 +54,12 @@ export const TopBar: React.FC = () => {
           onClick={() => setCurrentSection('home')}
           className="flex items-center gap-2.5 cursor-pointer text-left group"
         >
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[var(--accent-indigo)] via-[var(--accent-violet)] to-[var(--accent-pink)] p-0.5 shadow-md group-hover:scale-105 transition-transform">
-            <div className="w-full h-full bg-[var(--bg-elev-1)] rounded-[10px] flex items-center justify-center">
-              <Compass className="w-4 h-4 text-[var(--accent-sky)] animate-spin-slow" />
-            </div>
+          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[var(--accent-indigo)] via-[var(--accent-sky)] to-[var(--accent-mint)] p-0.5 shadow-md group-hover:scale-105 transition-transform shrink-0">
+            <img
+              src="/logo.png"
+              alt="CareerForge AI Logo"
+              className="w-full h-full rounded-full object-cover bg-black"
+            />
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-bold font-display tracking-tight text-[var(--text)]">

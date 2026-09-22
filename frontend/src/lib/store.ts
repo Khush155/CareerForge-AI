@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import type { StudentProfile, Skill, SkillGap, MarketRequirement, Roadmap, AssessmentResult } from './schemas';
 import { fetchCompletedMilestones, updateMilestoneCompletion } from './api';
 
-import { getRandomCartoonAvatar } from './avatar';
+import { getRandomCartoonAvatar, getAvatarForProfile } from './avatar';
 
 export type WorkflowTab = 'all' | 'profile' | 'gaps' | 'roadmap' | 'recalibration';
 
@@ -153,12 +153,20 @@ const loadPersistedSession = (): PersistedSession => {
     let savedProfiles: SavedProfileSnapshot[] = [];
     if (rawSavedProfiles) {
       try {
-        savedProfiles = JSON.parse(rawSavedProfiles);
+        const parsed: SavedProfileSnapshot[] = JSON.parse(rawSavedProfiles);
+        // Ensure each saved profile has a unique, persistent cartoon avatar and not generic 'bottts'
+        savedProfiles = parsed.map((p, idx) => {
+          const avatar = (!p.avatar || p.avatar === 'bottts') ? getAvatarForProfile(p.name || p.id, idx).id : p.avatar;
+          return { ...p, avatar };
+        });
       } catch {}
     }
 
     if (rawProfile) {
       const profile: StudentProfile = JSON.parse(rawProfile);
+      if (!profile.avatar || profile.avatar === 'bottts') {
+        profile.avatar = (typeof window !== 'undefined' && localStorage.getItem('careerforge_avatar')) || getAvatarForProfile(profile.name || profile.id || 'student').id;
+      }
       const roadmap: Roadmap | null = rawRoadmap ? JSON.parse(rawRoadmap) : null;
       const gaps: SkillGap[] = rawGaps ? JSON.parse(rawGaps) : [];
       const marketRequirements: MarketRequirement[] = rawReqs ? JSON.parse(rawReqs) : [];
@@ -229,7 +237,7 @@ const saveSessionToStorage = (
           branch: profile.branch,
           year: profile.year,
           available_hours_per_week: profile.available_hours_per_week,
-          avatar: profile.avatar || 'bottts',
+          avatar: profile.avatar || (typeof window !== 'undefined' && localStorage.getItem('careerforge_avatar')) || getAvatarForProfile(profileName).id,
           updated_at: new Date().toISOString(),
           roadmap,
           gaps,
@@ -310,12 +318,52 @@ export const useAppStore = create<AppStore>((set, get) => ({
   avatar: (typeof window !== 'undefined' && localStorage.getItem('careerforge_avatar')) || 'cyber-neon',
   setAvatar: (avatar) => {
     localStorage.setItem('careerforge_avatar', avatar);
-    set({ avatar });
+    set((state) => {
+      let updatedProfile = state.profile;
+      let updatedSaved = state.savedProfiles;
+      if (updatedProfile) {
+        updatedProfile = { ...updatedProfile, avatar };
+        saveSessionToStorage(
+          updatedProfile,
+          state.roadmap,
+          state.gaps,
+          state.marketRequirements,
+          state.completedMilestones,
+          state.currentSection
+        );
+        updatedSaved = updatedSaved.map((p) =>
+          p.id === updatedProfile?.id || (p.name === updatedProfile?.name && p.target_role === updatedProfile?.target_role)
+            ? { ...p, avatar }
+            : p
+        );
+      }
+      return { avatar, profile: updatedProfile, savedProfiles: updatedSaved };
+    });
   },
   randomizeAvatar: () => {
     const next = getRandomCartoonAvatar();
     localStorage.setItem('careerforge_avatar', next.id);
-    set({ avatar: next.id });
+    set((state) => {
+      let updatedProfile = state.profile;
+      let updatedSaved = state.savedProfiles;
+      if (updatedProfile) {
+        updatedProfile = { ...updatedProfile, avatar: next.id };
+        saveSessionToStorage(
+          updatedProfile,
+          state.roadmap,
+          state.gaps,
+          state.marketRequirements,
+          state.completedMilestones,
+          state.currentSection
+        );
+        updatedSaved = updatedSaved.map((p) =>
+          p.id === updatedProfile?.id || (p.name === updatedProfile?.name && p.target_role === updatedProfile?.target_role)
+            ? { ...p, avatar: next.id }
+            : p
+        );
+      }
+      return { avatar: next.id, profile: updatedProfile, savedProfiles: updatedSaved };
+    });
   },
 
   presenterMode: false,
@@ -408,8 +456,13 @@ export const useAppStore = create<AppStore>((set, get) => ({
   lastAssessmentSummary: null,
 
   setInitialPlan: ({ profile, marketRequirements, gaps, roadmap }) => {
+    const chosenAvatar = profile.avatar || get().avatar || 'cyber-neon';
+    const effectiveProfile: StudentProfile = {
+      ...profile,
+      avatar: chosenAvatar,
+    };
     saveSessionToStorage(
-      profile,
+      effectiveProfile,
       roadmap,
       gaps,
       marketRequirements,
@@ -426,12 +479,13 @@ export const useAppStore = create<AppStore>((set, get) => ({
     }
 
     set({
-      profile,
+      profile: effectiveProfile,
+      avatar: chosenAvatar,
       marketRequirements,
       gaps,
       roadmap,
       previousRoadmap: null,
-      skills: profile.skills,
+      skills: effectiveProfile.skills,
       currentSection: 'dashboard',
       savedProfiles: nextSavedProfiles,
     });
@@ -501,6 +555,11 @@ export const useAppStore = create<AppStore>((set, get) => ({
     const target = state.savedProfiles.find((p) => p.id === profileId);
     if (!target) return;
 
+    const chosenAvatar = target.avatar || getAvatarForProfile(target.name || target.id).id;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('careerforge_avatar', chosenAvatar);
+    }
+
     const switchedProfile: StudentProfile = {
       id: target.id,
       name: target.name,
@@ -511,7 +570,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
       available_hours_per_week: target.available_hours_per_week,
       current_prep_level: 'intermediate',
       skills: target.roadmap?.phases.flatMap((p) => p.skills_covered.map((s) => ({ name: s, proficiency: 2.0 }))) || [],
-      avatar: target.avatar,
+      avatar: chosenAvatar,
     };
 
     saveSessionToStorage(
@@ -532,7 +591,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
       completedMilestones: {},
       currentSection: 'dashboard',
       previousRoadmap: null,
-      avatar: target.avatar,
+      avatar: chosenAvatar,
     });
   },
 

@@ -153,6 +153,21 @@ def test_post_assessment_unknown_profile_returns_404(test_client):
     assert "not found" in response.json()["detail"].lower()
 
 
+def test_post_assessment_demo_student_auto_seeds(test_client):
+    """Verify submitting assessment for demo student auto-seeds profile without 404."""
+    assessment_payload = {
+        "profile_id": "demo-student-aarav",
+        "skill": "SQL",
+        "score_percentage": 92.0
+    }
+    response = test_client.post("/api/assessment", json=assessment_payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["result"]["skill"] == "SQL"
+    assert data["roadmap"]["version"] >= 2
+
+
+
 def test_get_market_requirements_endpoint(test_client):
     """Verify GET /api/market/{role} returns cached benchmark requirements."""
     response = test_client.get("/api/market/Backend%20Engineer")

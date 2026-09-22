@@ -50,9 +50,14 @@ class DatabaseManager:
                     available_hours_per_week INTEGER,
                     current_prep_level TEXT,
                     skills_json TEXT,
+                    avatar TEXT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            try:
+                cursor.execute("ALTER TABLE profiles ADD COLUMN avatar TEXT")
+            except sqlite3.OperationalError:
+                pass
 
             # Roadmaps table
             cursor.execute("""
@@ -110,8 +115,8 @@ class DatabaseManager:
             cursor.execute("""
                 INSERT INTO profiles (
                     id, name, degree, branch, year, target_role,
-                    available_hours_per_week, current_prep_level, skills_json
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    available_hours_per_week, current_prep_level, skills_json, avatar
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(id) DO UPDATE SET
                     name=excluded.name,
                     degree=excluded.degree,
@@ -120,7 +125,8 @@ class DatabaseManager:
                     target_role=excluded.target_role,
                     available_hours_per_week=excluded.available_hours_per_week,
                     current_prep_level=excluded.current_prep_level,
-                    skills_json=excluded.skills_json
+                    skills_json=excluded.skills_json,
+                    avatar=excluded.avatar
             """, (
                 profile.id,
                 profile.name,
@@ -130,7 +136,8 @@ class DatabaseManager:
                 profile.target_role,
                 profile.available_hours_per_week,
                 profile.current_prep_level,
-                json.dumps(skills_data)
+                json.dumps(skills_data),
+                getattr(profile, "avatar", "cyber-neon") or "cyber-neon"
             ))
             conn.commit()
         return profile
@@ -163,7 +170,8 @@ class DatabaseManager:
                 target_role=row["target_role"],
                 skills=skills,
                 available_hours_per_week=row["available_hours_per_week"],
-                current_prep_level=row["current_prep_level"]
+                current_prep_level=row["current_prep_level"],
+                avatar=row["avatar"] if "avatar" in row.keys() and row["avatar"] else "cyber-neon"
             )
 
     def update_skill_in_profile(self, profile_id: str, skill_name: str, new_level: float) -> StudentProfile | None:

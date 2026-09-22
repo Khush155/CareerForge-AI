@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Search,
   Sparkles,
@@ -39,6 +39,100 @@ const EXAMPLE_QUERIES = [
   'Full Stack Developer',
 ];
 
+const DEFAULT_FALLBACK_ROLES: Record<string, RoleGroupedItem[]> = {
+  'Backend & Cloud': [
+    {
+      id: 'backend_developer',
+      title: 'Backend Developer',
+      category: 'Backend & Cloud',
+      tagline: 'Designs, builds, and scales server-side systems, RESTful and GraphQL APIs, and databases.',
+      demand_level: 'critical',
+      avg_time_to_ready_weeks: 8,
+      top_skills: ['Python', 'FastAPI', 'PostgreSQL'],
+    },
+    {
+      id: 'cloud_devops_engineer',
+      title: 'Cloud & DevOps Engineer',
+      category: 'Backend & Cloud',
+      tagline: 'Automates CI/CD pipelines, provisions cloud infrastructure, and orchestrates containers.',
+      demand_level: 'critical',
+      avg_time_to_ready_weeks: 10,
+      top_skills: ['Docker', 'Kubernetes', 'Terraform'],
+    },
+  ],
+  'Web & Mobile': [
+    {
+      id: 'frontend_developer',
+      title: 'Frontend Developer',
+      category: 'Web & Mobile',
+      tagline: 'Builds responsive, high-performance web applications with modern component frameworks.',
+      demand_level: 'high-priority',
+      avg_time_to_ready_weeks: 6,
+      top_skills: ['React', 'TypeScript', 'Tailwind CSS'],
+    },
+    {
+      id: 'fullstack_developer',
+      title: 'Full Stack Engineer',
+      category: 'Web & Mobile',
+      tagline: 'Masters end-to-end web architecture from reactive user interfaces to scalable backends.',
+      demand_level: 'critical',
+      avg_time_to_ready_weeks: 10,
+      top_skills: ['React', 'Node.js', 'PostgreSQL'],
+    },
+    {
+      id: 'mobile_developer',
+      title: 'Mobile App Developer',
+      category: 'Web & Mobile',
+      tagline: 'Creates cross-platform iOS and Android experiences with modern mobile SDKs.',
+      demand_level: 'high-priority',
+      avg_time_to_ready_weeks: 8,
+      top_skills: ['Flutter', 'React Native', 'Swift'],
+    },
+  ],
+  'AI & Data Science': [
+    {
+      id: 'ml_engineer',
+      title: 'Machine Learning Engineer',
+      category: 'AI & Data Science',
+      tagline: 'Designs, trains, and deploys deep learning models and generative AI systems.',
+      demand_level: 'critical',
+      avg_time_to_ready_weeks: 12,
+      top_skills: ['PyTorch', 'Transformers', 'MLOps'],
+    },
+    {
+      id: 'data_engineer',
+      title: 'Data Engineer',
+      category: 'AI & Data Science',
+      tagline: 'Constructs robust data pipelines, distributed lakes, and warehouse architectures.',
+      demand_level: 'high-priority',
+      avg_time_to_ready_weeks: 9,
+      top_skills: ['Apache Spark', 'Python', 'SQL'],
+    },
+  ],
+  'Security & Networks': [
+    {
+      id: 'cybersecurity_analyst',
+      title: 'Cybersecurity Analyst & Pentester',
+      category: 'Security & Networks',
+      tagline: 'Conducts vulnerability assessments, penetration testing, and defensive system hardening.',
+      demand_level: 'critical',
+      avg_time_to_ready_weeks: 10,
+      top_skills: ['Network Security', 'OWASP Top 10', 'Cryptography'],
+    },
+  ],
+  'Games & Graphics': [
+    {
+      id: 'game_developer',
+      title: 'Game Developer',
+      category: 'Games & Graphics',
+      tagline: 'Develops interactive 2D/3D gameplay mechanics, real-time shaders, and physics engines.',
+      demand_level: 'high-priority',
+      avg_time_to_ready_weeks: 10,
+      top_skills: ['C++', 'Unity', 'Unreal Engine'],
+    },
+  ],
+};
+
 export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolving = false }) => {
   const { profile, roadmap, setCurrentSection } = useAppStore();
 
@@ -48,41 +142,24 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const [groupedRoles, setGroupedRoles] = useState<Record<string, RoleGroupedItem[]>>({});
+  const [groupedRoles, setGroupedRoles] = useState<Record<string, RoleGroupedItem[]>>(DEFAULT_FALLBACK_ROLES);
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Load grouped roles on mount
+  // Load live grouped roles from API on mount
   useEffect(() => {
     fetchRolesGrouped()
-      .then((data) => setGroupedRoles(data))
-      .catch((err) => console.error('Failed to load grouped roles:', err));
+      .then((data) => {
+        if (data && Object.keys(data).length > 0) {
+          setGroupedRoles(data);
+        }
+      })
+      .catch((err) => console.warn('Could not fetch live grouped roles, using offline curated catalog:', err));
   }, []);
 
-  // Compute effective suggestions: ALWAYS includes the searched job even if not in DB or network is loading
-  const effectiveSuggestions: RoleSuggestion[] = useMemo(() => {
-    const trimmed = query.trim();
-    if (!trimmed || trimmed.length < 2) return suggestions;
-
-    const hasMatch = suggestions.some(
-      (s) => s.title.toLowerCase() === trimmed.toLowerCase()
-    );
-    if (hasMatch || suggestions.length > 0) {
-      return suggestions;
-    }
-
-    const title = trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
-    return [
-      {
-        id: `custom_${trimmed.toLowerCase().replace(/\s+/g, '_')}`,
-        title,
-        category: 'Adaptive Career Track',
-        tagline: `Explore customized market requirements & skill roadmap for ${title}`,
-        demand_level: 'AI Adaptive',
-      },
-    ];
-  }, [query, suggestions]);
+  // Use live verified suggestions from backend resolver (no fake gibberish synthesis)
+  const effectiveSuggestions: RoleSuggestion[] = suggestions;
 
   // Debounced autocomplete suggestions (120ms) with race-condition cancellation
   useEffect(() => {
@@ -266,63 +343,74 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
           </div>
 
           {/* Live Suggestions Dropdown */}
-          {showDropdown && effectiveSuggestions.length > 0 && (
+          {showDropdown && query.trim().length >= 2 && (
             <div className="absolute left-0 right-0 top-18 z-50 rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-elev-1)] shadow-2xl p-2 max-h-80 overflow-y-auto animate-in fade-in slide-in-from-top-2 text-left">
-              <div className="px-3 py-1.5 flex items-center justify-between text-[11px] font-mono text-[var(--text-faint)] uppercase tracking-wider">
-                <span>Matching Career Roles & Standards</span>
-                <span className="text-[10px] text-[var(--accent-indigo)] font-semibold flex items-center gap-1">
-                  <Sparkles className="w-3 h-3 text-[var(--accent-amber)]" /> AI Adaptive Search
-                </span>
-              </div>
-              {effectiveSuggestions.map((item, idx) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => {
-                    onSelectRole(item.title);
-                    setShowDropdown(false);
-                  }}
-                  className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors text-left cursor-pointer ${
-                    selectedIndex === idx
-                      ? 'bg-[var(--accent-indigo)] text-white'
-                      : 'hover:bg-[var(--bg-elev-2)] text-[var(--text)]'
-                  }`}
-                >
-                  <div className="flex items-center gap-3 truncate">
-                    <div className="p-2 rounded-lg bg-[var(--bg-elev-2)]">
-                      {getRoleIcon(item.category)}
-                    </div>
-                    <div className="truncate">
-                      <div className="text-sm font-bold font-display truncate flex items-center gap-2">
-                        <span>{item.title}</span>
-                        {item.id.startsWith('custom_') && (
-                          <span
-                            className={`text-[10px] font-mono font-medium px-1.5 py-0.5 rounded ${
-                              selectedIndex === idx
-                                ? 'bg-white/25 text-white'
-                                : 'bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] border border-[var(--accent-indigo)]/25'
-                            }`}
-                          >
-                            AI Track
-                          </span>
-                        )}
-                      </div>
-                      <div className={`text-xs truncate ${selectedIndex === idx ? 'text-white/80' : 'text-[var(--text-muted)]'}`}>
-                        {item.tagline}
-                      </div>
-                    </div>
+              {effectiveSuggestions.length > 0 ? (
+                <>
+                  <div className="px-3 py-1.5 flex items-center justify-between text-[11px] font-mono text-[var(--text-faint)] uppercase tracking-wider">
+                    <span>Matching Career Roles & Standards</span>
+                    <span className="text-[10px] text-[var(--accent-indigo)] font-semibold flex items-center gap-1">
+                      <Sparkles className="w-3 h-3 text-[var(--accent-amber)]" /> AI Adaptive Search
+                    </span>
                   </div>
-                  <span
-                    className={`text-[10px] font-mono px-2 py-0.5 rounded-full shrink-0 uppercase ${
-                      selectedIndex === idx
-                        ? 'bg-white/20 text-white'
-                        : 'bg-[var(--accent-sky)]/10 text-[var(--accent-sky)] border border-[var(--accent-sky)]/20'
-                    }`}
-                  >
-                    {item.demand_level}
-                  </span>
-                </button>
-              ))}
+                  {effectiveSuggestions.map((item, idx) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => {
+                        onSelectRole(item.title);
+                        setShowDropdown(false);
+                      }}
+                      className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors text-left cursor-pointer ${
+                        selectedIndex === idx
+                          ? 'bg-[var(--accent-indigo)] text-white'
+                          : 'hover:bg-[var(--bg-elev-2)] text-[var(--text)]'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 truncate">
+                        <div className="p-2 rounded-lg bg-[var(--bg-elev-2)]">
+                          {getRoleIcon(item.category)}
+                        </div>
+                        <div className="truncate">
+                          <div className="text-sm font-bold font-display truncate flex items-center gap-2">
+                            <span>{item.title}</span>
+                            {item.id.startsWith('custom_') && (
+                              <span
+                                className={`text-[10px] font-mono font-medium px-1.5 py-0.5 rounded ${
+                                  selectedIndex === idx
+                                    ? 'bg-white/25 text-white'
+                                    : 'bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] border border-[var(--accent-indigo)]/25'
+                                }`}
+                              >
+                                AI Track
+                              </span>
+                            )}
+                          </div>
+                          <div className={`text-xs truncate ${selectedIndex === idx ? 'text-white/80' : 'text-[var(--text-muted)]'}`}>
+                            {item.tagline}
+                          </div>
+                        </div>
+                      </div>
+                      <span
+                        className={`text-[10px] font-mono px-2 py-0.5 rounded-full shrink-0 uppercase ${
+                          selectedIndex === idx
+                            ? 'bg-white/20 text-white'
+                            : 'bg-[var(--accent-sky)]/10 text-[var(--accent-sky)] border border-[var(--accent-sky)]/20'
+                        }`}
+                      >
+                        {item.demand_level}
+                      </span>
+                    </button>
+                  ))}
+                </>
+              ) : !isLoadingSuggestions ? (
+                <div className="p-4 text-center space-y-1">
+                  <div className="text-xs font-semibold text-[var(--text)]">No matching career track found</div>
+                  <div className="text-[11px] text-[var(--text-muted)]">
+                    "{query.trim()}" does not match a recognized job title. Try searching for roles like "Software Engineer", "Data Analyst", "Cardiologist", or "Product Manager".
+                  </div>
+                </div>
+              ) : null}
             </div>
           )}
         </div>

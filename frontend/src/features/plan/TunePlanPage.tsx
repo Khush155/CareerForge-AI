@@ -24,6 +24,7 @@ interface TunePlanPageProps {
   onBack: () => void;
   onSubmitPlan: (formData: Partial<StudentProfile>) => void;
   isGenerating: boolean;
+  onSelectAlternativeRole?: (roleTitle: string) => void;
 }
 
 const PROFICIENCY_LABELS = [
@@ -48,6 +49,7 @@ export const TunePlanPage: React.FC<TunePlanPageProps> = ({
   onBack,
   onSubmitPlan,
   isGenerating,
+  onSelectAlternativeRole,
 }) => {
   const { avatar, randomizeAvatar, profile } = useAppStore();
   const draftKey = `careerforge_draft_${resolvedData.role_id}`;
@@ -382,13 +384,16 @@ export const TunePlanPage: React.FC<TunePlanPageProps> = ({
       };
     });
 
+    const sanitizedHours = Math.max(1, Math.min(80, Number(weeklyHours) || 15));
+    const sanitizedYear = Math.max(1, Math.min(5, Number(year) || 1));
+
     onSubmitPlan({
       name: studentName.trim(),
       degree: degree.trim(),
       branch: branch.trim(),
-      year: Number(year),
+      year: sanitizedYear,
       target_role: resolvedData.matched_role,
-      available_hours_per_week: Number(weeklyHours),
+      available_hours_per_week: sanitizedHours,
       skills: compiledSkills,
       avatar,
     });
@@ -482,6 +487,38 @@ export const TunePlanPage: React.FC<TunePlanPageProps> = ({
         </div>
       </div>
 
+      {/* AI Guidance & Domain Alternatives Banner */}
+      {(resolvedData.message || (resolvedData.alternatives && resolvedData.alternatives.length > 0)) && (
+        <div className="p-4 sm:p-5 rounded-3xl bg-[var(--bg-elev-1)] border border-[var(--border)] shadow-xs space-y-3">
+          {resolvedData.message && (
+            <div className="flex items-start gap-2.5 text-xs text-[var(--text-muted)]">
+              <Sparkles className="w-4 h-4 text-[var(--accent-amber)] shrink-0 mt-0.5" />
+              <div>
+                <span className="font-semibold text-[var(--text)]">Search Resolution Guidance: </span>
+                <span>{resolvedData.message}</span>
+              </div>
+            </div>
+          )}
+
+          {resolvedData.alternatives && resolvedData.alternatives.length > 0 && onSelectAlternativeRole && (
+            <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-[var(--border)]">
+              <span className="text-xs font-mono text-[var(--text-faint)]">Specialized Disciplines:</span>
+              {resolvedData.alternatives.map((alt) => (
+                <button
+                  key={alt}
+                  type="button"
+                  onClick={() => onSelectAlternativeRole(alt)}
+                  className="text-xs px-3 py-1 rounded-xl bg-[var(--bg-elev-2)] hover:bg-[var(--accent-indigo)] hover:text-white border border-[var(--border)] text-[var(--text)] transition-colors cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>{alt}</span>
+                  <ChevronRight className="w-3 h-3 opacity-60" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Master Form */}
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* ROW 1: EQUAL-HEIGHT CARDS (Student Profile on Left, Live Projection on Right) */}
@@ -505,7 +542,7 @@ export const TunePlanPage: React.FC<TunePlanPageProps> = ({
                     <div className="relative group shrink-0" title="Custom Cartoon Profile Avatar (Click 🎲 to shuffle)">
                       <div className="w-11 h-11 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--border)] overflow-hidden shadow-sm flex items-center justify-center p-0.5">
                         <img
-                          src={getCartoonAvatarUrl(avatar, 'bottts')}
+                          src={getCartoonAvatarUrl(avatar)}
                           alt="Cartoon Avatar"
                           className="w-full h-full object-cover transition-transform group-hover:scale-110"
                         />

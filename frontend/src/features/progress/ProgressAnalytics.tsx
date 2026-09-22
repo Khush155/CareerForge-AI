@@ -8,10 +8,10 @@ import {
   ShieldCheck,
   ArrowRight,
   Flame,
-  CheckSquare,
   Square,
   BarChart3,
   Loader2,
+  Check,
 } from 'lucide-react';
 import { fetchCompletedMilestones, updateMilestoneCompletion } from '../../lib/api';
 import { toast } from 'sonner';
@@ -310,7 +310,9 @@ export const ProgressAnalytics: React.FC = () => {
                 >
                   <span className="mt-0.5 shrink-0">
                     {isDone ? (
-                      <CheckSquare className="w-4 h-4 text-[var(--accent-mint)]" />
+                      <div className="w-4 h-4 rounded bg-[var(--accent-mint)] flex items-center justify-center">
+                        <Check className="w-3 h-3 stroke-[3] text-black dark:text-white" style={{ color: 'var(--milestone-tick-color)' }} />
+                      </div>
                     ) : (
                       <Square className="w-4 h-4 text-[var(--text-muted)] hover:text-[var(--text)]" />
                     )}

@@ -17,11 +17,13 @@ import {
 interface SidebarProps {
   isCollapsed: boolean;
   onToggleCollapse: () => void;
+  onNavigateHome?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   isCollapsed,
   onToggleCollapse,
+  onNavigateHome,
 }) => {
   const { currentSection, setCurrentSection, roadmap, gaps } = useAppStore();
 
@@ -35,6 +37,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'resources', label: 'Resources', icon: BookOpen, badge: null },
     { id: 'settings', label: 'Settings', icon: Settings, badge: null },
   ] as const;
+
+  const handleNavClick = (sectionId: string) => {
+    if (sectionId === 'home' && onNavigateHome) {
+      onNavigateHome();
+    } else {
+      setCurrentSection(sectionId as any);
+    }
+  };
 
   return (
     <>
@@ -53,7 +63,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button
                 key={item.id}
                 type="button"
-                onClick={() => setCurrentSection(item.id)}
+                onClick={() => handleNavClick(item.id)}
                 title={isCollapsed ? item.label : undefined}
                 className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer group ${
                   isActive
@@ -123,7 +133,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               key={item.id}
               type="button"
-              onClick={() => setCurrentSection(item.id)}
+              onClick={() => handleNavClick(item.id)}
               className={`relative flex flex-col items-center justify-center p-2 rounded-lg text-[10px] font-medium transition-colors cursor-pointer ${
                 isActive ? 'text-[var(--accent-indigo)] font-bold' : 'text-[var(--text-muted)]'
               }`}

@@ -14,7 +14,11 @@ import {
   Keyboard,
 } from 'lucide-react';
 
-export const TopBar: React.FC = () => {
+interface TopBarProps {
+  onNavigateHome?: () => void;
+}
+
+export const TopBar: React.FC<TopBarProps> = ({ onNavigateHome }) => {
   const {
     theme,
     toggleTheme,
@@ -51,7 +55,10 @@ export const TopBar: React.FC = () => {
       <div className="flex items-center gap-3">
         <button
           type="button"
-          onClick={() => setCurrentSection('home')}
+          onClick={() => {
+            if (onNavigateHome) onNavigateHome();
+            else setCurrentSection('home');
+          }}
           className="flex items-center gap-2.5 cursor-pointer text-left group"
         >
           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[var(--accent-indigo)] via-[var(--accent-sky)] to-[var(--accent-mint)] p-0.5 shadow-md group-hover:scale-105 transition-transform shrink-0">
@@ -169,7 +176,7 @@ export const TopBar: React.FC = () => {
           >
             <div className="w-8 h-8 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--border)] overflow-hidden flex items-center justify-center shadow-xs group-hover:border-[var(--accent-indigo)] transition-colors p-0.5 shrink-0">
               <img
-                src={getCartoonAvatarUrl(profile?.avatar || avatar, 'bottts')}
+                src={getCartoonAvatarUrl(profile?.avatar || avatar)}
                 alt="Cartoon Avatar"
                 className="w-full h-full object-cover rounded-lg"
               />
@@ -192,7 +199,7 @@ export const TopBar: React.FC = () => {
                 <div className="relative group shrink-0" title="Shuffle cartoon avatar">
                   <div className="w-11 h-11 rounded-xl bg-[var(--bg-elev-2)] border border-[var(--border)] overflow-hidden p-0.5 shadow-sm">
                     <img
-                      src={getCartoonAvatarUrl(profile?.avatar || avatar, 'bottts')}
+                      src={getCartoonAvatarUrl(profile?.avatar || avatar)}
                       alt="Cartoon Avatar"
                       className="w-full h-full object-cover rounded-lg"
                     />
@@ -239,7 +246,7 @@ export const TopBar: React.FC = () => {
                       >
                         <div className="w-5 h-5 rounded-lg bg-[var(--bg-elev-2)] border border-[var(--border)] overflow-hidden shrink-0">
                           <img
-                            src={getCartoonAvatarUrl(p.avatar || 'bottts', 'bottts')}
+                            src={getCartoonAvatarUrl(p.avatar || p.name)}
                             alt=""
                             className="w-full h-full object-cover"
                           />

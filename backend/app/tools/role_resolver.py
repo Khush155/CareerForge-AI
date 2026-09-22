@@ -46,11 +46,187 @@ ABBREVIATIONS: dict[str, str] = {
     "iot": "Embedded IoT Engineer",
 }
 
+# Common occupational markers indicating a genuine career inquiry
+COMMON_OCCUPATIONAL_MARKERS: set[str] = {
+    "engineer", "engineering", "developer", "development", "dev", "eng",
+    "designer", "design", "architect", "architecture", "consultant", "consulting",
+    "specialist", "expert", "lead", "manager", "management", "director",
+    "officer", "administrator", "admin", "analyst", "analytics", "scientist",
+    "researcher", "intern", "associate", "technician", "doctor", "physician",
+    "surgeon", "nurse", "nursing", "dentist", "pharmacist", "radiologist",
+    "lawyer", "advocate", "attorney", "accountant", "auditor", "trader",
+    "banker", "writer", "editor", "pilot", "mechanic", "electrician",
+    "chef", "artist", "teacher", "professor", "instructor", "therapist",
+    "operator", "coordinator", "agent", "executive", "representative", "specialized"
+}
+
+# Broad umbrella terms that warrant guiding the student toward specialized disciplines
+BROAD_ROLE_GUIDANCE: dict[str, dict] = {
+    "engineer": {
+        "title": "Engineering Umbrella",
+        "category": "Engineering & Technology",
+        "guidance": " 'Engineer' is a broad domain spanning diverse engineering disciplines. We've matched you to foundational Software Engineering, and recommend selecting a specialized branch below.",
+        "suggested_roles": [
+            "Software Development Engineer",
+            "DevOps Engineer",
+            "Machine Learning Engineer",
+            "Data Engineer",
+            "Cloud Infrastructure Engineer",
+            "Frontend Developer",
+            "Backend Developer",
+        ],
+    },
+    "developer": {
+        "title": "Software Development Track",
+        "category": "Software Engineering",
+        "guidance": " 'Developer' covers multiple tech stacks. We've loaded the Full Stack Developer curriculum as a standard foundation; select your preferred specialization below.",
+        "suggested_roles": [
+            "Full Stack Developer",
+            "Backend Developer",
+            "Frontend Developer",
+            "Mobile App Developer",
+            "Game Developer",
+        ],
+    },
+    "doctor": {
+        "title": "Medical Practice Track",
+        "category": "Medicine & Healthcare",
+        "guidance": " 'Doctor' encompasses diverse medical branches. We've prepared a clinical physician track; choose your targeted specialty below.",
+        "suggested_roles": [
+            "Cardiologist",
+            "Medical Physician",
+            "Orthopedic Surgeon",
+            "Pediatrician",
+            "Radiologist",
+        ],
+    },
+    "analyst": {
+        "title": "Analytics & Intelligence Track",
+        "category": "Data & Analytics",
+        "guidance": " 'Analyst' spans multiple domains. Which analytical focus are you aiming for?",
+        "suggested_roles": [
+            "Data Analyst",
+            "Business Analyst",
+            "Financial Analyst",
+            "Cybersecurity Analyst",
+            "Quantitative Analyst",
+        ],
+    },
+    "manager": {
+        "title": "Management & Leadership Track",
+        "category": "Management & Strategy",
+        "guidance": " 'Manager' covers product, technical, and operational functions. Which leadership domain are you targeting?",
+        "suggested_roles": [
+            "Product Manager",
+            "Engineering Manager",
+            "Project Manager",
+            "Operations Manager",
+        ],
+    },
+    "scientist": {
+        "title": "Data Science & Research Track",
+        "category": "Data Science & Research",
+        "guidance": " 'Scientist' covers empirical research and data science disciplines. Which scientific branch are you pursuing?",
+        "suggested_roles": [
+            "Data Scientist",
+            "Machine Learning Engineer",
+            "Research Scientist",
+            "Bioinformatics Scientist",
+        ],
+    },
+    "designer": {
+        "title": "Design & User Experience Track",
+        "category": "Design & Creative",
+        "guidance": " 'Designer' covers interface, visual, and architectural design. Which creative specialization are you targeting?",
+        "suggested_roles": [
+            "UI/UX Designer",
+            "Product Designer",
+            "Graphic Designer",
+            "Motion Designer",
+        ],
+    },
+}
+
+
+def is_gibberish_query(text: str) -> bool:
+    """Detect keyboard mashing, impossible consonant clusters, or random non-words."""
+    cleaned = re.sub(r"[^\w\s]", " ", text.lower()).strip()
+    if not cleaned:
+        return True
+
+    tokens = cleaned.split()
+    if not tokens:
+        return True
+
+    # Known single, double, or triple letter tech acronyms
+    valid_acronyms = {
+        "sde", "swe", "qa", "sre", "devops", "ml", "ai", "nlp", "cv", "db", "pm",
+        "tpm", "ds", "de", "dba", "ui", "ux", "hr", "ceo", "cto", "cfo", "cio",
+        "cpo", "vp", "dsa", "seo", "sem", "pr", "it", "bi", "cad", "cam"
+    }
+
+    mash_patterns = [
+        "asdf", "sdfg", "dfgh", "fghj", "ghjk", "hjkl",
+        "qwerty", "werty", "ertyu", "rtyui", "tyuio", "yuio",
+        "zxcv", "xcvb", "cvbn", "vbnm", "qazwsx", "edcrfv", "123456"
+    ]
+
+    for word in tokens:
+        if word in valid_acronyms:
+            continue
+
+        # Word too short and not a known preposition/acronym
+        if len(word) <= 2 and word not in {"in", "to", "of", "and", "or", "on"}:
+            if len(tokens) == 1:
+                return True
+
+        # Keyboard walk / mash sequences
+        if any(p in word for p in mash_patterns):
+            return True
+
+        # Repeated characters (e.g. 'zzzzz', 'aaaa') or repeated syllables ('svsvsv', 'ababab')
+        if re.search(r"([a-z])\1{2,}", word):
+            return True
+        if re.search(r"([a-z]{2,3})\1{2,}", word):
+            return True
+
+        # 5+ consecutive consonants (almost non-existent in authentic career titles)
+        consonant_exceptions = {"lengths", "strengths", "twelfths"}
+        if word not in consonant_exceptions and re.search(r"[bcdfghjklmnpqrstvwxz]{5,}", word):
+            return True
+
+        # Vowel frequency checks
+        vowels = sum(1 for c in word if c in "aeiouy")
+        if len(word) >= 4 and vowels == 0:
+            return True
+        if len(word) >= 6 and (vowels / len(word) < 0.15 or vowels / len(word) > 0.85):
+            return True
+
+    return False
+
+
+def is_plausible_job_title(text: str) -> bool:
+    """Check if query contains recognizable occupational markers or career keywords."""
+    clean = re.sub(r"[^\w\s]", " ", text.lower()).strip()
+    words = set(clean.split())
+    if not words:
+        return False
+    if words & COMMON_OCCUPATIONAL_MARKERS:
+        return True
+
+    all_domains = (
+        {"python", "java", "c++", "rust", "go", "golang", "javascript", "typescript", "react", "node", "sql", "linux", "cloud", "aws", "azure", "docker", "kubernetes", "cyber", "security", "data", "ai", "ml", "ios", "android", "frontend", "backend", "fullstack", "devops", "sre", "qa", "dsa", "sdet", "mobile", "web", "game", "robotics", "iot", "embedded"}
+        | {"cardio", "doctor", "physician", "surgeon", "medical", "nurse", "nursing", "clinic", "hospital", "pharma", "biotech", "dental", "dentist"}
+        | {"finance", "invest", "bank", "equity", "hedge", "quant", "audit", "accountant", "accounting", "trader", "wealth", "actuary", "cfa", "ca"}
+        | {"law", "legal", "lawyer", "advocate", "attorney", "counsel", "litigation", "corporate"}
+    )
+    return bool(words & all_domains)
+
 
 class RoleResolver:
     """Manages role discovery, suggestions, and intelligent matching."""
 
-    def __init__(self, data_dir: str = "data/roles"):
+    def __init__(self, data_dir: str = "data/roles", cache_file: str = "cache/ai_synthesized_roles.json"):
         path = Path(data_dir)
         if not path.is_absolute() and not path.exists():
             # Locate relative to project root (backend/app/tools/role_resolver.py -> 3 parents to backend, 4 to root)
@@ -60,7 +236,36 @@ class RoleResolver:
         self.data_dir = path
         self.roles: list[RoleDefinition] = []
         self._load_roles()
+
+        cache_path = Path(cache_file)
+        if not cache_path.is_absolute() and not cache_path.exists():
+            root = Path(__file__).resolve().parent.parent.parent.parent
+            cache_path = root / cache_file
+        self.cache_path = cache_path
+        self.cache_path.parent.mkdir(parents=True, exist_ok=True)
+        self.ai_cache: dict[str, dict] = self._load_ai_cache()
         self.azure_client = AzureOpenAIClient()
+
+    def _load_ai_cache(self) -> dict[str, dict]:
+        """Load previously synthesized custom roles from disk cache."""
+        if self.cache_path.exists():
+            try:
+                with open(self.cache_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    if isinstance(data, dict):
+                        logger.info("Loaded %d synthesized roles from disk cache", len(data))
+                        return data
+            except (OSError, json.JSONDecodeError) as e:
+                logger.warning("Could not read AI role cache: %s. Starting fresh.", e)
+        return {}
+
+    def _save_ai_cache(self) -> None:
+        """Persist synthesized custom roles to disk cache."""
+        try:
+            with open(self.cache_path, "w", encoding="utf-8") as f:
+                json.dump(self.ai_cache, f, indent=2)
+        except OSError as e:
+            logger.error("Failed to save AI role cache: %s", e)
 
     def _load_roles(self) -> None:
         """Load all rich role definitions from disk."""
@@ -220,7 +425,7 @@ class RoleResolver:
 
     def suggest_roles(self, query: str, limit: int = 8) -> list[dict]:
         """Fast autocomplete suggestions for the hero search input.
-        Always includes the user's searched role even if it is not in the static database.
+        Returns accurate matching suggestions, handles broad terms, and rejects gibberish.
         """
         raw_q = query.strip()
         if not raw_q:
@@ -238,9 +443,28 @@ class RoleResolver:
                 for r in matches[:limit]
             ]
 
+        # 1. Immediately reject gibberish (random keyboard mash, non-words)
+        if is_gibberish_query(raw_q):
+            return []
+
         q = self.normalize_query(raw_q)
         q_tokens = set(q.split())
         canonical_title = raw_q.title()
+
+        # 2. Check if user typed a broad umbrella term (e.g. 'engineer', 'developer', 'doctor')
+        for b_key, b_info in BROAD_ROLE_GUIDANCE.items():
+            if raw_q.lower() == b_key or q == b_key or q_tokens == {b_key}:
+                broad_results = []
+                for s_title in b_info["suggested_roles"]:
+                    matched = next((r for r in self.roles if r.title.lower() == s_title.lower()), None)
+                    broad_results.append({
+                        "id": matched.id if matched else f"broad_{re.sub(r'[^\w]+', '_', s_title.lower()).strip('_')}",
+                        "title": s_title,
+                        "category": b_info["category"],
+                        "tagline": matched.tagline if (matched and matched.tagline) else f"Specialized curriculum for {s_title}",
+                        "demand_level": getattr(matched, "demand_level", "High Demand"),
+                    })
+                return broad_results[:limit]
 
         results = []
         has_exact_title_match = False
@@ -257,9 +481,9 @@ class RoleResolver:
             if q == title_lower or any(q == a for a in aliases_lower) or raw_q.lower() == title_lower:
                 score = 1.0
                 has_exact_title_match = True
-            elif q in title_lower or any((len(q) > 2 and q in a) or q == a for a in aliases_lower) or raw_q.lower() in title_lower:
+            elif (len(q) > 3 and re.search(rf"\b{re.escape(q)}\b", title_lower)) or any(a in q_tokens or (len(a) > 2 and re.search(rf"\b{re.escape(a)}\b", raw_q.lower())) for a in aliases_lower):
                 score = 0.85
-            elif (len(title_lower) > 3 and title_lower in q) or any((len(a) > 3 and a in q) or a in q_tokens for a in aliases_lower):
+            elif (len(title_lower) > 3 and re.search(rf"\b{re.escape(title_lower)}\b", q)) or any(a in q_tokens for a in aliases_lower):
                 score = 0.80
             else:
                 # Token overlap
@@ -290,9 +514,8 @@ class RoleResolver:
 
         suggestions: list[dict] = []
 
-        # If user typed a query that is not an exact match to a catalog title,
-        # ALWAYS present the queried job as the primary suggestion!
-        if not has_exact_title_match and len(raw_q) >= 2:
+        # Only present custom job suggestion if it is a plausible job title and not exact catalog match
+        if not has_exact_title_match and len(raw_q) >= 3 and is_plausible_job_title(raw_q):
             cat, tagline, demand = self.classify_query_domain(raw_q, canonical_title)
             slug = re.sub(r"[^\w]+", "_", raw_q.lower()).strip("_")
             suggestions.append({
@@ -321,9 +544,62 @@ class RoleResolver:
     def resolve_role(self, query: str) -> RoleResolveResponse:
         """Map user input to a verified benchmark or gracefully composed plan."""
         normalized = self.normalize_query(query)
-
         raw_lower = query.lower().strip()
         tokens = set(re.sub(r"[^\w\s]", " ", raw_lower).split())
+
+        # 0A. Detect random keyboard mash / gibberish non-words
+        if is_gibberish_query(query):
+            return RoleResolveResponse(
+                matched_role="",
+                role_id="",
+                confidence=0.0,
+                tagline="No matching career track found.",
+                category="Unrecognized",
+                alternatives=["Software Development Engineer", "Data Analyst", "Product Manager", "Machine Learning Engineer"],
+                benchmark=[],
+                source_type="unrecognized",
+                message=f"No recognized career track found for '{query}'. It appears to be an invalid or unrecognized search. Please search for a recognized role like 'Software Engineer', 'Data Analyst', or 'Product Manager'.",
+                tier_label="Target Organization Tier",
+                target_tiers=[],
+                degree_label="Degree / Qualification",
+                branch_label="Branch / Specialization",
+                suggested_degrees=[],
+                suggested_branches=[],
+            )
+
+        # 0B. Check if user typed a broad umbrella term (e.g. 'engineer', 'developer', 'doctor')
+        broad_match = None
+        for b_key, b_info in BROAD_ROLE_GUIDANCE.items():
+            if raw_lower == b_key or normalized == b_key or tokens == {b_key}:
+                broad_match = (b_key, b_info)
+                break
+
+        if broad_match:
+            b_key, b_info = broad_match
+            primary_title = b_info["suggested_roles"][0]
+            matched = next((r for r in self.roles if r.title.lower() == primary_title.lower()), self.roles[0] if self.roles else None)
+            alternatives = [s for s in b_info["suggested_roles"] if s.lower() != primary_title.lower()]
+            return RoleResolveResponse(
+                matched_role=primary_title,
+                role_id=matched.id if matched else "engineering_track",
+                confidence=0.70,
+                tagline=b_info["guidance"],
+                category=b_info["category"],
+                alternatives=alternatives,
+                benchmark=matched.skills if matched else [],
+                source_type="curated",
+                message=f"'{query.strip().title()}' is a broad category. We have set up a foundational '{primary_title}' roadmap as a starting point. Select any specialized discipline below to tailor your roadmap.",
+                tier_label=getattr(matched, "tier_label", "Target Company Tier"),
+                target_tiers=[
+                    "Product Tier 1 (FAANG / Big Tech)",
+                    "High-Growth Tech Scaleup",
+                    "Enterprise & Cloud SaaS",
+                ],
+                degree_label="Degree / Qualification",
+                branch_label="Branch / Specialization",
+                suggested_degrees=["B.Tech", "B.E.", "BCA / MCA", "B.S. / M.S."],
+                suggested_branches=["Computer Science & Engineering", "Information Technology", "Core Engineering"],
+            )
 
         # 1. Direct search in database with token overlap and similarity
         best_score = 0.0
@@ -359,10 +635,10 @@ class RoleResolver:
                     if a == raw_lower or a in tokens:
                         score = max(score, 0.90)
                 else:
-                    if a in normalized or a in raw_lower:
+                    if a in tokens or re.search(rf"\b{re.escape(a)}\b", raw_lower) or re.search(rf"\b{re.escape(a)}\b", normalized):
                         score = max(score, 0.85)
 
-            if len(title_lower) > 3 and (title_lower in normalized or title_lower in raw_lower):
+            if len(title_lower) > 3 and (re.search(rf"\b{re.escape(title_lower)}\b", normalized) or re.search(rf"\b{re.escape(title_lower)}\b", raw_lower)):
                 score = max(score, 0.90)
 
             # Fuzzy string match with safe acronym filtering (e.g. 'cv' must not match 'civil')
@@ -427,6 +703,17 @@ class RoleResolver:
                 suggested_branches=["Interaction Design", "Visual Communication", "UI/UX"] if is_design else ["Computer Science & Engineering", "Information Technology", "AI & Data Science", "Electronics & Comm"],
             )
 
+        # 2B. Check persistent AI role cache (stores custom roles synthesized from previous user searches)
+        cache_key = normalized
+        if cache_key in self.ai_cache:
+            logger.info("Serving previously synthesized role from persistent disk cache: '%s'", query)
+            try:
+                cached_resp = RoleResolveResponse.model_validate(self.ai_cache[cache_key])
+                cached_resp.message = f"Retrieved verified benchmark for '{cached_resp.matched_role}' from search cache."
+                return cached_resp
+            except Exception as e:
+                logger.warning("Failed to parse cached role: %s", e)
+
         # 3. Check specific tech domain keywords
         tech_keyword_map = [
             ("ios", "ios_developer"),
@@ -461,7 +748,8 @@ class RoleResolver:
         ]
 
         for kw, target_id in tech_keyword_map:
-            if kw in raw_lower or kw in normalized:
+            kw_pattern = rf"\b{re.escape(kw)}\b"
+            if re.search(kw_pattern, raw_lower) or re.search(kw_pattern, normalized):
                 matched = next((r for r in self.roles if r.id == target_id), None)
                 if matched:
                     return RoleResolveResponse(
@@ -488,44 +776,44 @@ class RoleResolver:
                         suggested_branches=["Computer Science & Engineering", "Information Technology", "AI & Data Science", "Electronics & Comm"],
                     )
 
-        # 4. Check for pure symbols, keyboard mashing, or vowel-less gibberish (e.g. '!@#$%^&*()_+', 'asdfgh')
+        # 4. Check for pure symbols or residual vowel-less non-words
         letters_only = re.sub(r"[^a-zA-Z]", "", raw_lower)
-        is_gibberish = (
+        is_residual_gibberish = (
             len(letters_only) < 3
             or not any(v in letters_only for v in "aeiouy")
             or letters_only in {"asdf", "asdfg", "asdfgh", "asdfghjkl", "qwerty", "zxcvbnm", "xyz"}
         )
-        if is_gibberish:
-            sde_role = next((r for r in self.roles if r.id == "sde_dsa"), self.roles[0] if self.roles else None)
+        if is_residual_gibberish:
             return RoleResolveResponse(
-                matched_role="Software Development Engineer",
-                role_id="sde_dsa",
-                confidence=0.40,
-                tagline="Universal software problem solving, algorithms, and core engineering fundamentals.",
-                category="Software Engineering",
-                alternatives=["Backend Developer", "Full Stack Developer"],
-                benchmark=sde_role.skills if sde_role else [
-                    RoleSkillBenchmark(name="Data Structures & Algorithms", required_level=4.0, est_hours=45),
-                    RoleSkillBenchmark(name="System Design", required_level=3.0, est_hours=30),
-                    RoleSkillBenchmark(name="Python", required_level=3.5, est_hours=25),
-                ],
-                source_type="estimated",
-                message=f"We mapped '{query}' to foundational Software Engineering so you have a solid starting plan.",
-                tier_label="Target Company Tier",
-                target_tiers=[
-                    "Product Tier 1 (FAANG / Big Tech)",
-                    "High-Growth Tech Scaleup",
-                    "FinTech & Quantitative Systems",
-                    "Enterprise & Cloud SaaS",
-                    "Early Stage Tech Startup",
-                ],
+                matched_role="",
+                role_id="",
+                confidence=0.0,
+                tagline="No matching career track found.",
+                category="Unrecognized",
+                alternatives=["Software Development Engineer", "Data Analyst", "Product Manager", "Machine Learning Engineer"],
+                benchmark=[],
+                source_type="unrecognized",
+                message=f"No recognized career track found for '{query}'. Please check the spelling or search for a recognized role like 'Software Engineer', 'Data Analyst', or 'Product Manager'.",
+                tier_label="Target Organization Tier",
+                target_tiers=[],
                 degree_label="Degree / Qualification",
                 branch_label="Branch / Specialization",
-                suggested_degrees=["B.Tech", "B.E.", "BCA / MCA"],
-                suggested_branches=["Computer Science & Engineering", "Information Technology"],
+                suggested_degrees=[],
+                suggested_branches=[],
             )
 
-        # 5. Live AI Synthesis: If query is outside the catalog and Azure OpenAI / Foundry is active
+        # 5. Check persistent AI role cache (stores custom roles synthesized from previous user searches)
+        cache_key = normalized
+        if cache_key in self.ai_cache:
+            logger.info("Serving previously synthesized role from persistent disk cache: '%s'", query)
+            try:
+                cached_resp = RoleResolveResponse.model_validate(self.ai_cache[cache_key])
+                cached_resp.message = f"Retrieved verified benchmark for '{cached_resp.matched_role}' from search cache."
+                return cached_resp
+            except Exception as e:
+                logger.warning("Failed to parse cached role: %s", e)
+
+        # 6. Live AI Synthesis: If query is outside the catalog and Azure OpenAI / Foundry is active
         if self.azure_client.is_configured:
             ai_data = self.azure_client.synthesize_role_benchmark(query)
             if ai_data and ai_data.get("matched_role") and ai_data.get("skills"):
@@ -543,7 +831,7 @@ class RoleResolver:
                     )
                     for s in ai_data["skills"]
                 ]
-                return RoleResolveResponse(
+                resp = RoleResolveResponse(
                     matched_role=ai_data["matched_role"],
                     role_id=slug_id or "custom_role",
                     confidence=0.95,
@@ -566,8 +854,26 @@ class RoleResolver:
                     suggested_degrees=ai_data.get("suggested_degrees", ["Bachelor's Degree", "Master's Degree", "Professional Certification"]),
                     suggested_branches=ai_data.get("suggested_branches", ["Core Discipline", "Specialized Practice"]),
                 )
+                # Persist to disk cache so future users or offline requests get this exact curriculum!
+                self.ai_cache[cache_key] = resp.model_dump()
+                self.ai_cache[self.normalize_query(ai_data["matched_role"])] = resp.model_dump()
+                self._save_ai_cache()
+                return resp
 
-        # 5. Offline Multi-Domain Taxonomy Fallback (when offline or AI fails)
+        # 7. Fallback to community search cache: If live AI key fails or is unconfigured,
+        # check if ANY previous user's search in the persistent cache matches or shares keywords
+        for c_key, c_data in self.ai_cache.items():
+            c_tokens = set(c_key.split())
+            if c_key in normalized or normalized in c_key or (tokens & c_tokens and len(tokens & c_tokens) >= 1):
+                try:
+                    logger.info("Serving match from community search cache for '%s'", c_key)
+                    cached_resp = RoleResolveResponse.model_validate(c_data)
+                    cached_resp.message = f"Retrieved community benchmark for '{cached_resp.matched_role}' from search cache."
+                    return cached_resp
+                except Exception:
+                    pass
+
+        # 8. Offline Multi-Domain Taxonomy Fallback (when offline or AI fails)
         canonical_title = query.strip().title() if query.strip() else "Professional"
         clean_slug = re.sub(r"[^\w]+", "_", canonical_title.lower()).strip("_")
 
@@ -717,7 +1023,26 @@ class RoleResolver:
                 suggested_branches=["Corporate & Commercial Law", "Dispute Resolution & Litigation", "Intellectual Property Rights"],
             )
 
-        # 5E. Universal Professional Catch-All (NEVER map non-tech to SDE)
+        # 5E. Universal Professional Catch-All (only for plausible occupational titles)
+        if not is_plausible_job_title(raw_lower) and best_score < 0.35:
+            return RoleResolveResponse(
+                matched_role="",
+                role_id="",
+                confidence=0.0,
+                tagline="No matching career track found.",
+                category="Unrecognized",
+                alternatives=["Software Development Engineer", "Data Analyst", "Product Manager", "Machine Learning Engineer"],
+                benchmark=[],
+                source_type="unrecognized",
+                message=f"No recognized career track found for '{query}'. Please check the spelling or search for a recognized role like 'Software Engineer', 'Data Analyst', or 'Product Manager'.",
+                tier_label="Target Organization Tier",
+                target_tiers=[],
+                degree_label="Degree / Qualification",
+                branch_label="Branch / Specialization",
+                suggested_degrees=[],
+                suggested_branches=[],
+            )
+
         # If user explicitly wrote code/software words, map to SDE. Otherwise keep their canonical title!
         is_software_query = any(w in raw_lower for w in ["software", "code", "coder", "programmer", "developer", "dsa", "leetcode"])
         final_title = "Software Development Engineer" if is_software_query else (canonical_title if len(canonical_title) > 2 else "Specialized Professional")

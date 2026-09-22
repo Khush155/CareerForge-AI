@@ -37,9 +37,10 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 
 interface AppShellProps {
   children: React.ReactNode;
+  onNavigateHome?: () => void;
 }
 
-export const AppShell: React.FC<AppShellProps> = ({ children }) => {
+export const AppShell: React.FC<AppShellProps> = ({ children, onNavigateHome }) => {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { currentSection, theme } = useAppStore();
 
@@ -47,7 +48,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
     <ErrorBoundary>
       <div className="h-screen flex flex-col bg-[var(--bg)] text-[var(--text)] transition-colors duration-200 overflow-hidden">
         {/* Sticky Top Bar */}
-        <TopBar />
+        <TopBar onNavigateHome={onNavigateHome} />
 
         {/* Main Workstation Layout */}
         <div className="flex-1 flex overflow-hidden min-h-0 relative">
@@ -55,6 +56,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
           <Sidebar
             isCollapsed={isSidebarCollapsed}
             onToggleCollapse={() => setSidebarCollapsed(!isSidebarCollapsed)}
+            onNavigateHome={onNavigateHome}
           />
 
           {/* Main Content Viewport */}

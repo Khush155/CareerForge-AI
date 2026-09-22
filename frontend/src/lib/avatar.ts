@@ -33,15 +33,41 @@ export const CURATED_CARTOON_AVATARS: Array<{
 
 /**
  * Generate a Dicebear animated cartoon avatar URL
+ * Automatically infers style from curated presets or falls back gracefully
  */
 export function getCartoonAvatarUrl(
   seed?: string | null,
-  style: 'bottts' | 'adventurer' | 'lorelei' = 'bottts'
+  style?: 'bottts' | 'adventurer' | 'lorelei'
 ): string {
-  const cleanSeed = (seed || 'careerforge-cadet').trim().toLowerCase().replace(/\s+/g, '-');
-  return `https://api.dicebear.com/7.x/${style}/svg?seed=${encodeURIComponent(
+  let cleanSeed = (seed || 'cyber-neon').trim().toLowerCase().replace(/\s+/g, '-');
+  if (cleanSeed === 'bottts' || cleanSeed === 'careerforge-cadet') {
+    cleanSeed = 'cyber-neon';
+  }
+
+  // Look up matching curated avatar definition to automatically pick its appropriate style
+  const matched = CURATED_CARTOON_AVATARS.find((a) => a.id === cleanSeed);
+  const resolvedStyle = style || (matched ? matched.style : 'bottts');
+
+  return `https://api.dicebear.com/7.x/${resolvedStyle}/svg?seed=${encodeURIComponent(
     cleanSeed
   )}&backgroundColor=0f172a,1e1b4b,172554,022c22,31104b`;
+}
+
+/**
+ * Pick a deterministic avatar for a profile name/id so different profiles never share the same avatar
+ */
+export function getAvatarForProfile(nameOrId: string, index = 0): { id: string; name: string; url: string } {
+  let hash = index;
+  const str = (nameOrId || 'student').trim().toLowerCase();
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash * 31 + str.charCodeAt(i)) % CURATED_CARTOON_AVATARS.length;
+  }
+  const chosen = CURATED_CARTOON_AVATARS[Math.abs(hash) % CURATED_CARTOON_AVATARS.length];
+  return {
+    id: chosen.id,
+    name: chosen.name,
+    url: getCartoonAvatarUrl(chosen.id, chosen.style),
+  };
 }
 
 /**

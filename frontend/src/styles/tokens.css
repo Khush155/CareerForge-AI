@@ -47,6 +47,7 @@
   --accent-coral:  #FB7185;
   --accent-violet: #A78BFA;
   --accent-pink:   #F472B6;
+  --accent-emerald: #10B981;
 
   /* Brand Gradient */
   --brand-gradient: linear-gradient(135deg, #6366F1 0%, #A78BFA 50%, #F472B6 100%);
@@ -139,6 +140,9 @@
   --glass-glow:        0 12px 35px rgba(0, 0, 0, 0.55);
   --card-shadow:       var(--shadow-card);
   --shadow-overlay:    var(--shadow-elev);
+
+  /* Roadmap Milestone Checkmark Tick Color */
+  --milestone-tick-color: #FFFFFF;
 }
 
 /* ==========================================================================
@@ -194,6 +198,9 @@
   --glass-glow:        0 8px 24px rgba(15, 18, 40, 0.06);
   --card-shadow:       var(--shadow-card);
   --shadow-overlay:    var(--shadow-elev);
+
+  /* Roadmap Milestone Checkmark Tick Color */
+  --milestone-tick-color: #000000;
 }
 
 /* Global Document Styles */

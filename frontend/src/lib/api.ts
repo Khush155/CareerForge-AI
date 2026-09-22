@@ -22,14 +22,37 @@ export class AppApiError extends Error {
 
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
   let res: Response;
+  let targetUrl = url;
+
   try {
-    res = await fetch(url, options);
+    res = await fetch(targetUrl, options);
+    // If dev proxy returned index.html fallback instead of API JSON, retry direct to 127.0.0.1:8000
+    const contentType = res.headers.get('content-type') || '';
+    if (res.ok && contentType.includes('text/html') && targetUrl.startsWith('/api')) {
+      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        targetUrl = `http://127.0.0.1:8000${url}`;
+        res = await fetch(targetUrl, options);
+      }
+    }
   } catch (err) {
-    throw new AppApiError(
-      "Couldn't reach the API on 127.0.0.1:8000. Start the server and retry.",
-      undefined,
-      'network'
-    );
+    if (targetUrl.startsWith('/api') && typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+      try {
+        targetUrl = `http://127.0.0.1:8000${url}`;
+        res = await fetch(targetUrl, options);
+      } catch {
+        throw new AppApiError(
+          "Couldn't reach the API on 127.0.0.1:8000. Start the server and retry.",
+          undefined,
+          'network'
+        );
+      }
+    } else {
+      throw new AppApiError(
+        "Couldn't reach the API on 127.0.0.1:8000. Start the server and retry.",
+        undefined,
+        'network'
+      );
+    }
   }
 
   if (!res.ok) {

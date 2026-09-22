@@ -69,25 +69,30 @@ export const App: React.FC = () => {
   const [changedPhases, setChangedPhases] = useState<number[]>([]);
   const [showConfetti, setShowConfetti] = useState(false);
 
-  const [selectedRoleQuery, setSelectedRoleQuery] = useState<string | null>(() => {
+  // Clean up any legacy localStorage drafts that locked previous sessions into TunePlanPage
+  React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('careerforge_pending_role_query');
+      localStorage.removeItem('careerforge_pending_role_query');
+      localStorage.removeItem('careerforge_pending_resolved_role');
     }
-    return null;
-  });
-  const [resolvedRoleData, setResolvedRoleData] = useState<RoleResolveResult | null>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('careerforge_pending_resolved_role');
-      if (saved) {
-        try {
-          return JSON.parse(saved);
-        } catch {}
-      }
-    }
-    return null;
-  });
+  }, []);
+
+  const [selectedRoleQuery, setSelectedRoleQuery] = useState<string | null>(null);
+  const [resolvedRoleData, setResolvedRoleData] = useState<RoleResolveResult | null>(null);
   const [isResolvingRole, setIsResolvingRole] = useState(false);
   const [targetAssessmentSkill, setTargetAssessmentSkill] = useState<string | null>(null);
+
+  const handleNavigateHome = () => {
+    setResolvedRoleData(null);
+    setSelectedRoleQuery(null);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('careerforge_pending_role_query');
+      localStorage.removeItem('careerforge_pending_resolved_role');
+      sessionStorage.removeItem('careerforge_pending_role_query');
+      sessionStorage.removeItem('careerforge_pending_resolved_role');
+    }
+    setCurrentSection('home');
+  };
 
   // Compute all discovered career skills (combines calibrated profile skills, AI discovered gaps, market reqs, and roadmap phases)
   const allCareerSkills = useMemo(() => {
@@ -146,15 +151,19 @@ export const App: React.FC = () => {
   const handleSelectRole = async (roleQuery: string) => {
     try {
       setIsResolvingRole(true);
-      setSelectedRoleQuery(roleQuery);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('careerforge_pending_role_query', roleQuery);
-      }
       const result = await resolveRoleQuery(roleQuery);
-      setResolvedRoleData(result);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('careerforge_pending_resolved_role', JSON.stringify(result));
+      if (result.source_type === 'unrecognized' || !result.matched_role || result.confidence === 0) {
+        toast.error(
+          result.message ||
+            `No recognized career track found for "${roleQuery}". Please check the spelling or search for a recognized role like "Software Engineer", "Data Analyst", or "Product Manager".`,
+          { duration: 5000 }
+        );
+        setSelectedRoleQuery(null);
+        setResolvedRoleData(null);
+        return;
       }
+      setSelectedRoleQuery(roleQuery);
+      setResolvedRoleData(result);
     } catch (err: any) {
       toast.error(`Could not resolve role: ${err.message}`);
     } finally {
@@ -290,7 +299,7 @@ export const App: React.FC = () => {
   );
 
   return (
-    <AppShell>
+    <AppShell onNavigateHome={handleNavigateHome}>
       {/* Celebratory Adaptation Confetti Burst */}
       <ConfettiBurst trigger={showConfetti} onComplete={() => setShowConfetti(false)} />
 
@@ -321,16 +330,10 @@ export const App: React.FC = () => {
             <TunePlanPage
               initialRoleQuery={selectedRoleQuery || ''}
               resolvedData={resolvedRoleData}
-              onBack={() => {
-                if (typeof window !== 'undefined') {
-                  localStorage.removeItem('careerforge_pending_role_query');
-                  localStorage.removeItem('careerforge_pending_resolved_role');
-                }
-                setResolvedRoleData(null);
-                setSelectedRoleQuery(null);
-              }}
+              onBack={handleNavigateHome}
               onSubmitPlan={handleProfileSubmit}
               isGenerating={isGenerating}
+              onSelectAlternativeRole={handleSelectRole}
             />
           ) : (
             <SearchHome onSelectRole={handleSelectRole} isResolving={isResolvingRole} />
@@ -504,7 +507,7 @@ export const App: React.FC = () => {
                 <div className="relative group shrink-0" title="Custom Cartoon Profile Avatar (Click 🎲 to shuffle)">
                   <div className="w-14 h-14 rounded-2xl bg-[var(--bg-elev-2)] border border-[var(--border)] overflow-hidden shadow-sm flex items-center justify-center p-0.5">
                     <img
-                      src={getCartoonAvatarUrl(profile?.avatar || avatar, 'bottts')}
+                      src={getCartoonAvatarUrl(profile?.avatar || avatar)}
                       alt="Cartoon Avatar"
                       className="w-full h-full object-cover transition-transform group-hover:scale-110"
                     />
@@ -622,7 +625,7 @@ export const App: React.FC = () => {
                       <div className="flex items-center gap-3 min-w-0">
                         <div className="w-10 h-10 rounded-xl bg-[var(--bg-elev-1)] border border-[var(--border)] overflow-hidden p-0.5 shrink-0">
                           <img
-                            src={getCartoonAvatarUrl(p.avatar || 'bottts', 'bottts')}
+                            src={getCartoonAvatarUrl(p.avatar || p.name)}
                             alt="Avatar"
                             className="w-full h-full object-cover rounded-lg"
                           />

@@ -48,7 +48,8 @@ export const ReadinessRing: React.FC<ReadinessRingProps> = ({
 
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (score / 100) * circumference;
+  const safeScore = Number.isFinite(score) ? Math.min(100, Math.max(0, score)) : 0;
+  const strokeDashoffset = circumference - (safeScore / 100) * circumference;
 
   // Status badge determined by readiness
   const getStatus = (s: number) => {

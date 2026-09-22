@@ -76,7 +76,7 @@ class CareerForgeAgent:
         phases = self._build_roadmap_phases(profile, gaps)
 
         total_hours = sum(p.estimated_hours for p in phases)
-        estimated_weeks = max(1, math.ceil(total_hours / profile.available_hours_per_week))
+        estimated_weeks = max(1, math.ceil(total_hours / max(1, profile.available_hours_per_week)))
 
         roadmap = Roadmap(
             profile_id=profile.id,
@@ -106,7 +106,27 @@ class CareerForgeAgent:
         """
         profile = self.db.get_profile(assessment_input.profile_id)
         if not profile:
-            raise ValueError(f"Student profile '{assessment_input.profile_id}' not found.")
+            if assessment_input.profile_id.startswith("demo") or assessment_input.profile_id in ("current", "default"):
+                from app.models.profile import Skill
+                profile = StudentProfile(
+                    id=assessment_input.profile_id,
+                    name="Aarav Sharma",
+                    degree="B.Tech",
+                    branch="Computer Science & Engineering",
+                    year=3,
+                    target_role="Backend Engineer",
+                    available_hours_per_week=15,
+                    skills=[
+                        Skill(name="Python", proficiency=3.0),
+                        Skill(name="SQL", proficiency=2.0),
+                        Skill(name="Docker", proficiency=1.5),
+                        Skill(name="System Design", proficiency=1.0),
+                        Skill(name="Git", proficiency=3.0),
+                    ],
+                )
+                self.db.save_profile(profile)
+            else:
+                raise ValueError(f"Student profile '{assessment_input.profile_id}' not found.")
 
         # Narrow profile_id to non-optional str for strict type-checking
         profile_id: str = profile.id if profile.id is not None else assessment_input.profile_id
@@ -193,7 +213,7 @@ class CareerForgeAgent:
         # Recompute totals and weeks
         active_hours = sum(p.estimated_hours for p in updated_phases if p.status != PhaseStatus.COMPLETED)
         new_total_hours = max(1, active_hours)
-        new_weeks = max(1, math.ceil(new_total_hours / updated_profile.available_hours_per_week))
+        new_weeks = max(1, math.ceil(new_total_hours / max(1, updated_profile.available_hours_per_week)))
 
         adapted_roadmap = Roadmap(
             profile_id=profile_id,

@@ -278,13 +278,16 @@ export const PhaseCard: React.FC<PhaseCardProps> = ({
                 <div
                   className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-all duration-200 ${
                     isDone
-                      ? 'bg-[var(--accent-emerald)] text-white shadow-[0_0_12px_rgba(16,185,129,0.4)] scale-105'
+                      ? 'bg-[var(--accent-emerald)] shadow-[0_0_12px_rgba(16,185,129,0.4)] scale-105'
                       : 'border-2 border-[var(--border-strong)] bg-[var(--bg-elev-2)] group-hover:border-[var(--accent-indigo)] group-hover:scale-105'
                   }`}
                   aria-label={isDone ? 'Completed milestone' : 'Unfinished milestone'}
                 >
                   {isDone ? (
-                    <Check className="w-4 h-4 stroke-[3]" />
+                    <Check
+                      className="w-4 h-4 stroke-[3] text-black dark:text-white"
+                      style={{ color: 'var(--milestone-tick-color)' }}
+                    />
                   ) : (
                     <span className="w-2 h-2 rounded-full bg-transparent group-hover:bg-[var(--accent-indigo)]/40 transition-colors" />
                   )}

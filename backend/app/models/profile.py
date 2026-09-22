@@ -38,3 +38,4 @@ class StudentProfile(BaseModel):
         "beginner",
         description="Self-assessed preparation baseline: 'beginner', 'intermediate', or 'advanced'"
     )
+    avatar: str | None = Field("cyber-neon", description="Cartoon avatar identifier or seed")

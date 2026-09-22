@@ -3,9 +3,9 @@ import { motion } from 'motion/react';
 import type { RoadmapPhase, SkillGap } from '../../lib/schemas';
 import { useAppStore } from '../../lib/store';
 import {
-  CheckCircle2,
   Circle,
   BookOpen,
+  Check,
 } from 'lucide-react';
 
 interface RoadmapBoardProps {
@@ -149,7 +149,9 @@ export const RoadmapBoard: React.FC<RoadmapBoardProps> = ({
                           >
                             <span className="shrink-0 mt-0.5">
                               {isDone ? (
-                                <CheckCircle2 className="w-3.5 h-3.5 text-[var(--color-mastered)]" />
+                                <div className="w-3.5 h-3.5 rounded-sm bg-[var(--color-mastered)] flex items-center justify-center">
+                                  <Check className="w-2.5 h-2.5 stroke-[3] text-black dark:text-white" style={{ color: 'var(--milestone-tick-color)' }} />
+                                </div>
                               ) : (
                                 <Circle className="w-3.5 h-3.5 text-[var(--text-faint)]" />
                               )}

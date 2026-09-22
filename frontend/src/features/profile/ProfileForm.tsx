@@ -324,7 +324,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                   <div className="relative group shrink-0" title="Custom Cartoon Profile Avatar (Click 🎲 to shuffle)">
                     <div className="w-12 h-12 rounded-2xl bg-[var(--bg-sunken)] border border-[var(--neon-cyan)]/40 overflow-hidden shadow-md flex items-center justify-center p-0.5">
                       <img
-                        src={getCartoonAvatarUrl(avatar, 'bottts')}
+                        src={getCartoonAvatarUrl(avatar)}
                         alt="Cartoon Profile Avatar"
                         className="w-full h-full object-cover transition-transform group-hover:scale-110"
                       />

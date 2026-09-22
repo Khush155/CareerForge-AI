@@ -380,10 +380,15 @@ class RoleResolver:
 
             # Domain keyword guard: if user specified a domain (e.g. 'civil', 'mechanical', 'cardio')
             # that is completely absent from this role's domain vocabulary, cap the score.
-            generic_stopwords = {"engineer", "developer", "specialist", "analyst", "manager", "associate", "intern", "lead", "senior", "junior", "consultant", "architect"}
+            generic_stopwords = {"engineer", "developer", "specialist", "analyst", "manager", "associate", "intern", "lead", "senior", "junior", "consultant", "architect", "eng", "dev"}
             q_domain = tokens - generic_stopwords
             role_domain = all_role_words - generic_stopwords
-            if q_domain and not (q_domain & role_domain) and not any(a in raw_lower for a in aliases_lower):
+            has_domain_match = bool(q_domain & role_domain) or any(
+                difflib.SequenceMatcher(None, qd, rd).ratio() >= 0.75
+                for qd in q_domain
+                for rd in role_domain
+            )
+            if q_domain and not has_domain_match and not any(a in raw_lower for a in aliases_lower):
                 score = min(score, 0.25)
 
             if score > best_score:

@@ -402,6 +402,538 @@ const KB_CATALOG: Record<string, CuratedGuideData> = {
       },
     ],
   },
+  cybersecurity: {
+    title: 'Cybersecurity & Penetration Testing Placement Preparation Guide',
+    sourceFile: 'data/curated_kb/cybersecurity_penetration_testing_prep.md',
+    similarity: '0.9385 cosine match',
+    verifiedPostings: 44,
+    salaryImpact: '+$20k avg in InfoSec / Remote',
+    demandGrowth: '+46% YoY',
+    sparklineData: [48, 54, 60, 72, 85, 95],
+    interviewQuestions: [
+      {
+        question: 'What is the difference between Reflected, Stored, and DOM-based Cross-Site Scripting (XSS)?',
+        difficulty: 'Mid',
+        answerHint: 'Stored XSS permanently stores malicious payloads in the database executing for all viewers; Reflected reflects off the current server request; DOM-based executes entirely on client JS modifying the DOM without changing response HTML.',
+      },
+      {
+        question: 'Explain Server-Side Request Forgery (SSRF) and how to defend against cloud metadata IP extraction.',
+        difficulty: 'Senior',
+        answerHint: 'SSRF forces server to make requests to internal resources like 169.254.169.254. Prevent via URL allowlisting, disabling HTTP redirects, enforcing IMDSv2 session tokens, and strict egress firewalls.',
+      },
+      {
+        question: 'Why should Argon2id or bcrypt be used for password hashing instead of general hash functions like SHA-256 or MD5?',
+        difficulty: 'Junior',
+        answerHint: 'General hashes are fast and optimized for throughput, allowing billions of guesses/sec on GPUs; Argon2id and bcrypt use configurable CPU/memory work factors to make GPU brute-forcing infeasible.',
+      },
+    ],
+    resources: [
+      {
+        title: 'OWASP Top 10 Web Application Security Risks',
+        url: 'https://owasp.org/www-project-top-ten/',
+        source: 'OWASP Foundation',
+        isFree: true,
+        format: 'Documentation',
+      },
+      {
+        title: 'PortSwigger Web Security Academy',
+        url: 'https://portswigger.net/web-security',
+        source: 'PortSwigger',
+        isFree: true,
+        format: 'Interactive Course',
+      },
+      {
+        title: "The Web Application Hacker's Handbook",
+        url: 'https://portswigger.net/web-security',
+        source: 'Wiley Publishing',
+        isFree: false,
+        format: 'Book',
+      },
+    ],
+    sections: [
+      {
+        title: 'OWASP Top 10 & Web Application Security',
+        description: 'Vulnerability mechanics, mitigation strategies, and security auditing for common web weaknesses.',
+        keyPoints: [
+          'Injection prevention: parameterized queries, prepared statements, and input sanitization.',
+          'Broken authentication: JWT signing algorithm tampering, OAuth redirect poisoning, and session fixation.',
+          'Server-Side Request Forgery (SSRF) and Insecure Direct Object References (IDOR).',
+        ],
+        codeExample: `# Secure parameter handling preventing SQL Injection\ncursor.execute(\n    "SELECT id, username, email FROM users WHERE tenant_id = %s AND status = %s",\n    (tenant_id, "active")\n)`,
+      },
+      {
+        title: 'Network Reconnaissance & Port Scanning',
+        description: 'Passive and active infrastructure enumeration and vulnerability detection protocols.',
+        keyPoints: [
+          'TCP 3-way handshake mechanics, SYN stealth scanning, and banner grabbing.',
+          'Packet analysis with Wireshark and automated scanning with Nmap scripts.',
+          'Firewall evasion, rate-limiting avoidance, and portKnocking protocols.',
+        ],
+      },
+      {
+        title: 'Applied Cryptography & Infrastructure Hardening',
+        description: 'Symmetric and asymmetric encryption, digital signatures, and Zero Trust architectures.',
+        keyPoints: [
+          'TLS 1.3 cryptographic handshakes, Perfect Forward Secrecy, and cipher suite negotiation.',
+          'Modern password hashing using Argon2id, bcrypt, and salted PBKDF2.',
+          'Linux and Windows privilege escalation vectors and CIS benchmark hardening.',
+        ],
+      },
+    ],
+  },
+  penetration_testing: {
+    title: 'Cybersecurity & Penetration Testing Placement Preparation Guide',
+    sourceFile: 'data/curated_kb/cybersecurity_penetration_testing_prep.md',
+    similarity: '0.9385 cosine match',
+    verifiedPostings: 44,
+    salaryImpact: '+$20k avg in InfoSec / Remote',
+    demandGrowth: '+46% YoY',
+    sparklineData: [48, 54, 60, 72, 85, 95],
+    interviewQuestions: [
+      {
+        question: 'What is the difference between Reflected, Stored, and DOM-based Cross-Site Scripting (XSS)?',
+        difficulty: 'Mid',
+        answerHint: 'Stored XSS permanently stores malicious payloads in the database executing for all viewers; Reflected reflects off the current server request; DOM-based executes entirely on client JS modifying the DOM without changing response HTML.',
+      },
+      {
+        question: 'Explain Server-Side Request Forgery (SSRF) and how to defend against cloud metadata IP extraction.',
+        difficulty: 'Senior',
+        answerHint: 'SSRF forces server to make requests to internal resources like 169.254.169.254. Prevent via URL allowlisting, disabling HTTP redirects, enforcing IMDSv2 session tokens, and strict egress firewalls.',
+      },
+      {
+        question: 'Why should Argon2id or bcrypt be used for password hashing instead of general hash functions like SHA-256 or MD5?',
+        difficulty: 'Junior',
+        answerHint: 'General hashes are fast and optimized for throughput, allowing billions of guesses/sec on GPUs; Argon2id and bcrypt use configurable CPU/memory work factors to make GPU brute-forcing infeasible.',
+      },
+    ],
+    resources: [
+      {
+        title: 'OWASP Top 10 Web Application Security Risks',
+        url: 'https://owasp.org/www-project-top-ten/',
+        source: 'OWASP Foundation',
+        isFree: true,
+        format: 'Documentation',
+      },
+      {
+        title: 'PortSwigger Web Security Academy',
+        url: 'https://portswigger.net/web-security',
+        source: 'PortSwigger',
+        isFree: true,
+        format: 'Interactive Course',
+      },
+      {
+        title: "The Web Application Hacker's Handbook",
+        url: 'https://portswigger.net/web-security',
+        source: 'Wiley Publishing',
+        isFree: false,
+        format: 'Book',
+      },
+    ],
+    sections: [
+      {
+        title: 'OWASP Top 10 & Web Application Security',
+        description: 'Vulnerability mechanics, mitigation strategies, and security auditing for common web weaknesses.',
+        keyPoints: [
+          'Injection prevention: parameterized queries, prepared statements, and input sanitization.',
+          'Broken authentication: JWT signing algorithm tampering, OAuth redirect poisoning, and session fixation.',
+          'Server-Side Request Forgery (SSRF) and Insecure Direct Object References (IDOR).',
+        ],
+      },
+    ],
+  },
+  game_development: {
+    title: 'Game Development (C++ & Unity) Placement Preparation Guide',
+    sourceFile: 'data/curated_kb/game_development_cplusplus_unity_prep.md',
+    similarity: '0.9174 cosine match',
+    verifiedPostings: 36,
+    salaryImpact: '+$17k avg in Los Angeles / Austin',
+    demandGrowth: '+29% YoY',
+    sparklineData: [38, 44, 52, 59, 70, 84],
+    interviewQuestions: [
+      {
+        question: 'Why is FixedUpdate preferred over standard Update for physics calculations in game engines?',
+        difficulty: 'Junior',
+        answerHint: 'Update runs once per rendered frame with variable delta time, causing non-deterministic physics and jitter; FixedUpdate executes at fixed, deterministic intervals independent of frame rate.',
+      },
+      {
+        question: 'Explain the performance impact of virtual function calls in entity loops and how Data-Oriented Design (ECS) mitigates it.',
+        difficulty: 'Senior',
+        answerHint: 'Virtual calls require dereferencing vtables and dynamic dispatch causing CPU cache misses; ECS arranges components contiguously in memory (Structure of Arrays) maximizing L1/L2 cache hits and SIMD throughput.',
+      },
+      {
+        question: 'What is Gimbal Lock and why are Quaternions with SLERP favored over Euler angles for 3D rotations?',
+        difficulty: 'Mid',
+        answerHint: 'Gimbal Lock occurs when two rotational axes align resulting in the loss of one degree of freedom. Quaternions represent 3D orientations in 4D space avoiding lock and allowing smooth Spherical Linear Interpolation.',
+      },
+    ],
+    resources: [
+      {
+        title: 'Unity Official Documentation & Manual',
+        url: 'https://docs.unity3d.com/Manual/index.html',
+        source: 'Unity Technologies',
+        isFree: true,
+        format: 'Documentation',
+      },
+      {
+        title: 'Game Programming Patterns',
+        url: 'https://gameprogrammingpatterns.com/',
+        source: 'Robert Nystrom',
+        isFree: true,
+        format: 'Book',
+      },
+      {
+        title: 'Real-Time Rendering (4th Edition)',
+        url: 'https://www.realtimerendering.com/',
+        source: 'CRC Press',
+        isFree: false,
+        format: 'Book',
+      },
+    ],
+    sections: [
+      {
+        title: 'Deterministic Game Loops & Timing',
+        description: 'Decoupling rendering updates from deterministic physics simulations within fixed time budgets.',
+        keyPoints: [
+          '16.6ms frame budget allocation for 60 FPS rendering.',
+          'Accumulator loop design preventing physics tunneling and floating point drift.',
+          'Input latency buffering and rendering interpolation techniques.',
+        ],
+      },
+      {
+        title: 'C++ Memory Management & Cache Locality',
+        description: 'Eliminating runtime heap allocations and garbage collection pauses using custom allocators.',
+        keyPoints: [
+          'Pre-allocated Object Pools, Stack Allocators, and Arena Memory.',
+          'Data-Oriented Design: Structure of Arrays (SoA) vs Array of Structures (AoS).',
+          'SIMD vectorization for physics calculations and particle transforms.',
+        ],
+        codeExample: `// Object pool acquisition pattern\nT* object = objectPool.acquire();\nif (object) {\n    object->spawn(startX, startY, startZ);\n    // process entity...\n    objectPool.release(object);\n}`,
+      },
+      {
+        title: 'Graphics Pipeline & Shader Optimization',
+        description: 'GPU pipeline stages, draw call reduction, and shader optimization.',
+        keyPoints: [
+          'Programmable vertex and fragment shaders; depth testing and early-Z culling.',
+          'Draw call batching: static batching, dynamic batching, and GPU instancing.',
+          'Texture atlasing, mipmapping, and level-of-detail (LOD) transitions.',
+        ],
+      },
+    ],
+  },
+  unity: {
+    title: 'Game Development (C++ & Unity) Placement Preparation Guide',
+    sourceFile: 'data/curated_kb/game_development_cplusplus_unity_prep.md',
+    similarity: '0.9174 cosine match',
+    verifiedPostings: 36,
+    salaryImpact: '+$17k avg in Los Angeles / Austin',
+    demandGrowth: '+29% YoY',
+    sparklineData: [38, 44, 52, 59, 70, 84],
+    interviewQuestions: [
+      {
+        question: 'Why is FixedUpdate preferred over standard Update for physics calculations in game engines?',
+        difficulty: 'Junior',
+        answerHint: 'Update runs once per rendered frame with variable delta time, causing non-deterministic physics and jitter; FixedUpdate executes at fixed, deterministic intervals independent of frame rate.',
+      },
+      {
+        question: 'Explain the performance impact of virtual function calls in entity loops and how Data-Oriented Design (ECS) mitigates it.',
+        difficulty: 'Senior',
+        answerHint: 'Virtual calls require dereferencing vtables and dynamic dispatch causing CPU cache misses; ECS arranges components contiguously in memory maximizing L1/L2 cache hits.',
+      },
+      {
+        question: 'What is Gimbal Lock and why are Quaternions with SLERP favored over Euler angles for 3D rotations?',
+        difficulty: 'Mid',
+        answerHint: 'Gimbal Lock occurs when two rotational axes align resulting in the loss of one degree of freedom. Quaternions avoid lock and enable smooth spherical interpolation.',
+      },
+    ],
+    resources: [
+      {
+        title: 'Unity Official Documentation & Manual',
+        url: 'https://docs.unity3d.com/Manual/index.html',
+        source: 'Unity Technologies',
+        isFree: true,
+        format: 'Documentation',
+      },
+      {
+        title: 'Game Programming Patterns',
+        url: 'https://gameprogrammingpatterns.com/',
+        source: 'Robert Nystrom',
+        isFree: true,
+        format: 'Book',
+      },
+    ],
+    sections: [
+      {
+        title: 'Deterministic Game Loops & Timing',
+        description: 'Decoupling rendering updates from deterministic physics simulations within fixed time budgets.',
+        keyPoints: [
+          '16.6ms frame budget allocation for 60 FPS rendering.',
+          'FixedUpdate physics orchestration and accumulator loops.',
+        ],
+      },
+    ],
+  },
+  data_engineering: {
+    title: 'Data Engineering (Apache Spark & Airflow) Placement Preparation Guide',
+    sourceFile: 'data/curated_kb/data_engineering_spark_airflow_prep.md',
+    similarity: '0.9410 cosine match',
+    verifiedPostings: 51,
+    salaryImpact: '+$22k avg in New York / SF',
+    demandGrowth: '+44% YoY',
+    sparklineData: [52, 58, 66, 75, 87, 98],
+    interviewQuestions: [
+      {
+        question: 'What is the architectural and operational difference between Narrow and Wide transformations in Apache Spark?',
+        difficulty: 'Mid',
+        answerHint: 'Narrow transformations (map, filter) execute on partitions locally without network I/O; Wide transformations (groupByKey, join) require cluster-wide Shuffling to repartition data.',
+      },
+      {
+        question: 'How do you detect, diagnose, and mitigate Out-Of-Memory (OOM) errors caused by Data Skew in PySpark?',
+        difficulty: 'Senior',
+        answerHint: 'Inspect Spark Web UI for tasks with disproportionate shuffle read/write time; apply salt keys to distribute skewed keys evenly across executor partitions, or enable Adaptive Query Execution (AQE).',
+      },
+      {
+        question: 'Why is idempotent task design essential in Apache Airflow DAG workflows and how do you achieve it?',
+        difficulty: 'Mid',
+        answerHint: 'Tasks must produce the same result regardless of how many times rerun or backfilled; achieved by partition overwrite writes, staging tables, and atomic MERGE/UPSERT queries.',
+      },
+    ],
+    resources: [
+      {
+        title: 'Apache Spark Official Documentation',
+        url: 'https://spark.apache.org/docs/latest/',
+        source: 'Apache Software Foundation',
+        isFree: true,
+        format: 'Documentation',
+      },
+      {
+        title: 'Designing Data-Intensive Applications',
+        url: 'https://dataintensive.net/',
+        source: "O'Reilly Media",
+        isFree: false,
+        format: 'Book',
+      },
+      {
+        title: 'Apache Airflow Official Guides',
+        url: 'https://airflow.apache.org/docs/',
+        source: 'Apache Software Foundation',
+        isFree: true,
+        format: 'Documentation',
+      },
+    ],
+    sections: [
+      {
+        title: 'Distributed Compute Architecture & Spark DAGs',
+        description: 'Driver and executor node orchestration, Catalyst optimizer, and Tungsten execution engine.',
+        keyPoints: [
+          'RDD lineages, lazy evaluation, and DataFrame optimization graphs.',
+          'Broadcast Hash Joins eliminating expensive distributed shuffle operations.',
+          'Memory tuning: storage vs execution memory pools and off-heap configurations.',
+        ],
+        codeExample: `// Broadcast hash join optimization in PySpark\ndf_joined = df_large.join(\n    broadcast(df_small),\n    on="customer_id",\n    how="left"\n)`,
+      },
+      {
+        title: 'Partitioning, Skew Mitigation & Performance Tuning',
+        description: 'Managing partition sizing, partition pruning, and avoiding shuffle bottlenecks.',
+        keyPoints: [
+          'Adaptive Query Execution (AQE) dynamically coalescing shuffle partitions.',
+          'Key salting techniques for heavily skewed distributed joins.',
+          'Columnar Parquet serialization with Snappy compression.',
+        ],
+      },
+      {
+        title: 'Airflow Orchestration & Lakehouse Architecture',
+        description: 'Idempotent DAG engineering, Celery/K8s executors, and Delta Lake ACID transactions.',
+        keyPoints: [
+          'Medallion architecture: Bronze (raw), Silver (cleansed), Gold (aggregated).',
+          'Airflow DAG design: task dependencies (>>), sensors, SLAs, and backfilling.',
+          'ACID transaction guarantees and time travel queries in Delta Lake / Iceberg.',
+        ],
+      },
+    ],
+  },
+  spark: {
+    title: 'Data Engineering (Apache Spark & Airflow) Placement Preparation Guide',
+    sourceFile: 'data/curated_kb/data_engineering_spark_airflow_prep.md',
+    similarity: '0.9410 cosine match',
+    verifiedPostings: 51,
+    salaryImpact: '+$22k avg in New York / SF',
+    demandGrowth: '+44% YoY',
+    sparklineData: [52, 58, 66, 75, 87, 98],
+    interviewQuestions: [
+      {
+        question: 'What is the architectural and operational difference between Narrow and Wide transformations in Apache Spark?',
+        difficulty: 'Mid',
+        answerHint: 'Narrow transformations execute locally on single partitions without network transfer; Wide transformations require shuffling partitions across cluster nodes.',
+      },
+      {
+        question: 'How do you detect, diagnose, and mitigate Out-Of-Memory (OOM) errors caused by Data Skew in PySpark?',
+        difficulty: 'Senior',
+        answerHint: 'Inspect Spark Web UI for uneven task duration; apply key salting or enable Adaptive Query Execution (AQE) skew join.',
+      },
+      {
+        question: 'Why is idempotent task design essential in Apache Airflow DAG workflows and how do you achieve it?',
+        difficulty: 'Mid',
+        answerHint: 'Ensures safe re-runs and historical backfills without duplicating data; use partition overwrite writes or database MERGE/UPSERT statements.',
+      },
+    ],
+    resources: [
+      {
+        title: 'Apache Spark Official Documentation',
+        url: 'https://spark.apache.org/docs/latest/',
+        source: 'Apache Software Foundation',
+        isFree: true,
+        format: 'Documentation',
+      },
+      {
+        title: 'Apache Airflow Official Guides',
+        url: 'https://airflow.apache.org/docs/',
+        source: 'Apache Software Foundation',
+        isFree: true,
+        format: 'Documentation',
+      },
+    ],
+    sections: [
+      {
+        title: 'Distributed Compute Architecture & Spark DAGs',
+        description: 'Driver and executor node orchestration, Catalyst optimizer, and Tungsten execution engine.',
+        keyPoints: [
+          'RDD lineages, lazy evaluation, and DataFrame optimization graphs.',
+          'Broadcast Hash Joins eliminating expensive distributed shuffle operations.',
+        ],
+      },
+    ],
+  },
+  generative_ai: {
+    title: 'Generative AI & LLM Fine-Tuning Placement Preparation Guide',
+    sourceFile: 'data/curated_kb/generative_ai_llm_fine_tuning_prep.md',
+    similarity: '0.9568 cosine match',
+    verifiedPostings: 58,
+    salaryImpact: '+$26k avg in Silicon Valley',
+    demandGrowth: '+62% YoY',
+    sparklineData: [60, 68, 76, 84, 94, 100],
+    interviewQuestions: [
+      {
+        question: 'Why does Low-Rank Adaptation (LoRA) dramatically reduce GPU VRAM requirements during model fine-tuning?',
+        difficulty: 'Mid',
+        answerHint: 'LoRA freezes base weights so no optimizer states are kept for them; it trains low-rank adapter matrices (Delta W = B * A with rank r << d), slashing trainable params and VRAM by >90%.',
+      },
+      {
+        question: 'What is Key-Value (KV) Caching in autoregressive LLM inference and what memory tradeoffs does it introduce?',
+        difficulty: 'Senior',
+        answerHint: 'Stores previously computed attention Key and Value projections in VRAM instead of recomputing them for each generated token, speeding up inference from O(N^2) to O(N) per step at the cost of VRAM.',
+      },
+      {
+        question: 'How do you solve context window truncation and hallucination in enterprise production RAG pipelines?',
+        difficulty: 'Senior',
+        answerHint: 'Implement semantic chunking with metadata, hybrid search combining BM25 and dense vector embeddings, cross-encoder reranking, and reciprocal rank fusion before prompting.',
+      },
+    ],
+    resources: [
+      {
+        title: 'HuggingFace PEFT & LoRA Documentation',
+        url: 'https://huggingface.co/docs/peft/index',
+        source: 'HuggingFace',
+        isFree: true,
+        format: 'Documentation',
+      },
+      {
+        title: 'Deep Learning Specialization',
+        url: 'https://www.deeplearning.ai/',
+        source: 'DeepLearning.AI',
+        isFree: false,
+        format: 'Interactive Course',
+      },
+      {
+        title: 'LangChain Conceptual Guides & Tutorials',
+        url: 'https://python.langchain.com/docs/get_started/introduction',
+        source: 'LangChain',
+        isFree: true,
+        format: 'Documentation',
+      },
+    ],
+    sections: [
+      {
+        title: 'Transformer Architecture & Self-Attention Mechanics',
+        description: 'Scaled dot-product attention, multi-head vs grouped-query attention, and positional embeddings.',
+        keyPoints: [
+          'Attention formula: softmax(QK^T / sqrt(d_k))V and quadratic compute complexity.',
+          'Grouped-Query Attention (GQA) and KV cache memory budgeting for long context.',
+          'Rotary Positional Embeddings (RoPE) and context window extension techniques.',
+        ],
+      },
+      {
+        title: 'Parameter-Efficient Fine-Tuning (PEFT, LoRA, QLoRA)',
+        description: 'Low-rank matrix decomposition, 4-bit NF4 quantization, and adapter deployment.',
+        keyPoints: [
+          'LoRA formulation: delta W = B * A with low rank r and scaling factor alpha.',
+          'QLoRA double quantization and page optimizers for consumer GPU fine-tuning.',
+          'Direct Preference Optimization (DPO) and SFT alignment pipelines.',
+        ],
+        codeExample: `// LoRA configuration in HuggingFace PEFT\nlora_config = LoraConfig(\n    r=16, lora_alpha=32,\n    target_modules=["q_proj", "v_proj"],\n    lora_dropout=0.05,\n    task_type=TaskType.CAUSAL_LM\n)`,
+      },
+      {
+        title: 'Production RAG & Hallucination Mitigation',
+        description: 'Hybrid retrieval, embedding similarity, cross-encoder reranking, and grounding.',
+        keyPoints: [
+          'Hybrid search combining BM25 keyword matching with dense embedding cosine similarity.',
+          'Cross-encoder rerankers scoring document relevance before context injection.',
+          'Guardrails, self-consistency sampling, and LLM-as-a-judge evaluation frameworks.',
+        ],
+      },
+    ],
+  },
+  llm: {
+    title: 'Generative AI & LLM Fine-Tuning Placement Preparation Guide',
+    sourceFile: 'data/curated_kb/generative_ai_llm_fine_tuning_prep.md',
+    similarity: '0.9568 cosine match',
+    verifiedPostings: 58,
+    salaryImpact: '+$26k avg in Silicon Valley',
+    demandGrowth: '+62% YoY',
+    sparklineData: [60, 68, 76, 84, 94, 100],
+    interviewQuestions: [
+      {
+        question: 'Why does Low-Rank Adaptation (LoRA) dramatically reduce GPU VRAM requirements during model fine-tuning?',
+        difficulty: 'Mid',
+        answerHint: 'LoRA freezes base weights so no optimizer states are kept for them; it trains low-rank adapter matrices (Delta W = B * A with rank r << d), slashing trainable params and VRAM by >90%.',
+      },
+      {
+        question: 'What is Key-Value (KV) Caching in autoregressive LLM inference and what memory tradeoffs does it introduce?',
+        difficulty: 'Senior',
+        answerHint: 'Stores previously computed attention Key and Value projections in VRAM instead of recomputing them for each generated token, speeding up inference from O(N^2) to O(N) per step at the cost of VRAM.',
+      },
+      {
+        question: 'How do you solve context window truncation and hallucination in enterprise production RAG pipelines?',
+        difficulty: 'Senior',
+        answerHint: 'Implement semantic chunking with metadata, hybrid search combining BM25 and dense vector embeddings, cross-encoder reranking, and reciprocal rank fusion before prompting.',
+      },
+    ],
+    resources: [
+      {
+        title: 'HuggingFace PEFT & LoRA Documentation',
+        url: 'https://huggingface.co/docs/peft/index',
+        source: 'HuggingFace',
+        isFree: true,
+        format: 'Documentation',
+      },
+      {
+        title: 'LangChain Conceptual Guides & Tutorials',
+        url: 'https://python.langchain.com/docs/get_started/introduction',
+        source: 'LangChain',
+        isFree: true,
+        format: 'Documentation',
+      },
+    ],
+    sections: [
+      {
+        title: 'Transformer Architecture & Self-Attention Mechanics',
+        description: 'Scaled dot-product attention, multi-head vs grouped-query attention, and positional embeddings.',
+        keyPoints: [
+          'Attention formula: softmax(QK^T / sqrt(d_k))V and quadratic compute complexity.',
+          'Grouped-Query Attention (GQA) and KV cache memory budgeting for long context.',
+        ],
+      },
+    ],
+  },
 };
 
 export const EvidenceDrawer: React.FC<EvidenceDrawerProps> = ({

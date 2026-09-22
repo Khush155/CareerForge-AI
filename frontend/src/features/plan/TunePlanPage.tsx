@@ -170,7 +170,7 @@ export const TunePlanPage: React.FC<TunePlanPageProps> = ({
 
   // Skill assessments: user requested skills NOT to be pre-selected on start (proficiency: null)
   const [userSkills, setUserSkills] = useState<{ name: string; proficiency: number | null; skipped: boolean }[]>(() => {
-    const benchmarkSkills = resolvedData.benchmark.map((b) => ({
+    const benchmarkSkills = (resolvedData.benchmark || []).map((b) => ({
       name: b.name,
       proficiency: null as number | null,
       skipped: false,
@@ -472,7 +472,7 @@ export const TunePlanPage: React.FC<TunePlanPageProps> = ({
 
         <div className="flex items-center gap-3">
           <div className="p-3.5 sm:p-4 rounded-2xl bg-[var(--bg-elev-2)] text-center font-mono border border-[var(--border)] min-w-[90px]">
-            <div className="text-xl font-bold text-[var(--text)]">{resolvedData.benchmark.length}</div>
+            <div className="text-xl font-bold text-[var(--text)]">{(resolvedData.benchmark || []).length}</div>
             <div className="text-[10px] text-[var(--text-muted)] uppercase">Core Skills</div>
           </div>
           <div className="p-3.5 sm:p-4 rounded-2xl bg-[var(--bg-elev-2)] text-center font-mono border border-[var(--border)] min-w-[90px]">
@@ -952,7 +952,7 @@ export const TunePlanPage: React.FC<TunePlanPageProps> = ({
                     {/* Uniform Metadata Strip across all rows */}
                     <div className="flex items-center gap-2 text-xs overflow-hidden">
                       <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-[var(--bg-elev-1)] text-[var(--accent-sky)] border border-[var(--border)] font-semibold shrink-0">
-                        Req: {reqLevel.toFixed(1)} / 5.0
+                        Req: {(Number(reqLevel) || 3.5).toFixed(1)} / 5.0
                       </span>
                       {category && (
                         <span className="text-[10px] font-mono uppercase text-[var(--text-muted)] bg-[var(--bg-elev-1)] px-1.5 py-0.5 rounded border border-[var(--border)] shrink-0">

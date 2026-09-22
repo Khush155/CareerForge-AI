@@ -84,7 +84,7 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
     ];
   }, [query, suggestions]);
 
-  // Debounced autocomplete suggestions (120ms)
+  // Debounced autocomplete suggestions (120ms) with race-condition cancellation
   useEffect(() => {
     const trimmed = query.trim();
     if (!trimmed || trimmed.length < 2) {
@@ -95,17 +95,27 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
     }
 
     setShowDropdown(true);
+    let isCurrent = true;
     const timer = setTimeout(() => {
       setIsLoadingSuggestions(true);
       fetchRoleSuggestions(trimmed)
         .then((res) => {
-          setSuggestions(res);
+          if (isCurrent) {
+            setSuggestions(res);
+          }
         })
-        .catch(() => setSuggestions([]))
-        .finally(() => setIsLoadingSuggestions(false));
+        .catch(() => {
+          if (isCurrent) setSuggestions([]);
+        })
+        .finally(() => {
+          if (isCurrent) setIsLoadingSuggestions(false);
+        });
     }, 120);
 
-    return () => clearTimeout(timer);
+    return () => {
+      isCurrent = false;
+      clearTimeout(timer);
+    };
   }, [query]);
 
   // Click outside to close dropdown
@@ -348,7 +358,7 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
               </h3>
               <p className="text-xs text-[var(--text-muted)] mt-1">
                 Targeting <strong className="text-[var(--text)]">{profile.target_role}</strong> ·{' '}
-                {roadmap.total_estimated_hours} hours total · v{roadmap.version.toFixed(1)}
+                {roadmap.total_estimated_hours} hours total · v{(Number(roadmap?.version) || 1).toFixed(1)}
               </p>
             </div>
             <div className="flex items-center gap-3">

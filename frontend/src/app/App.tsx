@@ -386,7 +386,7 @@ export const App: React.FC = () => {
             actions={
               roadmap && (
                 <span className="font-mono text-xs font-bold text-[var(--accent-sky)] bg-[var(--accent-sky)]/10 px-3 py-1 rounded-full border border-[var(--accent-sky)]/30">
-                  Dynamic Revision v{roadmap.version.toFixed(1)}
+                  Dynamic Revision v{(Number(roadmap?.version) || 1).toFixed(1)}
                 </span>
               )
             }

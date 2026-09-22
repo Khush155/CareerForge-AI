@@ -37,7 +37,7 @@ export const DiffStrip: React.FC<DiffStripProps> = ({
           <span className="font-mono text-xs font-bold text-[var(--text)] uppercase tracking-wider flex items-center gap-1.5 flex-wrap">
             <span>Dynamic Recalibration Applied:</span>
             <span className="px-2 py-0.5 rounded-full bg-[var(--accent-sky)]/15 text-[var(--accent-sky)] border border-[var(--accent-sky)]/30 font-mono">
-              Revision v{fromVersion.toFixed(1)} <ArrowRight className="w-3 h-3 inline" /> v{toVersion.toFixed(1)}
+              Revision v{(Number(fromVersion) || 1).toFixed(1)} <ArrowRight className="w-3 h-3 inline" /> v{(Number(toVersion) || 2).toFixed(1)}
             </span>
           </span>
         </div>

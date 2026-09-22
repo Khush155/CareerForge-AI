@@ -1,0 +1,204 @@
+name: CI/CD Pipeline - Test, Build & Deploy to Azure
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  ACR_NAME: "acrcareerforge532876"
+  ACR_SERVER: "acrcareerforge532876.azurecr.io"
+  RESOURCE_GROUP: "rg-careerforge-ai"
+  LOCATION: "eastasia"
+  ENV_NAME: "env-careerforge-wp"
+  APP_NAME: "careerforge-ai-app"
+  STORAGE_LINK_NAME: "careerforgestorage"
+
+jobs:
+  # ==========================================
+  # 1. Automated Test & Lint Validation
+  # ==========================================
+  test:
+    name: Backend Tests & Frontend Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install Backend Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+
+      - name: Run Backend Automated Tests (66 Tests)
+        run: |
+          python -m pytest backend/tests -v --durations=10
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "frontend/package-lock.json"
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: |
+          npm ci
+
+      - name: Build Frontend Application
+        working-directory: ./frontend
+        run: |
+          npm run build
+
+  # ==========================================
+  # 2. Build & Push Multi-Stage Docker Image
+  # ==========================================
+  build-and-push:
+    name: Docker Build & Push to ACR
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Verify ACR Secrets Configuration
+        id: check-acr-secrets
+        run: |
+          if [ -z "${{ secrets.ACR_PASSWORD }}" ]; then
+            echo "::error ::Missing GitHub Secret: ACR_PASSWORD. Please configure ACR_PASSWORD in repository secrets."
+            exit 1
+          fi
+
+      - name: Log in to Azure Container Registry (ACR)
+        run: |
+          echo "${{ secrets.ACR_PASSWORD }}" | docker login "${{ env.ACR_SERVER }}" -u "${{ secrets.ACR_USERNAME || env.ACR_NAME }}" --password-stdin
+
+      - name: Build Multi-Stage Docker Image
+        run: |
+          docker build \
+            -t "${{ env.ACR_SERVER }}/careerforge-ai:${{ github.sha }}" \
+            -t "${{ env.ACR_SERVER }}/careerforge-ai:latest" \
+            .
+
+      - name: Push Image to ACR
+        run: |
+          docker push "${{ env.ACR_SERVER }}/careerforge-ai:${{ github.sha }}"
+          docker push "${{ env.ACR_SERVER }}/careerforge-ai:latest"
+
+  # ==========================================
+  # 3. Deploy to Azure Container Apps
+  # ==========================================
+  deploy-azure:
+    name: Deploy to Azure Container Apps
+    needs: build-and-push
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check Azure Credentials Secret
+        id: check-azure-creds
+        run: |
+          if [ -z "${{ secrets.AZURE_CREDENTIALS }}" ]; then
+            echo "::warning ::AZURE_CREDENTIALS secret is not configured. Docker image was pushed to ACR, but automated Container App deployment step is skipped. You can deploy directly via scripts/deploy_azure.sh or add AZURE_CREDENTIALS."
+            echo "configured=false" >> $GITHUB_OUTPUT
+          else
+            echo "configured=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Log in to Azure
+        if: steps.check-azure-creds.outputs.configured == 'true'
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy / Update Azure Container App
+        if: steps.check-azure-creds.outputs.configured == 'true'
+        run: |
+          APP_YAML="./.app_deploy_${{ github.sha }}.yaml"
+
+          cat <<EOF > "$APP_YAML"
+          properties:
+            configuration:
+              activeRevisionsMode: Single
+              ingress:
+                external: true
+                targetPort: 8000
+                allowInsecure: false
+              registries:
+              - server: ${{ env.ACR_SERVER }}
+                username: ${{ secrets.ACR_USERNAME || env.ACR_NAME }}
+                passwordSecretRef: acr-password
+              secrets:
+              - name: acr-password
+                value: "${{ secrets.ACR_PASSWORD }}"
+            template:
+              volumes:
+              - name: careerforge-volume
+                storageName: ${{ env.STORAGE_LINK_NAME }}
+                storageType: AzureFile
+              containers:
+              - name: ${{ env.APP_NAME }}
+                image: ${{ env.ACR_SERVER }}/careerforge-ai:${{ github.sha }}
+                resources:
+                  cpu: 0.5
+                  memory: 1.0Gi
+                env:
+                - name: MODE
+                  value: "mock"
+                - name: DATABASE_PATH
+                  value: "/app/data/careerforge.db"
+                - name: PORT
+                  value: "8000"
+                volumeMounts:
+                - volumeName: careerforge-volume
+                  mountPath: /app/data
+          EOF
+
+          if ! az containerapp show --name "${{ env.APP_NAME }}" --resource-group "${{ env.RESOURCE_GROUP }}" &> /dev/null; then
+            echo "Creating Container App ${{ env.APP_NAME }}..."
+            az containerapp create \
+              --name "${{ env.APP_NAME }}" \
+              --resource-group "${{ env.RESOURCE_GROUP }}" \
+              --environment "${{ env.ENV_NAME }}" \
+              --yaml "$APP_YAML"
+          else
+            echo "Updating Container App ${{ env.APP_NAME }}..."
+            az containerapp update \
+              --name "${{ env.APP_NAME }}" \
+              --resource-group "${{ env.RESOURCE_GROUP }}" \
+              --yaml "$APP_YAML"
+          fi
+
+          rm -f "$APP_YAML"
+
+      - name: Verify Live Deployment Health
+        if: steps.check-azure-creds.outputs.configured == 'true'
+        run: |
+          FQDN=$(az containerapp show \
+            --name "${{ env.APP_NAME }}" \
+            --resource-group "${{ env.RESOURCE_GROUP }}" \
+            --query "properties.configuration.ingress.fqdn" -o tsv)
+          echo "=========================================="
+          echo "Deployed FQDN: https://$FQDN"
+          echo "=========================================="
+          sleep 10
+          curl -f "https://$FQDN/health" || exit 1
+          echo "Health check succeeded!"

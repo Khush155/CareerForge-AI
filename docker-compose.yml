@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  careerforge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: careerforge-ai
+    ports:
+      - "8000:8000"
+    environment:
+      - MODE=mock  # Set to 'azure' when API key is provided
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY:-}
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT:-}
+      - AZURE_OPENAI_DEPLOYMENT_NAME=${AZURE_OPENAI_DEPLOYMENT_NAME:-gpt-4o-mini}
+      - AZURE_OPENAI_API_VERSION=2024-02-15-preview
+      - DATABASE_PATH=/app/data/careerforge.db
+    volumes:
+      - careerforge-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  careerforge-data:

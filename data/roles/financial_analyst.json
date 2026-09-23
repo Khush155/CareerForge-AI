@@ -1,0 +1,134 @@
+{
+  "id": "financial_analyst",
+  "title": "Financial Analyst",
+  "category": "Finance & Banking",
+  "aliases": [
+    "finance analyst",
+    "equity analyst",
+    "research analyst",
+    "equity research analyst",
+    "cfa analyst",
+    "quantitative analyst",
+    "buy side analyst",
+    "sell side analyst",
+    "business analyst finance"
+  ],
+  "description": "Analyzes financial data, builds valuation models, and produces research reports to guide investment decisions across equity, debt, and alternative markets.",
+  "tagline": "Quantitative finance professional building models, producing equity research, and driving data-driven investment decisions.",
+  "demand_level": "critical",
+  "avg_time_to_ready_weeks": 14,
+  "tier_label": "Target Financial Institution Tier",
+  "target_tiers": [
+    "Bulge Bracket Investment Bank Research Division",
+    "Top-Tier Equity & Asset Management Fund (Vanguard, Fidelity, HDFC AMC)",
+    "Big 4 Financial Advisory & Valuation (Deloitte, PwC, EY, KPMG)",
+    "Corporate Finance & Treasury (Fortune 500 Companies)",
+    "FinTech & Digital Finance Scaleup"
+  ],
+  "degree_label": "Finance / Commerce Degree",
+  "branch_label": "Financial Concentration",
+  "suggested_degrees": ["B.Com / BBA Finance", "MBA Finance", "CFA Charter", "M.Sc Finance / Financial Engineering"],
+  "suggested_branches": ["Equity Research", "Corporate Finance", "Asset Management", "Financial Planning & Analysis", "Risk Management"],
+  "skills": [
+    {
+      "name": "Financial Accounting & Reporting (GAAP/IFRS)",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": [],
+      "source_url": "https://www.ifrs.org/",
+      "category": "accounting"
+    },
+    {
+      "name": "Financial Statement Analysis & Quality of Earnings",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Financial Accounting & Reporting (GAAP/IFRS)"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/accounting/financial-statements/",
+      "category": "accounting"
+    },
+    {
+      "name": "Financial Modeling & Excel / Python",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Financial Statement Analysis & Quality of Earnings"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/excel/financial-modeling-best-practices/",
+      "category": "modeling"
+    },
+    {
+      "name": "DCF & Comparable Company Valuation",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Financial Modeling & Excel / Python"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/valuation/dcf-model-training-free-guide/",
+      "category": "modeling"
+    },
+    {
+      "name": "Equity Research Report Writing",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["DCF & Comparable Company Valuation"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/equity-research/equity-research-overview/",
+      "category": "analytics"
+    },
+    {
+      "name": "Portfolio Analysis & Risk-Return Metrics",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 35,
+      "prerequisites": ["DCF & Comparable Company Valuation"],
+      "source_url": "https://www.cfainstitute.org/en/programs/cfa/curriculum",
+      "category": "analytics"
+    },
+    {
+      "name": "Bloomberg Terminal & FactSet Data Analysis",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 30,
+      "prerequisites": ["Financial Statement Analysis & Quality of Earnings"],
+      "source_url": "https://www.bloomberg.com/professional/training/",
+      "category": "tools"
+    },
+    {
+      "name": "Macroeconomics & Industry Analysis",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://www.imf.org/en/Publications/WEO",
+      "category": "analytics"
+    },
+    {
+      "name": "CFA-Level Fixed Income & Derivatives",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Portfolio Analysis & Risk-Return Metrics"],
+      "source_url": "https://www.cfainstitute.org/en/programs/cfa/curriculum",
+      "category": "products"
+    },
+    {
+      "name": "Financial Risk Management & Stress Testing",
+      "required_level": 3.5,
+      "demand_level": "frequently mentioned",
+      "weight": 0.75,
+      "est_hours_to_learn": 30,
+      "prerequisites": ["Portfolio Analysis & Risk-Return Metrics"],
+      "source_url": "https://www.garp.org/",
+      "category": "risk"
+    }
+  ]
+}

@@ -30,6 +30,12 @@ class RoleDefinition(BaseModel):
     typical_companies_types: list[str] = Field(default_factory=lambda: ["Product Tech", "FinTech", "High-Growth Scaleup"])
     demand_level: str = "critical"
     avg_time_to_ready_weeks: int = 8
+    tier_label: str = "Target Organization Tier"
+    target_tiers: list[str] = Field(default_factory=list)
+    degree_label: str = "Degree / Qualification"
+    branch_label: str = "Branch / Specialization"
+    suggested_degrees: list[str] = Field(default_factory=list)
+    suggested_branches: list[str] = Field(default_factory=list)
     skills: list[RoleSkillBenchmark] = Field(default_factory=list)
 
 

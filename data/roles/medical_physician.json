@@ -1,0 +1,165 @@
+{
+  "id": "medical_physician",
+  "title": "Medical Physician",
+  "category": "Medicine & Healthcare",
+  "aliases": [
+    "doctor",
+    "mbbs doctor",
+    "general physician",
+    "medical officer",
+    "clinical doctor",
+    "gp",
+    "medical doctor",
+    "md physician",
+    "house officer",
+    "junior doctor"
+  ],
+  "description": "Diagnoses and treats illnesses across general medicine, manages patient care, and coordinates with specialists in clinical and hospital settings.",
+  "tagline": "Clinical physician delivering patient-centered diagnosis, treatment, and care across general medicine.",
+  "demand_level": "critical",
+  "avg_time_to_ready_weeks": 26,
+  "tier_label": "Target Hospital / Healthcare Tier",
+  "target_tiers": [
+    "Top Super-Specialty Hospital (AIIMS / Apollo / PGI / Mayo Clinic)",
+    "Premier Academic Teaching Hospital & Medical College",
+    "Multi-Specialty Corporate Hospital (Fortis / Max / Manipal)",
+    "Government Public Health Services & District Hospital",
+    "Primary Care, Community Health & Telemedicine"
+  ],
+  "degree_label": "Medical Qualification",
+  "branch_label": "Medical Specialty",
+  "suggested_degrees": ["MBBS", "MD Internal Medicine", "MBBS + DNB", "BDS (Dentistry)", "BAMS / BHMS"],
+  "suggested_branches": ["General Medicine", "Internal Medicine", "Family Medicine", "Emergency Medicine", "Community Medicine"],
+  "skills": [
+    {
+      "name": "Anatomy & Physiology",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 60,
+      "prerequisites": [],
+      "source_url": "https://www.amboss.com/us/knowledge/anatomy",
+      "category": "sciences"
+    },
+    {
+      "name": "Biochemistry & Genetics",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Anatomy & Physiology"],
+      "source_url": "https://www.amboss.com/us/knowledge/biochemistry",
+      "category": "sciences"
+    },
+    {
+      "name": "Pathology & Microbiology",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Biochemistry & Genetics"],
+      "source_url": "https://www.amboss.com/us/knowledge/pathology",
+      "category": "clinical"
+    },
+    {
+      "name": "Clinical Pharmacology & Therapeutics",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Pathology & Microbiology"],
+      "source_url": "https://www.amboss.com/us/knowledge/pharmacology",
+      "category": "pharmacology"
+    },
+    {
+      "name": "Clinical Examination & Patient History Taking",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Anatomy & Physiology"],
+      "source_url": "https://geekymedics.com/osce-guides/",
+      "category": "clinical"
+    },
+    {
+      "name": "Diagnostic Medicine & Interpretation",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Clinical Examination & Patient History Taking", "Pathology & Microbiology"],
+      "source_url": "https://www.amboss.com/us/knowledge/diagnostics",
+      "category": "diagnostics"
+    },
+    {
+      "name": "Internal Medicine & General Practice",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 55,
+      "prerequisites": ["Diagnostic Medicine & Interpretation"],
+      "source_url": "https://www.uptodate.com/contents/search",
+      "category": "clinical"
+    },
+    {
+      "name": "Emergency Medicine & Life Support (BLS/ACLS)",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 35,
+      "prerequisites": ["Internal Medicine & General Practice"],
+      "source_url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines",
+      "category": "procedures"
+    },
+    {
+      "name": "Surgery Basics & Wound Management",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Anatomy & Physiology", "Clinical Examination & Patient History Taking"],
+      "source_url": "https://www.amboss.com/us/knowledge/surgery",
+      "category": "procedures"
+    },
+    {
+      "name": "Obstetrics & Gynaecology Essentials",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 35,
+      "prerequisites": ["Clinical Examination & Patient History Taking"],
+      "source_url": "https://www.amboss.com/us/knowledge/obstetrics-and-gynecology",
+      "category": "clinical"
+    },
+    {
+      "name": "Paediatrics & Child Health",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 35,
+      "prerequisites": ["Internal Medicine & General Practice"],
+      "source_url": "https://www.amboss.com/us/knowledge/pediatrics",
+      "category": "clinical"
+    },
+    {
+      "name": "Medical Ethics & Patient Safety",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://www.nmc.org.in/rules-regulations/code-of-medical-ethics-regulations/",
+      "category": "clinical"
+    },
+    {
+      "name": "Clinical Research & Evidence-Based Medicine",
+      "required_level": 3.5,
+      "demand_level": "frequently mentioned",
+      "weight": 0.75,
+      "est_hours_to_learn": 30,
+      "prerequisites": ["Internal Medicine & General Practice"],
+      "source_url": "https://www.cochranelibrary.com/",
+      "category": "research"
+    }
+  ]
+}

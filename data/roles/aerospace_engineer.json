@@ -1,0 +1,133 @@
+{
+  "id": "aerospace_engineer",
+  "title": "Aerospace Engineer",
+  "category": "Core Engineering",
+  "aliases": [
+    "aerospace",
+    "aeronautical engineer",
+    "aviation engineer",
+    "aircraft engineer",
+    "flight engineer",
+    "avionics engineer",
+    "space engineer",
+    "defense engineer"
+  ],
+  "description": "Designs, tests, and develops aircraft, spacecraft, satellites, and propulsion systems using aerodynamics, avionics, and simulation tools.",
+  "tagline": "Aerospace systems engineer designing and simulating aircraft, spacecraft, and propulsion systems at the cutting edge of engineering.",
+  "demand_level": "high-priority",
+  "avg_time_to_ready_weeks": 20,
+  "tier_label": "Target Aerospace & Defense Firm Tier",
+  "target_tiers": [
+    "Global Aerospace & Defense OEM (Boeing, Airbus, SpaceX, Lockheed Martin)",
+    "National Space Agency (ISRO, NASA, ESA, JAXA)",
+    "Defense R&D Organization (DRDO, HAL, BAE Systems)",
+    "Aviation MRO & Systems Integration Company",
+    "Aerospace Startup & DeepTech Propulsion Company"
+  ],
+  "degree_label": "Engineering Degree",
+  "branch_label": "Aerospace Specialization",
+  "suggested_degrees": ["B.Tech / B.E. Aerospace / Aeronautical Engineering", "M.Tech Aerospace Engineering", "M.S. Aerospace Engineering (US/Europe)"],
+  "suggested_branches": ["Aerodynamics & Propulsion", "Structural Mechanics", "Avionics & Flight Control", "Space Systems & Satellites", "Defense Systems"],
+  "skills": [
+    {
+      "name": "Aerodynamics & Compressible Flow",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": [],
+      "source_url": "https://www.grc.nasa.gov/www/k-12/airplane/",
+      "category": "mechanics"
+    },
+    {
+      "name": "Aircraft Structures & Composite Materials",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Aerodynamics & Compressible Flow"],
+      "source_url": "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/",
+      "category": "mechanics"
+    },
+    {
+      "name": "Propulsion Systems (Gas Turbines, Rockets)",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Aerodynamics & Compressible Flow"],
+      "source_url": "https://www.grc.nasa.gov/www/k-12/airplane/thrust.html",
+      "category": "mechanics"
+    },
+    {
+      "name": "Flight Mechanics & Control Systems",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Aerodynamics & Compressible Flow", "Aircraft Structures & Composite Materials"],
+      "source_url": "https://ocw.mit.edu/courses/16-333-aircraft-stability-and-control-fall-2004/",
+      "category": "systems"
+    },
+    {
+      "name": "CATIA / SolidWorks / ANSYS Fluent (CFD)",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": [],
+      "source_url": "https://www.3ds.com/products/catia",
+      "category": "simulation"
+    },
+    {
+      "name": "Finite Element Analysis (FEA) & Structural Simulation",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["CATIA / SolidWorks / ANSYS Fluent (CFD)", "Aircraft Structures & Composite Materials"],
+      "source_url": "https://www.ansys.com/",
+      "category": "simulation"
+    },
+    {
+      "name": "Avionics, Embedded Systems & Flight Software",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Flight Mechanics & Control Systems"],
+      "source_url": "https://www.rtca.org/",
+      "category": "avionics"
+    },
+    {
+      "name": "Orbital Mechanics & Satellite Systems",
+      "required_level": 3.5,
+      "demand_level": "frequently mentioned",
+      "weight": 0.75,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Propulsion Systems (Gas Turbines, Rockets)"],
+      "source_url": "https://www.nasa.gov/missions",
+      "category": "systems"
+    },
+    {
+      "name": "Aerospace Standards & Airworthiness (DO-178C, FAR/JAR)",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 30,
+      "prerequisites": ["Aircraft Structures & Composite Materials"],
+      "source_url": "https://www.faa.gov/regulations_policies/advisory_circulars/",
+      "category": "standards"
+    },
+    {
+      "name": "MATLAB / Simulink for Systems Modeling",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://www.mathworks.com/products/simulink.html",
+      "category": "simulation"
+    }
+  ]
+}

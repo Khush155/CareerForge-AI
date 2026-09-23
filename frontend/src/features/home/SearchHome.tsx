@@ -22,6 +22,7 @@ import {
   Plane,
   Palette,
   Briefcase,
+  Utensils,
 } from 'lucide-react';
 import { useAppStore } from '../../lib/store';
 import { fetchRoleSuggestions, fetchRolesGrouped, type RoleSuggestion, type RoleGroupedItem } from '../../lib/api';
@@ -131,6 +132,68 @@ const DEFAULT_FALLBACK_ROLES: Record<string, RoleGroupedItem[]> = {
       top_skills: ['C++', 'Unity', 'Unreal Engine'],
     },
   ],
+  'Culinary Arts & Hospitality': [
+    {
+      id: 'chef_cook',
+      title: 'Professional Cook & Chef',
+      category: 'Culinary Arts & Hospitality',
+      tagline: 'Masters professional kitchen brigade operations, culinary techniques, food safety, and menu costing.',
+      demand_level: 'critical',
+      avg_time_to_ready_weeks: 12,
+      top_skills: ['Knife Skills & Station Prep', 'HACCP & Food Safety Compliance', 'Mother Sauces & Deglazing'],
+    },
+  ],
+  'Medicine & Healthcare': [
+    {
+      id: 'medical_physician',
+      title: 'Medical Doctor / Physician (MBBS/MD)',
+      category: 'Medicine & Healthcare',
+      tagline: 'Diagnoses complex clinical cases, manages acute care, and administers evidence-based treatments.',
+      demand_level: 'critical',
+      avg_time_to_ready_weeks: 16,
+      top_skills: ['Clinical Diagnostics', 'Patient Management', 'Pharmacotherapy'],
+    },
+    {
+      id: 'cardiologist',
+      title: 'Cardiologist',
+      category: 'Medicine & Healthcare',
+      tagline: 'Specializes in advanced cardiovascular medicine, echocardiography, and catheterization management.',
+      demand_level: 'critical',
+      avg_time_to_ready_weeks: 20,
+      top_skills: ['Cardiovascular Diagnostics', 'Echocardiography (TTE/TEE)', 'Hemodynamic Monitoring'],
+    },
+  ],
+  'Finance & Banking': [
+    {
+      id: 'investment_banker',
+      title: 'Investment Banker',
+      category: 'Finance & Banking',
+      tagline: 'Structures mergers, acquisitions, debt offerings, and creates Wall Street pitch decks.',
+      demand_level: 'high-priority',
+      avg_time_to_ready_weeks: 14,
+      top_skills: ['Three-Statement Financial Modeling', 'Valuation Methodologies (DCF/Comps)', 'M&A Deal Execution'],
+    },
+    {
+      id: 'financial_analyst',
+      title: 'Financial Analyst',
+      category: 'Finance & Banking',
+      tagline: 'Analyzes corporate financial statements, builds forecasting models, and performs variance analysis.',
+      demand_level: 'high-priority',
+      avg_time_to_ready_weeks: 10,
+      top_skills: ['Financial Statement Analysis', 'Variance Analysis & Budgeting', 'Excel Financial Modeling'],
+    },
+  ],
+  'Core Engineering': [
+    {
+      id: 'mechanical_engineer',
+      title: 'Mechanical Engineer',
+      category: 'Core Engineering',
+      tagline: 'Designs mechanical assemblies, performs FEA stress analyses, and oversees manufacturing workflows.',
+      demand_level: 'high-priority',
+      avg_time_to_ready_weeks: 14,
+      top_skills: ['3D CAD Modeling (SolidWorks)', 'Finite Element Analysis (FEA)', 'GD&T Compliance'],
+    },
+  ],
 };
 
 export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolving = false }) => {
@@ -236,6 +299,8 @@ export const SearchHome: React.FC<SearchHomeProps> = ({ onSelectRole, isResolvin
 
   const getRoleIcon = (cat: string) => {
     const c = (cat || '').toLowerCase();
+    if (c.includes('culinary') || c.includes('cook') || c.includes('chef') || c.includes('hospitality') || c.includes('food'))
+      return <Utensils className="w-4 h-4 text-[var(--accent-coral)]" />;
     if (c.includes('health') || c.includes('medicine') || c.includes('cardio') || c.includes('clinic'))
       return <HeartPulse className="w-4 h-4 text-[var(--accent-coral)]" />;
     if (c.includes('finance') || c.includes('bank') || c.includes('invest') || c.includes('account'))

@@ -1,0 +1,144 @@
+{
+  "id": "civil_engineer",
+  "title": "Civil Engineer",
+  "category": "Core Engineering",
+  "aliases": [
+    "civil",
+    "structural engineer",
+    "infrastructure engineer",
+    "site engineer",
+    "construction engineer",
+    "rcc engineer",
+    "highway engineer",
+    "geotechnical engineer",
+    "environmental engineer civil"
+  ],
+  "description": "Designs and manages construction of infrastructure including buildings, bridges, roads, dams, and urban systems using structural analysis and project management.",
+  "tagline": "Infrastructure and structural engineer designing safe, resilient civil structures and managing large-scale construction projects.",
+  "demand_level": "high-priority",
+  "avg_time_to_ready_weeks": 18,
+  "tier_label": "Target Infrastructure & Engineering Firm Tier",
+  "target_tiers": [
+    "Tier-1 Infrastructure EPC (L&T, Bechtel, Shapoorji Pallonji, NCC)",
+    "Global Engineering Consulting (AECOM, Jacobs, WSP, Mott MacDonald)",
+    "Government Infrastructure Authority (NHAI, CPWD, Railways, Smart Cities)",
+    "Real Estate & Urban Development Company",
+    "Specialized Geotechnical / Structural Design Consultancy"
+  ],
+  "degree_label": "Engineering Degree",
+  "branch_label": "Civil Engineering Specialization",
+  "suggested_degrees": ["B.Tech / B.E. Civil Engineering", "M.Tech Civil Engineering", "M.S. Structural / Geotechnical Engineering"],
+  "suggested_branches": ["Structural Engineering", "Geotechnical Engineering", "Construction Management", "Transportation & Highway Engineering", "Water Resources & Environmental Engineering"],
+  "skills": [
+    {
+      "name": "Engineering Mechanics & Structural Analysis",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": [],
+      "source_url": "https://www.engineeringtoolbox.com/",
+      "category": "mechanics"
+    },
+    {
+      "name": "RCC (Reinforced Cement Concrete) Design",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Engineering Mechanics & Structural Analysis"],
+      "source_url": "https://www.is800.in/",
+      "category": "design"
+    },
+    {
+      "name": "Steel Structural Design & IS/BS Standards",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["RCC (Reinforced Cement Concrete) Design"],
+      "source_url": "https://www.is800.in/",
+      "category": "design"
+    },
+    {
+      "name": "AutoCAD & Civil 3D / Revit BIM Drafting",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": [],
+      "source_url": "https://www.autodesk.com/products/civil-3d/overview",
+      "category": "design"
+    },
+    {
+      "name": "STAAD.Pro / ETABS / SAP2000 Structural Simulation",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Engineering Mechanics & Structural Analysis", "AutoCAD & Civil 3D / Revit BIM Drafting"],
+      "source_url": "https://www.bentley.com/software/staad-pro/",
+      "category": "simulation"
+    },
+    {
+      "name": "Geotechnical Engineering & Soil Mechanics",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.9,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Engineering Mechanics & Structural Analysis"],
+      "source_url": "https://www.issmge.org/",
+      "category": "mechanics"
+    },
+    {
+      "name": "Hydraulics, Hydrology & Water Resources",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://www.engineeringtoolbox.com/fluid-mechanics-d_1267.html",
+      "category": "mechanics"
+    },
+    {
+      "name": "Construction Management & Project Planning (Primavera / MS Project)",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://www.pmi.org/",
+      "category": "systems"
+    },
+    {
+      "name": "Quantity Estimation & Cost Management (BOQ / Rate Analysis)",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 35,
+      "prerequisites": ["Construction Management & Project Planning (Primavera / MS Project)"],
+      "source_url": "https://www.cpwd.gov.in/",
+      "category": "management"
+    },
+    {
+      "name": "Transportation Engineering & Highway Design",
+      "required_level": 3.5,
+      "demand_level": "frequently mentioned",
+      "weight": 0.75,
+      "est_hours_to_learn": 30,
+      "prerequisites": [],
+      "source_url": "https://www.nhai.gov.in/",
+      "category": "design"
+    },
+    {
+      "name": "IS / BIS Codes & Construction Standards",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 25,
+      "prerequisites": ["RCC (Reinforced Cement Concrete) Design"],
+      "source_url": "https://www.bis.gov.in/",
+      "category": "standards"
+    }
+  ]
+}

@@ -373,3 +373,42 @@ def test_agent_phases_with_no_high_priority_gaps(agent_with_temp_db):
     assert len(gaps) > 0
     assert len(roadmap.phases) >= 2
     assert any(p.phase_number == 1 for p in roadmap.phases)
+
+
+def test_agent_pedagogical_sequencing_and_interview_questions_in_final_phase_only(agent_with_temp_db):
+    """Verify that Phase 1 never contains interview questions, and interview preparation is reserved for the final phase."""
+    profile = StudentProfile(
+        id="std_pedagogical_test",
+        name="Rohan Verma",
+        degree="B.Tech",
+        branch="Computer Science",
+        year=3,
+        target_role="Backend Developer",
+        available_hours_per_week=20,
+        skills=[
+            Skill(name="Python", proficiency=1.5),
+            Skill(name="SQL", proficiency=1.0),
+            Skill(name="FastAPI", proficiency=0.5),
+            Skill(name="Docker", proficiency=0.0),
+            Skill(name="Redis", proficiency=0.0),
+            Skill(name="System Design", proficiency=0.0),
+        ]
+    )
+
+    _, gaps, roadmap = agent_with_temp_db.generate_initial_roadmap(profile)
+    assert len(roadmap.phases) >= 3
+
+    p1 = roadmap.phases[0]
+    final_phase = roadmap.phases[-1]
+
+    # Phase 1 MUST NOT contain interview questions
+    for obj in p1.learning_objectives:
+        obj_lower = obj.lower()
+        assert "interview" not in obj_lower, f"Phase 1 milestone must not mention interviews: {obj}"
+        assert "mock" not in obj_lower, f"Phase 1 milestone must not mention mock rounds: {obj}"
+
+    # Final phase MUST contain interview / placement readiness
+    final_objs_joined = " ".join(final_phase.learning_objectives).lower()
+    assert "interview" in final_objs_joined or "placement" in final_objs_joined
+    assert "capstone" in final_phase.title.lower() or "readiness" in final_phase.title.lower() or "placement" in final_phase.title.lower()
+

@@ -42,7 +42,8 @@ interface AppStore {
 
   // Modals & Drawers
   isAssessmentOpen: boolean;
-  openAssessment: () => void;
+  targetAssessmentSkill: string | null;
+  openAssessment: (skill?: string) => void;
   closeAssessment: () => void;
 
   activeEvidenceSkill: string | null;
@@ -444,8 +445,9 @@ export const useAppStore = create<AppStore>((set, get) => ({
   },
 
   isAssessmentOpen: false,
-  openAssessment: () => set({ isAssessmentOpen: true }),
-  closeAssessment: () => set({ isAssessmentOpen: false }),
+  targetAssessmentSkill: null,
+  openAssessment: (skill) => set({ isAssessmentOpen: true, targetAssessmentSkill: skill || null }),
+  closeAssessment: () => set({ isAssessmentOpen: false, targetAssessmentSkill: null }),
 
   activeEvidenceSkill: null,
   isEvidenceOpen: false,

@@ -42,6 +42,7 @@ export const App: React.FC = () => {
     currentSection,
     setCurrentSection,
     isAssessmentOpen,
+    targetAssessmentSkill,
     openAssessment,
     closeAssessment,
     isEvidenceOpen,
@@ -80,7 +81,6 @@ export const App: React.FC = () => {
   const [selectedRoleQuery, setSelectedRoleQuery] = useState<string | null>(null);
   const [resolvedRoleData, setResolvedRoleData] = useState<RoleResolveResult | null>(null);
   const [isResolvingRole, setIsResolvingRole] = useState(false);
-  const [targetAssessmentSkill, setTargetAssessmentSkill] = useState<string | null>(null);
 
   const handleNavigateHome = () => {
     setResolvedRoleData(null);
@@ -142,10 +142,7 @@ export const App: React.FC = () => {
   }, [profile, gaps, marketRequirements, roadmap, skills]);
 
   const handleOpenAssessment = (skill?: string) => {
-    if (skill) {
-      setTargetAssessmentSkill(skill);
-    }
-    openAssessment();
+    openAssessment(skill);
   };
 
   const handleSelectRole = async (roleQuery: string) => {
@@ -697,7 +694,6 @@ export const App: React.FC = () => {
         skills={allCareerSkills}
         defaultSkill={targetAssessmentSkill || gaps.find((g) => g.priority === 'High')?.skill || allCareerSkills[0]?.name}
         onClose={() => {
-          setTargetAssessmentSkill(null);
           closeAssessment();
         }}
         onApplyScore={handleApplyScore}

@@ -9,8 +9,10 @@ ARCHITECTURAL CONSTRAINTS:
 3. RAG retrieval of curated markdown guides with section anchors.
 4. Seamless dual-mode execution (local mock vs Azure OpenAI gpt-4o-mini).
 5. Dynamic roadmap phase rebalancing upon assessment completion.
+6. DOMAIN-AWARE phase generation: tech, medicine, finance, law, core_engineering, general.
 """
 import math
+import re
 import uuid
 
 from app.agent.azure_client import AzureOpenAIClient
@@ -27,6 +29,374 @@ from app.tools.market_search import web_search_market
 
 # Base study hours assigned per 1.0 gap deficiency
 HOURS_PER_GAP_UNIT = 15
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Domain detection helpers
+# ──────────────────────────────────────────────────────────────────────────────
+
+_MEDICINE_KW = frozenset({
+    "doctor", "physician", "surgeon", "surgery", "cardio", "cardiologist",
+    "nurse", "nursing", "dentist", "dental", "pharmacist", "pharmacy",
+    "radiologist", "radiology", "pediatrician", "pediatric", "oncologist",
+    "neurologist", "orthopedic", "psychiatrist", "dermatologist",
+    "anesthesiologist", "medical", "medicine", "mbbs", "clinical", "clinic",
+    "hospital", "healthcare", "biotech", "veterinarian", "pathologist",
+    "obstetrician", "gynecologist", "ophthalmologist", "urologist",
+})
+
+_FINANCE_KW = frozenset({
+    "invest", "investment", "bank", "banking", "equity", "hedge", "quant",
+    "chartered", "audit", "auditor", "accountant", "accounting", "trader",
+    "trading", "wealth", "actuary", "cfa", "valuation", "fintech",
+    "taxation", "financial", "finance", "economist", "treasury",
+    "portfolio", "asset", "fund", "insurance", "underwriter",
+    "stockbroker", "brokerage",
+})
+
+_LAW_KW = frozenset({
+    "law", "lawyer", "legal", "attorney", "litigation", "litigator",
+    "advocate", "judge", "judicial", "prosecutor", "arbitration",
+    "arbitrator", "counsel", "barrister", "solicitor", "paralegal",
+    "compliance", "regulatory", "intellectual property", "ip law",
+})
+
+_CORE_ENG_KW = frozenset({
+    "mechanical", "civil", "aerospace", "aeronautical", "electrical",
+    "chemical", "structural", "automobile", "automotive", "metallurgy",
+    "mechatronics", "biomedical engineer", "environmental engineer",
+    "industrial engineer", "petroleum", "material", "nuclear",
+    "manufacturing", "process engineer",
+})
+
+_CULINARY_KW = frozenset({
+    "cook", "cooking", "chef", "baker", "bakery", "pastry", "culinary",
+    "barista", "sommelier", "restaurant", "kitchen", "gastronomy", "catering",
+    "sous chef", "garde manger", "line cook", "food beverage", "hospitality"
+})
+
+_TECH_KW = frozenset({
+    "software", "developer", "devops", "cloud", "security", "data",
+    "machine learning", "frontend", "backend", "full stack", "mobile",
+    "ios", "android", "game", "blockchain", "qa", "sre", "sdet",
+    "ai", "ml", "nlp", "computer vision", "robotics", "embedded", "iot",
+    "cybersecurity", "sde", "engineer",  # 'engineer' last — lowest priority
+})
+
+
+def _detect_role_domain(target_role: str, benchmark_categories: list[str]) -> str:
+    """Detect the career domain from role title and benchmark skill categories.
+
+    Returns one of: 'culinary', 'medicine', 'finance', 'law', 'core_engineering', 'tech', 'general'
+
+    Uses token (whole-word) matching to avoid false positives like 'ca' matching 'mechanical'.
+    Short keywords (len <= 3) are only matched as whole tokens; longer keywords also use substring.
+    """
+    text = target_role.lower()
+    tokens = set(re.sub(r"[^\w\s]", " ", text).split())
+    all_cats = " ".join(c.lower() for c in benchmark_categories)
+
+    def _kw_match(kw_set: frozenset) -> bool:
+        for kw in kw_set:
+            if len(kw) <= 3:
+                # Short keywords (e.g. 'ca', 'law') must be whole tokens only
+                if kw in tokens:
+                    return True
+            else:
+                # Longer keywords can substring-match in the full text
+                if kw in tokens or kw in text:
+                    return True
+        return False
+
+    # Culinary & Hospitality
+    if _kw_match(_CULINARY_KW) or "culinary" in all_cats or "food" in all_cats or "cooking" in all_cats:
+        return "culinary"
+
+    # Medicine wins over everything else
+    if _kw_match(_MEDICINE_KW) or "clinical" in all_cats or "medicine" in all_cats or "healthcare" in all_cats:
+        return "medicine"
+
+    if _kw_match(_LAW_KW) or "legal" in all_cats or "law" in all_cats:
+        return "law"
+
+    if _kw_match(_FINANCE_KW) or "finance" in all_cats or "accounting" in all_cats:
+        return "finance"
+
+    if _kw_match(_CORE_ENG_KW) or "mechanical" in all_cats or "civil" in all_cats:
+        return "core_engineering"
+
+    # Tech: match explicit software, computing, and data/AI disciplines
+    tech_markers = (
+        "software", "developer", "devops", "frontend", "backend", "cloud",
+        "machine learning", "data science", "data scientist", "data engineer",
+        "machine learning engineer", "ai engineer", "sde", "swe",
+        "full stack", "fullstack", "qa automation", "sdet", "cybersecurity",
+        "web developer", "blockchain", "mobile app", "ios developer",
+        "android developer", "systems architect", "network engineer",
+        "site reliability", "database administrator", "database",
+    )
+    if any(kw in text for kw in tech_markers):
+        return "tech"
+
+    # Only treat 'engineer' as tech if accompanied by software/computing qualifiers
+    software_qualifiers = (
+        "software", "systems", "cloud", "platform", "infrastructure",
+        "firmware", "embedded", "network", "devops", "sre", "security",
+        "data", "ai", "ml", "web", "app", "code", "frontend", "backend"
+    )
+    if "engineer" in tokens and any(q in text for q in software_qualifiers):
+        return "tech"
+    if any(t in tokens for t in ("developer", "programmer", "coder")):
+        return "tech"
+
+    if any(c in all_cats for c in ("software", "programming", "devops", "cloud_computing", "machine_learning")):
+        return "tech"
+
+    return "general"
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Domain-aware phase naming
+# ──────────────────────────────────────────────────────────────────────────────
+
+_PHASE_TITLES: dict[str, list[str]] = {
+    "culinary": [
+        "Culinary Foundations, Knife Skills & Food Safety",
+        "Station Mastery, Menu Execution & Cooking Techniques",
+        "Kitchen Leadership, Recipe Costing & Operations",
+        "Executive Audition, Signature Tasting & Placement",
+    ],
+    "tech": [
+        "Foundations & Core Bedrock",
+        "Core Domain Architecture & Systems",
+        "Production Scale, Infrastructure & DevOps",
+        "Placement Readiness, Mock Interviews & Capstone Defense",
+    ],
+    "medicine": [
+        "Clinical Foundations & Core Medical Sciences",
+        "Diagnostic Specialization & Clinical Procedures",
+        "Hospital Systems, Rotations & Advanced Practice",
+        "Board Exams, Residency Applications & Placement Readiness",
+    ],
+    "finance": [
+        "Quantitative Foundations & Financial Accounting",
+        "Financial Modeling, Valuation & Capital Markets",
+        "Advanced Products, Deal Execution & Portfolio Management",
+        "Placement Readiness, Technical Interviews & Case Drills",
+    ],
+    "law": [
+        "Legal Theory, Jurisprudence & Constitutional Foundations",
+        "Contract Practice, Research & Statutory Drafting",
+        "Litigation, Advocacy & Specialized Practice Areas",
+        "Bar Exam Preparation, Moot Court & Career Placement",
+    ],
+    "core_engineering": [
+        "Engineering Fundamentals & Core Sciences",
+        "Design Principles, CAD/CAE & Simulation",
+        "Manufacturing, Systems Integration & Quality Standards",
+        "Industry Certification, Portfolio & Placement Readiness",
+    ],
+    "general": [
+        "Domain Fundamentals & Core Knowledge",
+        "Applied Practice & Skill Development",
+        "Advanced Systems, Tools & Professional Standards",
+        "Placement Readiness, Portfolio & Career Positioning",
+    ],
+}
+
+
+def _get_phase_title(domain: str, phase_idx: int, skills_short: str) -> str:
+    """Build a phase title for the given domain and phase index (0-based, last = final)."""
+    titles = _PHASE_TITLES.get(domain, _PHASE_TITLES["general"])
+    raw = titles[min(phase_idx, len(titles) - 1)]
+    clean_raw = re.sub(r"^Phase\s*\d+\s*:\s*", "", raw, flags=re.IGNORECASE).strip()
+    num = phase_idx + 1
+    if skills_short:
+        return f"Phase {num}: {clean_raw} ({skills_short})"
+    return f"Phase {num}: {clean_raw}"
+
+
+def _get_final_phase_title(domain: str, phase_num: int) -> str:
+    titles = _PHASE_TITLES.get(domain, _PHASE_TITLES["general"])
+    raw = titles[-1]
+    clean_raw = re.sub(r"^Phase\s*\d+\s*:\s*", "", raw, flags=re.IGNORECASE).strip()
+    return f"Phase {phase_num}: {clean_raw}"
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Domain-aware skill tier classification
+# ──────────────────────────────────────────────────────────────────────────────
+
+_TIER_KEYWORDS: dict[str, tuple[tuple[str, ...], tuple[str, ...], tuple[str, ...]]] = {
+    # (tier1_kw, tier2_kw, tier3_kw)
+    "culinary": (
+        # tier1 = knife skills, food safety & sanitation, mise en place, fundamentals
+        (
+            "knife", "mise en place", "safety", "hygiene", "haccp", "sanitation",
+            "sauce", "sauces", "stocks", "broth", "palate", "seasoning",
+            "cutting", "prep", "flavor", "cleanliness",
+        ),
+        # tier2 = station cooking, butchery, pastry, line execution
+        (
+            "station", "line cooking", "sauté", "saute", "grill", "fry", "roast",
+            "butchery", "fabrication", "meat", "poultry", "seafood", "fish",
+            "pastry", "baking", "bread", "plating", "presentation", "recipe",
+        ),
+        # tier3 = brigade leadership, menu engineering, kitchen operations & costing
+        (
+            "brigade", "leadership", "sous chef", "head chef", "menu engineering",
+            "costing", "yield", "inventory", "purchasing", "sourcing",
+            "management", "expediting", "banquet", "catering", "operations",
+        ),
+    ),
+    "tech": (
+        (
+            "python", "java", "c++", "cpp", "c#", "golang", "go", "rust",
+            "javascript", "typescript", "ruby", "php", "swift", "kotlin",
+            "sql", "git", "linux", "bash", "dsa", "data structures",
+            "algorithms", "html", "css", "math", "statistics", "http",
+        ),
+        (
+            "react", "next", "fastapi", "django", "flask", "express",
+            "node", "spring", "vue", "angular", "postgresql", "postgres",
+            "mysql", "mongodb", "rest", "graphql", "api", "orm", "prisma",
+            "sqlalchemy", "pandas", "numpy", "scikit",
+        ),
+        (
+            "docker", "kubernetes", "k8s", "redis", "kafka", "rabbitmq",
+            "system design", "microservices", "aws", "azure", "gcp",
+            "cloud", "ci/cd", "devops", "terraform", "security",
+            "caching", "distributed",
+        ),
+    ),
+    "medicine": (
+        # tier1 = basic sciences & clinical foundations
+        (
+            "anatomy", "physiology", "biochemistry", "pathology", "microbiology",
+            "pharmacology", "genetics", "embryology", "histology",
+            "clinical medicine", "patient", "diagnosis", "examination",
+            "medical history", "vital signs", "physical examination",
+        ),
+        # tier2 = diagnostic procedures & specialization
+        (
+            "echocardiography", "ecg", "electrocardiogram", "diagnostic imaging",
+            "radiology", "endoscopy", "biopsy", "laboratory", "blood work",
+            "clinical procedures", "surgical skills", "interventional",
+            "therapeutics", "clinical pharmacology",
+        ),
+        # tier3 = advanced hospital systems & specialty practice
+        (
+            "icu", "critical care", "emergency medicine", "surgery",
+            "surgical", "hospital management", "clinical governance",
+            "evidence-based medicine", "research methodology", "clinical trials",
+            "medical ethics", "healthcare systems", "public health",
+        ),
+    ),
+    "finance": (
+        # tier1 = accounting & quant foundations
+        (
+            "accounting", "financial statements", "balance sheet", "income statement",
+            "cash flow", "excel", "statistics", "probability", "economics",
+            "financial accounting", "us gaap", "ifrs", "bookkeeping",
+        ),
+        # tier2 = modeling & markets
+        (
+            "financial modeling", "dcf", "lbo", "valuation", "bloomberg",
+            "equity research", "corporate finance", "capital markets",
+            "fixed income", "derivatives", "risk management",
+        ),
+        # tier3 = advanced products & deal execution
+        (
+            "m&a", "mergers", "acquisitions", "private equity", "hedge fund",
+            "portfolio management", "quantitative", "algorithmic", "trading",
+            "structured products", "investment banking", "deal structuring",
+        ),
+    ),
+    "law": (
+        # tier1 = jurisprudence & theory
+        (
+            "jurisprudence", "constitutional law", "criminal law", "tort law",
+            "contract law", "legal theory", "legal research", "case analysis",
+            "statutory interpretation", "legal writing",
+        ),
+        # tier2 = practice areas & drafting
+        (
+            "contract drafting", "corporate law", "commercial law", "litigation",
+            "court procedure", "evidence law", "civil procedure", "due diligence",
+            "legal drafting", "negotiation",
+        ),
+        # tier3 = advanced advocacy & specialized areas
+        (
+            "appellate", "arbitration", "intellectual property", "tax law",
+            "securities law", "antitrust", "employment law", "international law",
+            "mergers acquisitions law", "regulatory compliance",
+        ),
+    ),
+    "core_engineering": (
+        # tier1 = engineering sciences
+        (
+            "mathematics", "calculus", "thermodynamics", "mechanics", "statics",
+            "dynamics", "fluid mechanics", "materials science", "chemistry",
+            "physics", "engineering drawing", "technical drawing",
+        ),
+        # tier2 = design & simulation
+        (
+            "cad", "autocad", "solidworks", "catia", "ansys", "fea", "fem",
+            "simulation", "stress analysis", "design principles", "prototyping",
+            "circuit design", "pcb", "plc", "control systems",
+        ),
+        # tier3 = manufacturing & systems
+        (
+            "manufacturing", "quality control", "six sigma", "lean manufacturing",
+            "project management", "supply chain", "systems integration",
+            "maintenance", "operations", "commissioning", "safety standards",
+            "iso", "gdt", "tolerance analysis",
+        ),
+    ),
+    "general": (
+        ("foundation", "fundamental", "core", "basic", "introduction", "principles"),
+        ("applied", "practice", "intermediate", "technique", "methodology", "framework"),
+        ("advanced", "strategic", "leadership", "management", "systems", "professional"),
+    ),
+}
+
+
+def _get_domain_skill_tier(skill_name: str, domain: str, benchmark_map: dict) -> int:
+    """Classify a skill into tier 1/2/3 using domain-specific keyword sets and benchmark metadata."""
+    s_clean = skill_name.strip().lower()
+
+    # Check benchmark category first (highest confidence)
+    b = benchmark_map.get(s_clean)
+    if b:
+        cat = (b.category or "").lower()
+        # Universal category mappings
+        if cat in ("fundamentals", "core", "foundation", "language", "sciences", "theory",
+                   "clinical", "accounting", "jurisprudence", "mechanics"):
+            return 1
+        if cat in ("database", "framework", "applied", "domain", "api", "diagnostics",
+                   "modeling", "drafting", "design", "simulation", "pharmacology"):
+            return 2
+        if cat in ("architecture", "infrastructure", "cloud", "advanced", "devops",
+                   "security", "systems", "advocacy", "manufacturing", "critical_care",
+                   "procedures", "deal", "arbitration"):
+            return 3
+        if b.prerequisites:
+            return 2 if len(b.prerequisites) == 1 else 3
+
+    # Domain-specific keyword matching
+    tier_kws = _TIER_KEYWORDS.get(domain, _TIER_KEYWORDS["general"])
+    t1_kw, t2_kw, t3_kw = tier_kws
+
+    for kw in t1_kw:
+        if kw in s_clean:
+            return 1
+    for kw in t3_kw:
+        if kw in s_clean:
+            return 3
+    for kw in t2_kw:
+        if kw in s_clean:
+            return 2
+
+    return 2  # safe default: intermediate
 
 
 class CareerForgeAgent:
@@ -244,26 +614,40 @@ class CareerForgeAgent:
         profile: StudentProfile,
         gaps: list[SkillGap]
     ) -> list[RoadmapPhase]:
-        """Deterministically partitions skills into balanced progressive phases with pedagogical reasoning."""
+        """Deterministically partitions skills into balanced progressive phases.
+
+        Fully domain-aware: tech, medicine, finance, law, core_engineering, general.
+        Phase titles, skill tiers, resource queries, and milestone guidance are all
+        tailored to the detected career domain.
+        """
         unmastered = [g for g in gaps if g.priority != PriorityLevel.MASTERED]
         mastered = [g for g in gaps if g.priority == PriorityLevel.MASTERED]
 
         phases: list[RoadmapPhase] = []
 
-        # If every single skill is already mastered, provide advanced mock evaluation phase
+        # ── Resolve role & detect domain ─────────────────────────────────────
+        from app.tools.role_resolver import get_role_resolver
+        resolver = get_role_resolver()
+        resolved = resolver.resolve_role(profile.target_role)
+        benchmark_map = {b.name.lower().strip(): b for b in resolved.benchmark}
+        benchmark_cats = [b.category or "" for b in resolved.benchmark]
+        domain = _detect_role_domain(profile.target_role, benchmark_cats)
+
+        # ── Edge case: all skills already mastered ───────────────────────────
         if not unmastered:
-            resources = retrieve_knowledge_base(f"{profile.target_role} interview preparation", top_k=3)
+            resources = retrieve_knowledge_base(
+                f"{profile.target_role} advanced assessment preparation", top_k=3
+            )
             phases.append(
                 RoadmapPhase(
                     phase_number=1,
-                    title="Phase 1: Advanced Mock Interviews & Placement Polish",
+                    title=_get_final_phase_title(domain, 1),
                     skills_covered=[m.skill for m in mastered[:3]] or ["Comprehensive Domain Competency"],
                     estimated_hours=max(10, profile.available_hours_per_week * 2),
-
                     learning_objectives=[
-                        f"Review high-frequency interview question banks and scenario patterns for {profile.target_role}.",
-                        "Participate in timed peer mock interviews and technical/clinical problem solving under pressure.",
-                        "Finalize case studies, portfolio artifacts, and resume alignment for top-tier placement rounds."
+                        f"Review high-frequency advanced assessment questions and edge-case patterns for {profile.target_role}.",
+                        "Participate in timed mock evaluation rounds and domain-specific problem solving under pressure.",
+                        "Finalize case studies, portfolio artifacts, and credentials for top-tier placement."
                     ],
                     resources=resources,
                     status=PhaseStatus.IN_PROGRESS
@@ -271,51 +655,110 @@ class CareerForgeAgent:
             )
             return phases
 
-        # Progressive distribution: Sort gaps to ensure logical curriculum flow
-        # Prioritize core foundations first, then intermediate execution, then advanced integration
-        sorted_gaps = list(unmastered)
+        # ── Sort gaps by domain-aware tier then gap magnitude ────────────────
+        sorted_gaps = sorted(
+            unmastered,
+            key=lambda g: (_get_domain_skill_tier(g.skill, domain, benchmark_map), -g.gap, g.skill.lower())
+        )
         total_unmastered = len(sorted_gaps)
 
-        # Distribute unmastered competencies across up to 3 progressive domain phases:
-        # Phase 1: Core Foundations & Bedrock
-        # Phase 2: Core Domain Competency & Systems
-        # Phase 3: Advanced Scenarios & Applied Integration
-        # Phase 4 (Final): Placement Readiness, Mock Interviews & Capstone Defense
+        tier1_gaps = [g for g in sorted_gaps if _get_domain_skill_tier(g.skill, domain, benchmark_map) == 1]
+        tier2_gaps = [g for g in sorted_gaps if _get_domain_skill_tier(g.skill, domain, benchmark_map) == 2]
+        tier3_gaps = [g for g in sorted_gaps if _get_domain_skill_tier(g.skill, domain, benchmark_map) == 3]
+
         p1_gaps: list[SkillGap] = []
         p2_gaps: list[SkillGap] = []
         p3_gaps: list[SkillGap] = []
 
-        if total_unmastered >= 3:
-            s1 = math.ceil(total_unmastered / 3)
-            s2 = math.ceil(2 * total_unmastered / 3)
-            p1_gaps = sorted_gaps[:s1]
-            p2_gaps = sorted_gaps[s1:s2]
-            p3_gaps = sorted_gaps[s2:]
+        if total_unmastered == 1:
+            p1_gaps = [sorted_gaps[0]]
         elif total_unmastered == 2:
-            p1_gaps = [sorted_gaps[0]]
-            p2_gaps = [sorted_gaps[1]]
-            p3_gaps = []
-        else:  # exactly 1 unmastered skill
-            p1_gaps = [sorted_gaps[0]]
-            p2_gaps = []
-            p3_gaps = []
+            if tier1_gaps and (tier2_gaps or tier3_gaps):
+                p1_gaps = tier1_gaps
+                p2_gaps = tier2_gaps or tier3_gaps
+            else:
+                p1_gaps = [sorted_gaps[0]]
+                p2_gaps = [sorted_gaps[1]]
+        else:
+            # 3 or more unmastered competencies
+            if tier1_gaps and tier2_gaps and tier3_gaps:
+                p1_gaps = tier1_gaps
+                p2_gaps = tier2_gaps
+                p3_gaps = tier3_gaps
+            elif tier1_gaps and tier2_gaps and not tier3_gaps:
+                if len(tier1_gaps) >= 2:
+                    mid = len(tier1_gaps) // 2
+                    p1_gaps = tier1_gaps[:mid]
+                    p2_gaps = tier1_gaps[mid:]
+                    p3_gaps = tier2_gaps
+                else:
+                    p1_gaps = tier1_gaps
+                    mid = len(tier2_gaps) // 2
+                    p2_gaps = tier2_gaps[:mid]
+                    p3_gaps = tier2_gaps[mid:]
+            elif not tier1_gaps and tier2_gaps and tier3_gaps:
+                p1_gaps = tier2_gaps
+                p2_gaps = tier3_gaps
+            elif tier1_gaps and not tier2_gaps and tier3_gaps:
+                p1_gaps = tier1_gaps
+                p2_gaps = tier3_gaps
+            else:
+                # All in a single tier: slice into 3 balanced sub-phases
+                s1 = math.ceil(total_unmastered / 3)
+                s2 = math.ceil(2 * total_unmastered / 3)
+                p1_gaps = sorted_gaps[:s1]
+                p2_gaps = sorted_gaps[s1:s2]
+                p3_gaps = sorted_gaps[s2:]
 
-        # Phase 1: Core Foundations & Prerequisites
+        # ── Student context for LLM ───────────────────────────────────────────
+        student_context = {
+            "name": profile.name,
+            "degree": profile.degree,
+            "branch": profile.branch,
+            "year": profile.year,
+            "target_role": profile.target_role,
+            "prep_level": profile.current_prep_level,
+            "available_hours_per_week": profile.available_hours_per_week,
+            "domain": domain,
+        }
+
+        def make_skill_details(g_list: list[SkillGap]) -> list[dict]:
+            return [
+                {
+                    "skill": g.skill,
+                    "current": g.current_level,
+                    "required": g.required_level,
+                    "gap": g.gap,
+                    "demand": g.demand_level,
+                }
+                for g in g_list
+            ]
+
+        # Calculate planned phases count
+        active_learning_phase_count = 1 + (1 if p2_gaps else 0) + (1 if p3_gaps else 0)
+        total_planned_phases = active_learning_phase_count + 1  # +1 for final placement phase
+
+        # ── Phase 1 ───────────────────────────────────────────────────────────
         p1_skills = [g.skill for g in p1_gaps]
         p1_hours = max(10, round(sum(g.gap for g in p1_gaps) * HOURS_PER_GAP_UNIT))
-        p1_resources = self._gather_resources_for_skills(p1_skills, profile.target_role)
+        p1_resources = self._gather_resources_for_skills(p1_skills, profile.target_role, domain)
         p1_objectives = self.llm.enrich_phase_objectives(
-            phase_title=f"Phase 1: Foundations & Prerequisites for {profile.target_role}",
+            phase_title=_get_phase_title(domain, 0, ", ".join(p1_skills[:2])),
             skills=p1_skills,
             allocated_hours=p1_hours,
             target_role=profile.target_role,
-            student_level=profile.current_prep_level
+            student_level=profile.current_prep_level,
+            phase_number=1,
+            total_phases=total_planned_phases,
+            is_final_phase=False,
+            skill_details=make_skill_details(p1_gaps),
+            student_context=student_context,
+            domain=domain,
         )
-        p1_skill_names_short = ", ".join(p1_skills[:2])
         phases.append(
             RoadmapPhase(
                 phase_number=1,
-                title=f"Phase 1: Foundations & Core Bedrock ({p1_skill_names_short})",
+                title=_get_phase_title(domain, 0, ", ".join(p1_skills[:2])),
                 skills_covered=p1_skills,
                 estimated_hours=p1_hours,
                 learning_objectives=p1_objectives,
@@ -324,23 +767,28 @@ class CareerForgeAgent:
             )
         )
 
-        # Phase 2: Core Domain Execution & Systems
+        # ── Phase 2 ───────────────────────────────────────────────────────────
         if p2_gaps:
             p2_skills = [g.skill for g in p2_gaps]
             p2_hours = max(8, round(sum(g.gap for g in p2_gaps) * HOURS_PER_GAP_UNIT))
-            p2_resources = self._gather_resources_for_skills(p2_skills, profile.target_role)
+            p2_resources = self._gather_resources_for_skills(p2_skills, profile.target_role, domain)
             p2_objectives = self.llm.enrich_phase_objectives(
-                phase_title=f"Phase 2: Core Domain Systems & Execution for {profile.target_role}",
+                phase_title=_get_phase_title(domain, 1, ", ".join(p2_skills[:2])),
                 skills=p2_skills,
                 allocated_hours=p2_hours,
                 target_role=profile.target_role,
-                student_level=profile.current_prep_level
+                student_level=profile.current_prep_level,
+                phase_number=2,
+                total_phases=total_planned_phases,
+                is_final_phase=False,
+                skill_details=make_skill_details(p2_gaps),
+                student_context=student_context,
+                domain=domain,
             )
-            p2_skill_names_short = ", ".join(p2_skills[:2])
             phases.append(
                 RoadmapPhase(
                     phase_number=2,
-                    title=f"Phase 2: Core Domain Execution & Systems ({p2_skill_names_short})",
+                    title=_get_phase_title(domain, 1, ", ".join(p2_skills[:2])),
                     skills_covered=p2_skills,
                     estimated_hours=p2_hours,
                     learning_objectives=p2_objectives,
@@ -349,24 +797,29 @@ class CareerForgeAgent:
                 )
             )
 
-        # Phase 3: Advanced Scenarios & Applied Integration
+        # ── Phase 3 ───────────────────────────────────────────────────────────
         if p3_gaps:
             p3_skills = [g.skill for g in p3_gaps]
             p3_num = len(phases) + 1
             p3_hours = max(8, round(sum(g.gap for g in p3_gaps) * HOURS_PER_GAP_UNIT))
-            p3_resources = self._gather_resources_for_skills(p3_skills, profile.target_role)
+            p3_resources = self._gather_resources_for_skills(p3_skills, profile.target_role, domain)
             p3_objectives = self.llm.enrich_phase_objectives(
-                phase_title=f"Phase {p3_num}: Advanced Scenarios & Integration for {profile.target_role}",
+                phase_title=_get_phase_title(domain, 2, ", ".join(p3_skills[:2])),
                 skills=p3_skills,
                 allocated_hours=p3_hours,
                 target_role=profile.target_role,
-                student_level=profile.current_prep_level
+                student_level=profile.current_prep_level,
+                phase_number=p3_num,
+                total_phases=total_planned_phases,
+                is_final_phase=False,
+                skill_details=make_skill_details(p3_gaps),
+                student_context=student_context,
+                domain=domain,
             )
-            p3_skill_names_short = ", ".join(p3_skills[:2])
             phases.append(
                 RoadmapPhase(
                     phase_number=p3_num,
-                    title=f"Phase {p3_num}: Advanced Scenarios & Applied Integration ({p3_skill_names_short})",
+                    title=_get_phase_title(domain, 2, ", ".join(p3_skills[:2])),
                     skills_covered=p3_skills,
                     estimated_hours=p3_hours,
                     learning_objectives=p3_objectives,
@@ -375,22 +828,30 @@ class CareerForgeAgent:
                 )
             )
 
-        # Phase Final: Placement Readiness, Mock Interviews & Capstone Defense
+        # ── Final Phase: Placement Readiness ──────────────────────────────────
         final_num = len(phases) + 1
         final_hours = max(8, profile.available_hours_per_week)
-        final_resources = retrieve_knowledge_base(f"{profile.target_role} interview preparation", top_k=3)
-        final_skills = [g.skill for g in sorted_gaps[:3]] or ["Interview Evaluation & Placement Strategy"]
+        final_resources = retrieve_knowledge_base(
+            f"{profile.target_role} placement assessment preparation", top_k=3
+        )
+        final_skills = [g.skill for g in sorted_gaps[:3]] or ["Placement Strategy & Portfolio"]
         final_objectives = self.llm.enrich_phase_objectives(
-            phase_title=f"Phase {final_num}: Placement Readiness & Mock Evaluations for {profile.target_role}",
+            phase_title=_get_final_phase_title(domain, final_num),
             skills=final_skills,
             allocated_hours=final_hours,
             target_role=profile.target_role,
-            student_level=profile.current_prep_level
+            student_level=profile.current_prep_level,
+            phase_number=final_num,
+            total_phases=total_planned_phases,
+            is_final_phase=True,
+            skill_details=make_skill_details(sorted_gaps[:3]),
+            student_context=student_context,
+            domain=domain,
         )
         phases.append(
             RoadmapPhase(
                 phase_number=final_num,
-                title=f"Phase {final_num}: Placement Readiness, Mock Interviews & Capstone Defense",
+                title=_get_final_phase_title(domain, final_num),
                 skills_covered=final_skills,
                 estimated_hours=final_hours,
                 learning_objectives=final_objectives,
@@ -401,8 +862,9 @@ class CareerForgeAgent:
 
         return phases
 
-
-    def _gather_resources_for_skills(self, skills: list[str], role: str) -> list[ResourceItem]:
+    def _gather_resources_for_skills(
+        self, skills: list[str], role: str, domain: str = "tech"
+    ) -> list[ResourceItem]:
         """Aggregate curated study resources from local RAG or authentic role benchmark docs."""
         all_resources: list[ResourceItem] = []
         seen_refs: set[str] = set()
@@ -412,6 +874,16 @@ class CareerForgeAgent:
         resolver = get_role_resolver()
         resolved = resolver.resolve_role(role)
         skill_doc_map = {b.name.lower().strip(): (b.source_url or "https://roadmap.sh") for b in resolved.benchmark}
+
+        # Domain-appropriate fallback URL
+        domain_fallback_url = {
+            "medicine": "https://www.amboss.com",
+            "finance": "https://www.cfainstitute.org",
+            "law": "https://www.law.cornell.edu",
+            "core_engineering": "https://www.engineeringtoolbox.com",
+            "general": "https://roadmap.sh",
+            "tech": "https://roadmap.sh",
+        }.get(domain, "https://roadmap.sh")
 
         for skill in skills:
             skill_clean = skill.strip()
@@ -425,14 +897,14 @@ class CareerForgeAgent:
                     all_resources.append(r)
                     matched_curated = True
 
-            # If no curated markdown guide matches this specific skill, provide its verified benchmark doc link
+            # If no curated markdown guide matches, provide benchmark doc link
             if not matched_curated:
-                doc_url = skill_doc_map.get(norm_skill) or "https://roadmap.sh"
+                doc_url = skill_doc_map.get(norm_skill) or domain_fallback_url
                 if doc_url not in seen_refs:
                     seen_refs.add(doc_url)
                     all_resources.append(
                         ResourceItem(
-                            title=f"{skill_clean} Official Architecture & Documentation Guide",
+                            title=f"{skill_clean} — Official Reference & Study Guide",
                             url_or_ref=doc_url,
                             resource_type="official_doc"
                         )

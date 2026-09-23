@@ -1,0 +1,154 @@
+{
+  "id": "investment_banker",
+  "title": "Investment Banker",
+  "category": "Finance & Banking",
+  "aliases": [
+    "ib analyst",
+    "investment banking analyst",
+    "m&a analyst",
+    "m&a banker",
+    "corporate finance banker",
+    "bulge bracket analyst",
+    "deal banker",
+    "capital markets banker",
+    "mergers acquisitions"
+  ],
+  "description": "Structures and executes high-stakes financial transactions including M&A deals, IPOs, and capital raises for corporations and institutions.",
+  "tagline": "Deal-driven finance professional executing M&A, capital raises, and complex financial transactions for institutional clients.",
+  "demand_level": "critical",
+  "avg_time_to_ready_weeks": 18,
+  "tier_label": "Target Financial Institution Tier",
+  "target_tiers": [
+    "Bulge Bracket Bank (Goldman Sachs, Morgan Stanley, J.P. Morgan, Citi)",
+    "Elite Boutique IB (Lazard, Evercore, Rothschild, Moelis)",
+    "Middle Market Bank (Jefferies, Houlihan Lokey, RBC Capital Markets)",
+    "Big 4 Transaction Advisory (Deloitte, PwC, EY, KPMG)",
+    "Corporate M&A & Strategy (Fortune 500 Corporate Development)"
+  ],
+  "degree_label": "Finance / Commerce Degree",
+  "branch_label": "Financial Concentration",
+  "suggested_degrees": ["B.Com / BBA Finance", "MBA Finance (IIM / Wharton / LBS)", "CFA Charter", "CA (Chartered Accountant)"],
+  "suggested_branches": ["Corporate Finance", "Investment Banking", "Capital Markets", "Mergers & Acquisitions", "Private Equity"],
+  "skills": [
+    {
+      "name": "Financial Accounting & US GAAP / IFRS",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": [],
+      "source_url": "https://www.ifrs.org/",
+      "category": "accounting"
+    },
+    {
+      "name": "Financial Statement Analysis & Ratio Analysis",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Financial Accounting & US GAAP / IFRS"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/accounting/financial-statements/",
+      "category": "accounting"
+    },
+    {
+      "name": "Financial Modeling (3-Statement Model & Scenarios)",
+      "required_level": 5.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Financial Statement Analysis & Ratio Analysis"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/excel/financial-modeling-best-practices/",
+      "category": "modeling"
+    },
+    {
+      "name": "DCF Valuation & Comparable Company Analysis",
+      "required_level": 5.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Financial Modeling (3-Statement Model & Scenarios)"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/valuation/dcf-model-training-free-guide/",
+      "category": "modeling"
+    },
+    {
+      "name": "LBO Modeling & Leveraged Finance",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["DCF Valuation & Comparable Company Analysis"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/leveraged-finance/lbo-model/",
+      "category": "deal"
+    },
+    {
+      "name": "M&A Deal Structuring & Due Diligence",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["LBO Modeling & Leveraged Finance"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/mergers-acquisitions/mergers-acquisitions-m-a-process/",
+      "category": "deal"
+    },
+    {
+      "name": "Capital Markets & Equity / Debt Issuance",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["DCF Valuation & Comparable Company Analysis"],
+      "source_url": "https://www.investopedia.com/terms/c/capitalmarkets.asp",
+      "category": "deal"
+    },
+    {
+      "name": "Bloomberg Terminal & FactSet Proficiency",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 30,
+      "prerequisites": ["Financial Statement Analysis & Ratio Analysis"],
+      "source_url": "https://www.bloomberg.com/professional/training/",
+      "category": "tools"
+    },
+    {
+      "name": "Pitch Book & CIM Preparation",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 35,
+      "prerequisites": ["M&A Deal Structuring & Due Diligence", "Capital Markets & Equity / Debt Issuance"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/investment-banking/pitchbook/",
+      "category": "deal"
+    },
+    {
+      "name": "Corporate Governance & Securities Regulation",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 30,
+      "prerequisites": ["Capital Markets & Equity / Debt Issuance"],
+      "source_url": "https://www.sec.gov/divisions/corpfin/cfguidance.shtml",
+      "category": "compliance"
+    },
+    {
+      "name": "Excel & VBA Advanced Financial Automation",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 35,
+      "prerequisites": [],
+      "source_url": "https://corporatefinanceinstitute.com/resources/excel/",
+      "category": "tools"
+    },
+    {
+      "name": "Industry Sector Analysis & Equity Research",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Financial Statement Analysis & Ratio Analysis"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/equity-research/equity-research-overview/",
+      "category": "analytics"
+    }
+  ]
+}

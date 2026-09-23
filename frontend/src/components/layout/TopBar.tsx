@@ -116,7 +116,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onNavigateHome }) => {
         {/* Quick "Log Assessment" Button */}
         <button
           type="button"
-          onClick={openAssessment}
+          onClick={() => openAssessment()}
           className="hidden sm:inline-flex items-center gap-1.5 h-8 px-3 rounded-xl text-xs font-semibold bg-[var(--bg-elev-2)] hover:bg-[var(--bg-elev-3)] border border-[var(--border)] text-[var(--text)] transition-colors cursor-pointer"
           title="Quick log assessment (Shortcut: L)"
         >

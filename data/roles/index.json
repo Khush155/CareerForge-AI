@@ -1,5 +1,310 @@
 [
   {
+    "id": "ai_genai_engineer",
+    "title": "AI/GenAI Engineer",
+    "category": "AI & Data Science",
+    "aliases": [
+      "genai",
+      "genai engineer",
+      "llm engineer",
+      "ai engineer",
+      "generative ai engineer",
+      "rag engineer",
+      "agentic ai engineer"
+    ],
+    "description": "Constructs generative AI applications, multi-agent frameworks, semantic vector retrieval (RAG), fine-tuning pipelines, and prompt optimization systems.",
+    "skills": [
+      {
+        "name": "LLM Orchestration (LangChain / LlamaIndex)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://python.langchain.com/docs/",
+        "category": "ai"
+      },
+      {
+        "name": "Vector Databases (Pinecone / Chroma / pgvector)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://docs.trychroma.com/",
+        "category": "rag"
+      },
+      {
+        "name": "RAG Architecture & Evaluation",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "LLM Orchestration (LangChain / LlamaIndex)"
+        ],
+        "source_url": "https://www.promptingguide.ai/techniques/rag",
+        "category": "rag"
+      },
+      {
+        "name": "Python & Async Programming",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://docs.python.org/3/library/asyncio.html",
+        "category": "core"
+      },
+      {
+        "name": "Fine-Tuning & Quantization (LoRA/QLoRA)",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://huggingface.co/docs/peft/index",
+        "category": "models"
+      }
+    ]
+  },
+  {
+    "id": "aerospace_engineer",
+    "title": "Aerospace Engineer",
+    "category": "Core Engineering",
+    "aliases": [
+      "aerospace",
+      "aeronautical engineer",
+      "aviation engineer",
+      "aircraft engineer",
+      "flight engineer",
+      "avionics engineer",
+      "space engineer",
+      "defense engineer"
+    ],
+    "description": "Designs, tests, and develops aircraft, spacecraft, satellites, and propulsion systems using aerodynamics, avionics, and simulation tools.",
+    "tagline": "Aerospace systems engineer designing and simulating aircraft, spacecraft, and propulsion systems at the cutting edge of engineering.",
+    "demand_level": "high-priority",
+    "avg_time_to_ready_weeks": 20,
+    "tier_label": "Target Aerospace & Defense Firm Tier",
+    "target_tiers": [
+      "Global Aerospace & Defense OEM (Boeing, Airbus, SpaceX, Lockheed Martin)",
+      "National Space Agency (ISRO, NASA, ESA, JAXA)",
+      "Defense R&D Organization (DRDO, HAL, BAE Systems)",
+      "Aviation MRO & Systems Integration Company",
+      "Aerospace Startup & DeepTech Propulsion Company"
+    ],
+    "degree_label": "Engineering Degree",
+    "branch_label": "Aerospace Specialization",
+    "suggested_degrees": [
+      "B.Tech / B.E. Aerospace / Aeronautical Engineering",
+      "M.Tech Aerospace Engineering",
+      "M.S. Aerospace Engineering (US/Europe)"
+    ],
+    "suggested_branches": [
+      "Aerodynamics & Propulsion",
+      "Structural Mechanics",
+      "Avionics & Flight Control",
+      "Space Systems & Satellites",
+      "Defense Systems"
+    ],
+    "skills": [
+      {
+        "name": "Aerodynamics & Compressible Flow",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [],
+        "source_url": "https://www.grc.nasa.gov/www/k-12/airplane/",
+        "category": "mechanics"
+      },
+      {
+        "name": "Aircraft Structures & Composite Materials",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Aerodynamics & Compressible Flow"
+        ],
+        "source_url": "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/",
+        "category": "mechanics"
+      },
+      {
+        "name": "Propulsion Systems (Gas Turbines, Rockets)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Aerodynamics & Compressible Flow"
+        ],
+        "source_url": "https://www.grc.nasa.gov/www/k-12/airplane/thrust.html",
+        "category": "mechanics"
+      },
+      {
+        "name": "Flight Mechanics & Control Systems",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Aerodynamics & Compressible Flow",
+          "Aircraft Structures & Composite Materials"
+        ],
+        "source_url": "https://ocw.mit.edu/courses/16-333-aircraft-stability-and-control-fall-2004/",
+        "category": "systems"
+      },
+      {
+        "name": "CATIA / SolidWorks / ANSYS Fluent (CFD)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [],
+        "source_url": "https://www.3ds.com/products/catia",
+        "category": "simulation"
+      },
+      {
+        "name": "Finite Element Analysis (FEA) & Structural Simulation",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "CATIA / SolidWorks / ANSYS Fluent (CFD)",
+          "Aircraft Structures & Composite Materials"
+        ],
+        "source_url": "https://www.ansys.com/",
+        "category": "simulation"
+      },
+      {
+        "name": "Avionics, Embedded Systems & Flight Software",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Flight Mechanics & Control Systems"
+        ],
+        "source_url": "https://www.rtca.org/",
+        "category": "avionics"
+      },
+      {
+        "name": "Orbital Mechanics & Satellite Systems",
+        "required_level": 3.5,
+        "demand_level": "frequently mentioned",
+        "weight": 0.75,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Propulsion Systems (Gas Turbines, Rockets)"
+        ],
+        "source_url": "https://www.nasa.gov/missions",
+        "category": "systems"
+      },
+      {
+        "name": "Aerospace Standards & Airworthiness (DO-178C, FAR/JAR)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Aircraft Structures & Composite Materials"
+        ],
+        "source_url": "https://www.faa.gov/regulations_policies/advisory_circulars/",
+        "category": "standards"
+      },
+      {
+        "name": "MATLAB / Simulink for Systems Modeling",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.mathworks.com/products/simulink.html",
+        "category": "simulation"
+      }
+    ]
+  },
+  {
+    "id": "android_developer",
+    "title": "Android Developer",
+    "category": "Web & Mobile",
+    "aliases": [
+      "android",
+      "android engineer",
+      "kotlin developer",
+      "native android",
+      "mobile android developer"
+    ],
+    "description": "Builds responsive native Android applications utilizing Kotlin, Jetpack Compose, Coroutines, and modern clean architecture.",
+    "skills": [
+      {
+        "name": "Kotlin",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://kotlinlang.org/docs/home.html",
+        "category": "language"
+      },
+      {
+        "name": "Jetpack Compose",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Kotlin"
+        ],
+        "source_url": "https://developer.android.com/jetpack/compose",
+        "category": "ui"
+      },
+      {
+        "name": "Android Architecture (MVVM/MVI)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Kotlin"
+        ],
+        "source_url": "https://developer.android.com/topic/architecture",
+        "category": "architecture"
+      },
+      {
+        "name": "Coroutines & Flow",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Kotlin"
+        ],
+        "source_url": "https://kotlinlang.org/docs/coroutines-overview.html",
+        "category": "async"
+      },
+      {
+        "name": "Room Database & Networking (Retrofit)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Android Architecture (MVVM/MVI)"
+        ],
+        "source_url": "https://square.github.io/retrofit/",
+        "category": "data"
+      }
+    ]
+  },
+  {
     "id": "backend_developer",
     "title": "Backend Developer",
     "category": "Backend & Cloud",
@@ -126,6 +431,1480 @@
         "prerequisites": [],
         "source_url": "https://linuxjourney.com/",
         "category": "fundamentals"
+      }
+    ]
+  },
+  {
+    "id": "blockchain_developer",
+    "title": "Blockchain Developer",
+    "category": "Emerging Tech",
+    "aliases": [
+      "web3",
+      "blockchain",
+      "smart contract developer",
+      "solidity engineer",
+      "crypto developer",
+      "ethereum developer"
+    ],
+    "description": "Codes decentralized applications, smart contract protocols, zero-knowledge proofs, and secure token economics on EVM-compatible chains.",
+    "skills": [
+      {
+        "name": "Solidity",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://docs.soliditylang.org/",
+        "category": "smart_contracts"
+      },
+      {
+        "name": "EVM Internals & Gas Optimization",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Solidity"
+        ],
+        "source_url": "https://ethereum.org/en/developers/docs/evm/",
+        "category": "theory"
+      },
+      {
+        "name": "Foundry / Hardhat Testing",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Solidity"
+        ],
+        "source_url": "https://book.getfoundry.sh/",
+        "category": "tools"
+      },
+      {
+        "name": "Web3.js / Ethers.js",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 20,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://docs.ethers.org/v6/",
+        "category": "client"
+      },
+      {
+        "name": "Smart Contract Security & Auditing",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Solidity"
+        ],
+        "source_url": "https://consensys.github.io/smart-contract-best-practices/",
+        "category": "security"
+      }
+    ]
+  },
+  {
+    "id": "cardiologist",
+    "title": "Cardiologist",
+    "category": "Medicine & Healthcare",
+    "aliases": [
+      "cardio doctor",
+      "cardiac specialist",
+      "heart specialist",
+      "cardiology specialist",
+      "interventional cardiologist",
+      "dm cardiology",
+      "md cardiology"
+    ],
+    "description": "Specialist physician diagnosing and treating cardiovascular disorders including coronary artery disease, heart failure, arrhythmias, and valvular conditions.",
+    "tagline": "Cardiac specialist diagnosing and treating heart disease through advanced diagnostics and interventional procedures.",
+    "demand_level": "critical",
+    "avg_time_to_ready_weeks": 30,
+    "tier_label": "Target Cardiac Center / Hospital Tier",
+    "target_tiers": [
+      "Top Super-Specialty Cardiac Center (AIIMS / Escorts / Apollo / Cleveland Clinic)",
+      "Premier Academic Cardiac Surgery & Cath Lab Center",
+      "Multi-Specialty Corporate Hospital Cardiology Department",
+      "Government Heart Institute & Teaching Hospital",
+      "Private Cardiac Diagnostic & Interventional Clinic"
+    ],
+    "degree_label": "Medical Qualification",
+    "branch_label": "Cardiology Specialization",
+    "suggested_degrees": [
+      "MBBS + MD Internal Medicine + DM Cardiology",
+      "MBBS + DNB Cardiology",
+      "MS Cardiac Surgery",
+      "MBBS + Fellowship Interventional Cardiology"
+    ],
+    "suggested_branches": [
+      "Clinical Cardiology",
+      "Interventional Cardiology",
+      "Cardiac Electrophysiology",
+      "Non-Invasive Cardiology",
+      "Cardiac Surgery"
+    ],
+    "skills": [
+      {
+        "name": "Cardiovascular Anatomy & Physiology",
+        "required_level": 5.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 55,
+        "prerequisites": [],
+        "source_url": "https://www.amboss.com/us/knowledge/cardiology",
+        "category": "sciences"
+      },
+      {
+        "name": "Clinical Cardiology & Physical Examination",
+        "required_level": 5.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Cardiovascular Anatomy & Physiology"
+        ],
+        "source_url": "https://www.amboss.com/us/knowledge/physical-exam-cardiology",
+        "category": "clinical"
+      },
+      {
+        "name": "ECG Interpretation & Arrhythmia Management",
+        "required_level": 5.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Clinical Cardiology & Physical Examination"
+        ],
+        "source_url": "https://litfl.com/ecg-library/",
+        "category": "diagnostics"
+      },
+      {
+        "name": "Echocardiography & Cardiac Imaging",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 55,
+        "prerequisites": [
+          "Clinical Cardiology & Physical Examination"
+        ],
+        "source_url": "https://www.asecho.org/guideline/recommendations-for-cardiac-chamber-quantification/",
+        "category": "diagnostics"
+      },
+      {
+        "name": "Cardiovascular Pharmacology",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Clinical Cardiology & Physical Examination"
+        ],
+        "source_url": "https://www.amboss.com/us/knowledge/cardiovascular-pharmacology",
+        "category": "pharmacology"
+      },
+      {
+        "name": "Coronary Artery Disease & Acute Coronary Syndromes",
+        "required_level": 5.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "ECG Interpretation & Arrhythmia Management",
+          "Cardiovascular Pharmacology"
+        ],
+        "source_url": "https://www.acc.org/clinical-topics/acute-coronary-syndromes",
+        "category": "clinical"
+      },
+      {
+        "name": "Heart Failure & Cardiac Resynchronization",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Coronary Artery Disease & Acute Coronary Syndromes"
+        ],
+        "source_url": "https://www.heart.org/en/health-topics/heart-failure",
+        "category": "clinical"
+      },
+      {
+        "name": "Cardiac Catheterization & Coronary Intervention (PCI)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 60,
+        "prerequisites": [
+          "Coronary Artery Disease & Acute Coronary Syndromes",
+          "Echocardiography & Cardiac Imaging"
+        ],
+        "source_url": "https://www.scai.org/",
+        "category": "procedures"
+      },
+      {
+        "name": "Valvular Heart Disease & Structural Interventions",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Cardiac Catheterization & Coronary Intervention (PCI)"
+        ],
+        "source_url": "https://www.amboss.com/us/knowledge/valvular-heart-disease",
+        "category": "procedures"
+      },
+      {
+        "name": "ACLS & Critical Cardiac Care (CCU Management)",
+        "required_level": 5.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Heart Failure & Cardiac Resynchronization"
+        ],
+        "source_url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/advanced-cardiovascular-life-support-acls",
+        "category": "critical_care"
+      },
+      {
+        "name": "Cardiac Electrophysiology & Device Therapy",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "ECG Interpretation & Arrhythmia Management"
+        ],
+        "source_url": "https://www.hrsonline.org/",
+        "category": "procedures"
+      },
+      {
+        "name": "Preventive Cardiology & Cardiac Rehabilitation",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Clinical Cardiology & Physical Examination"
+        ],
+        "source_url": "https://www.acc.org/clinical-topics/prevention",
+        "category": "clinical"
+      }
+    ]
+  },
+  {
+    "id": "civil_engineer",
+    "title": "Civil Engineer",
+    "category": "Core Engineering",
+    "aliases": [
+      "civil",
+      "structural engineer",
+      "infrastructure engineer",
+      "site engineer",
+      "construction engineer",
+      "rcc engineer",
+      "highway engineer",
+      "geotechnical engineer",
+      "environmental engineer civil"
+    ],
+    "description": "Designs and manages construction of infrastructure including buildings, bridges, roads, dams, and urban systems using structural analysis and project management.",
+    "tagline": "Infrastructure and structural engineer designing safe, resilient civil structures and managing large-scale construction projects.",
+    "demand_level": "high-priority",
+    "avg_time_to_ready_weeks": 18,
+    "tier_label": "Target Infrastructure & Engineering Firm Tier",
+    "target_tiers": [
+      "Tier-1 Infrastructure EPC (L&T, Bechtel, Shapoorji Pallonji, NCC)",
+      "Global Engineering Consulting (AECOM, Jacobs, WSP, Mott MacDonald)",
+      "Government Infrastructure Authority (NHAI, CPWD, Railways, Smart Cities)",
+      "Real Estate & Urban Development Company",
+      "Specialized Geotechnical / Structural Design Consultancy"
+    ],
+    "degree_label": "Engineering Degree",
+    "branch_label": "Civil Engineering Specialization",
+    "suggested_degrees": [
+      "B.Tech / B.E. Civil Engineering",
+      "M.Tech Civil Engineering",
+      "M.S. Structural / Geotechnical Engineering"
+    ],
+    "suggested_branches": [
+      "Structural Engineering",
+      "Geotechnical Engineering",
+      "Construction Management",
+      "Transportation & Highway Engineering",
+      "Water Resources & Environmental Engineering"
+    ],
+    "skills": [
+      {
+        "name": "Engineering Mechanics & Structural Analysis",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [],
+        "source_url": "https://www.engineeringtoolbox.com/",
+        "category": "mechanics"
+      },
+      {
+        "name": "RCC (Reinforced Cement Concrete) Design",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Engineering Mechanics & Structural Analysis"
+        ],
+        "source_url": "https://www.is800.in/",
+        "category": "design"
+      },
+      {
+        "name": "Steel Structural Design & IS/BS Standards",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "RCC (Reinforced Cement Concrete) Design"
+        ],
+        "source_url": "https://www.is800.in/",
+        "category": "design"
+      },
+      {
+        "name": "AutoCAD & Civil 3D / Revit BIM Drafting",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [],
+        "source_url": "https://www.autodesk.com/products/civil-3d/overview",
+        "category": "design"
+      },
+      {
+        "name": "STAAD.Pro / ETABS / SAP2000 Structural Simulation",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Engineering Mechanics & Structural Analysis",
+          "AutoCAD & Civil 3D / Revit BIM Drafting"
+        ],
+        "source_url": "https://www.bentley.com/software/staad-pro/",
+        "category": "simulation"
+      },
+      {
+        "name": "Geotechnical Engineering & Soil Mechanics",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Engineering Mechanics & Structural Analysis"
+        ],
+        "source_url": "https://www.issmge.org/",
+        "category": "mechanics"
+      },
+      {
+        "name": "Hydraulics, Hydrology & Water Resources",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.engineeringtoolbox.com/fluid-mechanics-d_1267.html",
+        "category": "mechanics"
+      },
+      {
+        "name": "Construction Management & Project Planning (Primavera / MS Project)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.pmi.org/",
+        "category": "systems"
+      },
+      {
+        "name": "Quantity Estimation & Cost Management (BOQ / Rate Analysis)",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Construction Management & Project Planning (Primavera / MS Project)"
+        ],
+        "source_url": "https://www.cpwd.gov.in/",
+        "category": "management"
+      },
+      {
+        "name": "Transportation Engineering & Highway Design",
+        "required_level": 3.5,
+        "demand_level": "frequently mentioned",
+        "weight": 0.75,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://www.nhai.gov.in/",
+        "category": "design"
+      },
+      {
+        "name": "IS / BIS Codes & Construction Standards",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "RCC (Reinforced Cement Concrete) Design"
+        ],
+        "source_url": "https://www.bis.gov.in/",
+        "category": "standards"
+      }
+    ]
+  },
+  {
+    "id": "cloud_engineer",
+    "title": "Cloud Engineer",
+    "category": "Infrastructure & Cloud",
+    "aliases": [
+      "cloud",
+      "cloud architect",
+      "aws engineer",
+      "azure engineer",
+      "gcp engineer",
+      "cloud solutions architect"
+    ],
+    "description": "Architects, provisions, and secures cloud computing environments across compute, networking, storage, and serverless stacks.",
+    "skills": [
+      {
+        "name": "AWS/Azure Cloud Services",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [],
+        "source_url": "https://docs.aws.amazon.com/",
+        "category": "cloud"
+      },
+      {
+        "name": "Cloud Networking (VPC, DNS, Subnets)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html",
+        "category": "networking"
+      },
+      {
+        "name": "Terraform",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://developer.hashicorp.com/terraform/docs",
+        "category": "iac"
+      },
+      {
+        "name": "IAM & Cloud Security",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html",
+        "category": "security"
+      },
+      {
+        "name": "Serverless (Lambda/Functions)",
+        "required_level": 3.0,
+        "demand_level": "frequently mentioned",
+        "weight": 0.75,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://docs.aws.amazon.com/lambda/",
+        "category": "compute"
+      }
+    ]
+  },
+  {
+    "id": "computer_vision_engineer",
+    "title": "Computer Vision Engineer",
+    "category": "AI & Data Science",
+    "aliases": [
+      "cv",
+      "computer vision",
+      "cv engineer",
+      "vision ai engineer",
+      "image processing engineer",
+      "object detection engineer"
+    ],
+    "description": "Constructs spatial image segmentation, object detection, edge inference, and generative diffusion models using OpenCV, PyTorch, and CUDA.",
+    "skills": [
+      {
+        "name": "OpenCV & Image Processing",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://docs.opencv.org/",
+        "category": "vision"
+      },
+      {
+        "name": "PyTorch & CNN / Vision Transformers",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://pytorch.org/vision/stable/index.html",
+        "category": "models"
+      },
+      {
+        "name": "Object Detection (YOLO / Detectron2)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "PyTorch & CNN / Vision Transformers"
+        ],
+        "source_url": "https://docs.ultralytics.com/",
+        "category": "detection"
+      },
+      {
+        "name": "Edge Deployment (TensorRT / ONNX)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://developer.nvidia.com/tensorrt",
+        "category": "optimization"
+      },
+      {
+        "name": "Linear Algebra & Camera Geometry",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://szeliski.org/Book/",
+        "category": "math"
+      }
+    ]
+  },
+  {
+    "id": "corporate_lawyer",
+    "title": "Corporate Lawyer",
+    "category": "Law & Legal Services",
+    "aliases": [
+      "lawyer",
+      "corporate counsel",
+      "legal counsel",
+      "advocate",
+      "attorney",
+      "solicitor",
+      "litigation lawyer",
+      "commercial lawyer",
+      "legal associate",
+      "corporate legal",
+      "in-house counsel"
+    ],
+    "description": "Provides legal counsel on corporate transactions, regulatory compliance, contract negotiation, and dispute resolution for businesses and institutions.",
+    "tagline": "Corporate legal counsel structuring transactions, drafting agreements, and navigating regulatory compliance for businesses.",
+    "demand_level": "critical",
+    "avg_time_to_ready_weeks": 20,
+    "tier_label": "Target Legal Organization Tier",
+    "target_tiers": [
+      "Magic Circle / Chambers Band 1 Law Firm (Linklaters, Shardul Amarchand, AZB & Partners)",
+      "Top Tier Indian Law Firm (Cyril Amarchand, Khaitan & Co., JSA)",
+      "Fortune 500 In-House Corporate Legal Counsel",
+      "High Court & Supreme Court Appellate Practice",
+      "Boutique Arbitration, IP & Regulatory Firm"
+    ],
+    "degree_label": "Law Degree",
+    "branch_label": "Legal Specialization",
+    "suggested_degrees": [
+      "B.A. LL.B (Hons)",
+      "LL.B (3-Year)",
+      "LL.M (LLM)",
+      "BBA LL.B (Hons)"
+    ],
+    "suggested_branches": [
+      "Corporate & Commercial Law",
+      "Dispute Resolution & Litigation",
+      "Mergers & Acquisitions Law",
+      "Intellectual Property Rights",
+      "Regulatory & Compliance"
+    ],
+    "skills": [
+      {
+        "name": "Constitutional Law & Legal Theory (Jurisprudence)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://www.law.cornell.edu/constitution",
+        "category": "jurisprudence"
+      },
+      {
+        "name": "Contract Law & Contractual Drafting",
+        "required_level": 5.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Constitutional Law & Legal Theory (Jurisprudence)"
+        ],
+        "source_url": "https://www.law.cornell.edu/wex/contract",
+        "category": "contracts"
+      },
+      {
+        "name": "Corporate Governance & Company Law",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Contract Law & Contractual Drafting"
+        ],
+        "source_url": "https://www.mca.gov.in/content/mca/global/en/acts-rules/ebooks/acts.html",
+        "category": "compliance"
+      },
+      {
+        "name": "Legal Research & Case Analysis (IRAC Method)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Constitutional Law & Legal Theory (Jurisprudence)"
+        ],
+        "source_url": "https://www.lexisnexis.com/en-us/professional/research/index.page",
+        "category": "research"
+      },
+      {
+        "name": "Tort Law, Civil Procedure & Evidence",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Legal Research & Case Analysis (IRAC Method)"
+        ],
+        "source_url": "https://www.law.cornell.edu/wex/tort",
+        "category": "litigation"
+      },
+      {
+        "name": "Commercial Litigation & Court Advocacy",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Tort Law, Civil Procedure & Evidence"
+        ],
+        "source_url": "https://www.barandbench.com/",
+        "category": "litigation"
+      },
+      {
+        "name": "Mergers, Acquisitions & Due Diligence (Legal)",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Corporate Governance & Company Law",
+          "Contract Law & Contractual Drafting"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/mergers-acquisitions/due-diligence-overview/",
+        "category": "deal"
+      },
+      {
+        "name": "Arbitration, ADR & Dispute Resolution",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Commercial Litigation & Court Advocacy"
+        ],
+        "source_url": "https://www.lcia.org/",
+        "category": "arbitration"
+      },
+      {
+        "name": "Intellectual Property Law (Patents, Trademarks, Copyright)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Corporate Governance & Company Law"
+        ],
+        "source_url": "https://www.wipo.int/portal/en/",
+        "category": "ip"
+      },
+      {
+        "name": "Regulatory & Compliance Law (SEBI, RBI, Competition Act)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Corporate Governance & Company Law"
+        ],
+        "source_url": "https://www.sebi.gov.in/",
+        "category": "compliance"
+      },
+      {
+        "name": "Legal Drafting & Professional Communication",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Contract Law & Contractual Drafting"
+        ],
+        "source_url": "https://www.aals.org/",
+        "category": "drafting"
+      }
+    ]
+  },
+  {
+    "id": "mobile_cross_platform",
+    "title": "Cross-Platform Mobile Developer",
+    "category": "Web & Mobile",
+    "aliases": [
+      "flutter",
+      "react native",
+      "cross platform mobile",
+      "hybrid app developer",
+      "mobile engineer",
+      "mobile developer"
+    ],
+    "description": "Develops performant cross-platform mobile apps for iOS and Android using Flutter/Dart or React Native with native bridge integrations.",
+    "skills": [
+      {
+        "name": "Flutter & Dart",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://docs.flutter.dev/",
+        "category": "core"
+      },
+      {
+        "name": "React Native",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://reactnative.dev/docs/getting-started",
+        "category": "core"
+      },
+      {
+        "name": "Mobile State Management (Bloc/Riverpod/Redux)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://bloclibrary.dev/",
+        "category": "state"
+      },
+      {
+        "name": "Mobile Offline Storage & SQLite",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://docs.flutter.dev/cookbook/persistence/sqlite",
+        "category": "data"
+      },
+      {
+        "name": "App Performance & Bridging",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.75,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://reactnative.dev/docs/performance",
+        "category": "optimization"
+      }
+    ]
+  },
+  {
+    "id": "cybersecurity_analyst",
+    "title": "Cybersecurity Analyst",
+    "category": "Security & Networks",
+    "aliases": [
+      "security",
+      "cyber security",
+      "cyber security and ethical hacking",
+      "ethical hacking",
+      "ethical hacker",
+      "soc analyst",
+      "security engineer",
+      "infosec analyst",
+      "penetration tester"
+    ],
+    "description": "Protects organizational assets by monitoring intrusion telemetry, performing vulnerability assessments, SIEM triage, and incident response.",
+    "skills": [
+      {
+        "name": "Network Security & Protocols (TCP/IP, TLS)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.wireshark.org/docs/",
+        "category": "networking"
+      },
+      {
+        "name": "SIEM & Log Analysis (Splunk/ELK)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://docs.splunk.com/",
+        "category": "operations"
+      },
+      {
+        "name": "Linux Security & Hardening",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://linuxjourney.com/",
+        "category": "os"
+      },
+      {
+        "name": "Web Vulnerabilities (OWASP Top 10)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://owasp.org/www-project-top-ten/",
+        "category": "appsec"
+      },
+      {
+        "name": "Cryptography Fundamentals",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.cryptopals.com/",
+        "category": "crypto"
+      }
+    ]
+  },
+  {
+    "id": "data_analyst",
+    "title": "Data Analyst",
+    "category": "Data & Analytics",
+    "aliases": [
+      "analyst",
+      "business intelligence",
+      "bi analyst",
+      "product analyst",
+      "data reporting analyst"
+    ],
+    "description": "Uncovers business insights through statistical exploration, SQL transformations, cohort analysis, and interactive dashboard storytelling.",
+    "skills": [
+      {
+        "name": "SQL & Advanced Queries",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://mode.com/sql-tutorial/",
+        "category": "core"
+      },
+      {
+        "name": "Power BI / Tableau",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "SQL"
+        ],
+        "source_url": "https://learn.microsoft.com/en-us/power-bi/",
+        "category": "visualization"
+      },
+      {
+        "name": "Python (Pandas/NumPy)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://pandas.pydata.org/docs/",
+        "category": "analysis"
+      },
+      {
+        "name": "Excel & Business Modeling",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://support.microsoft.com/en-us/excel",
+        "category": "reporting"
+      },
+      {
+        "name": "Statistical Analysis & A/B Testing",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.khanacademy.org/math/statistics-probability",
+        "category": "statistics"
+      }
+    ]
+  },
+  {
+    "id": "data_engineer",
+    "title": "Data Engineer",
+    "category": "Data & Analytics",
+    "aliases": [
+      "de",
+      "data engineer",
+      "etl engineer",
+      "big data engineer",
+      "spark developer",
+      "data platform engineer"
+    ],
+    "description": "Constructs scalable streaming and batch pipelines, data lakes, distributed transformations, and data warehousing schemas.",
+    "skills": [
+      {
+        "name": "Apache Spark / PySpark",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Python",
+          "SQL"
+        ],
+        "source_url": "https://spark.apache.org/docs/latest/",
+        "category": "distributed"
+      },
+      {
+        "name": "SQL & Data Warehousing (Snowflake/BigQuery)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://docs.snowflake.com/",
+        "category": "warehouse"
+      },
+      {
+        "name": "Data Orchestration (Airflow / Prefect)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://airflow.apache.org/docs/",
+        "category": "orchestration"
+      },
+      {
+        "name": "Streaming (Kafka / Flink)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://kafka.apache.org/documentation/",
+        "category": "streaming"
+      },
+      {
+        "name": "Data Modeling & dbt",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "SQL & Data Warehousing (Snowflake/BigQuery)"
+        ],
+        "source_url": "https://docs.getdbt.com/",
+        "category": "modeling"
+      }
+    ]
+  },
+  {
+    "id": "data_scientist",
+    "title": "Data Scientist",
+    "category": "AI & Data Science",
+    "aliases": [
+      "ds",
+      "data scientist",
+      "applied scientist",
+      "decision scientist",
+      "statistical modeler"
+    ],
+    "description": "Builds predictive statistical models, designs experiments, conducts feature engineering, and translates ambiguous data into business value.",
+    "skills": [
+      {
+        "name": "Python for Data Science",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://docs.python.org/3/",
+        "category": "core"
+      },
+      {
+        "name": "Machine Learning (Scikit-Learn)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Python for Data Science"
+        ],
+        "source_url": "https://scikit-learn.org/stable/",
+        "category": "ml"
+      },
+      {
+        "name": "Applied Statistics & Probability",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.statlearning.com/",
+        "category": "theory"
+      },
+      {
+        "name": "SQL & Data Wrangling",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://mode.com/sql-tutorial/",
+        "category": "data"
+      },
+      {
+        "name": "A/B Testing & Causal Inference",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Applied Statistics & Probability"
+        ],
+        "source_url": "https://exp-platform.com/",
+        "category": "experimentation"
+      }
+    ]
+  },
+  {
+    "id": "database_administrator",
+    "title": "Database Administrator",
+    "category": "Data & Infrastructure",
+    "aliases": [
+      "dba",
+      "database engineer",
+      "postgres dba",
+      "mysql dba",
+      "database reliability engineer"
+    ],
+    "description": "Guarantees database throughput, index tuning, write replication, disaster recovery, read-replica scaling, and high-concurrency vacuuming.",
+    "skills": [
+      {
+        "name": "Advanced PostgreSQL & Query Optimization",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "SQL"
+        ],
+        "source_url": "https://www.postgresql.org/docs/current/performance-tips.html",
+        "category": "database"
+      },
+      {
+        "name": "High Availability, Replication & Backups",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.postgresql.org/docs/current/high-availability.html",
+        "category": "ha"
+      },
+      {
+        "name": "Linux OS & Disk I/O Tuning",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://linuxjourney.com/",
+        "category": "os"
+      },
+      {
+        "name": "Database Security & Access Auditing",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.postgresql.org/docs/current/user-manag.html",
+        "category": "security"
+      },
+      {
+        "name": "Connection Pooling (PgBouncer)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 15,
+        "prerequisites": [],
+        "source_url": "https://www.pgbouncer.org/",
+        "category": "scaling"
+      }
+    ]
+  },
+  {
+    "id": "devops_engineer",
+    "title": "DevOps Engineer",
+    "category": "Infrastructure & Cloud",
+    "aliases": [
+      "devops",
+      "devops engineer",
+      "platform engineer",
+      "infrastructure engineer",
+      "build engineer",
+      "ci cd engineer"
+    ],
+    "description": "Automates software delivery pipelines, container orchestrations, infrastructure as code, and continuous integration workflows.",
+    "skills": [
+      {
+        "name": "Docker",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Linux"
+        ],
+        "source_url": "https://docs.docker.com/",
+        "category": "containers"
+      },
+      {
+        "name": "Kubernetes",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Docker"
+        ],
+        "source_url": "https://kubernetes.io/docs/home/",
+        "category": "orchestration"
+      },
+      {
+        "name": "CI/CD (GitHub Actions)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Git"
+        ],
+        "source_url": "https://docs.github.com/en/actions",
+        "category": "automation"
+      },
+      {
+        "name": "Terraform",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "AWS Cloud"
+        ],
+        "source_url": "https://developer.hashicorp.com/terraform/docs",
+        "category": "iac"
+      },
+      {
+        "name": "Linux & Bash",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://linuxjourney.com/",
+        "category": "os"
+      },
+      {
+        "name": "AWS Cloud",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://aws.amazon.com/training/",
+        "category": "cloud"
+      }
+    ]
+  },
+  {
+    "id": "embedded_iot_engineer",
+    "title": "Embedded & IoT Engineer",
+    "category": "Hardware & Systems",
+    "aliases": [
+      "embedded",
+      "iot",
+      "firmware engineer",
+      "embedded systems engineer",
+      "microcontroller developer",
+      "hardware engineer"
+    ],
+    "description": "Programs bare-metal and RTOS microcontrollers (ARM, ESP32, STM32) interfacing with sensors, actuators, and communication buses.",
+    "skills": [
+      {
+        "name": "Embedded C / C++",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [],
+        "source_url": "https://en.cppreference.com/w/",
+        "category": "language"
+      },
+      {
+        "name": "Microcontrollers & Hardware Peripherals (GPIO, I2C, SPI, UART)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Embedded C / C++"
+        ],
+        "source_url": "https://www.espressif.com/en/products/socs/esp32",
+        "category": "hardware"
+      },
+      {
+        "name": "FreeRTOS & Concurrency",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Embedded C / C++"
+        ],
+        "source_url": "https://www.freertos.org/Documentation/RTOS_book.html",
+        "category": "os"
+      },
+      {
+        "name": "IoT Protocols (MQTT, CoAP)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://mqtt.org/documentation/",
+        "category": "protocols"
+      },
+      {
+        "name": "Circuit Analysis & Debugging (Oscilloscope/Logic Analyzer)",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://learn.sparkfun.com/",
+        "category": "tools"
+      }
+    ]
+  },
+  {
+    "id": "financial_analyst",
+    "title": "Financial Analyst",
+    "category": "Finance & Banking",
+    "aliases": [
+      "finance analyst",
+      "equity analyst",
+      "research analyst",
+      "equity research analyst",
+      "cfa analyst",
+      "quantitative analyst",
+      "buy side analyst",
+      "sell side analyst",
+      "business analyst finance"
+    ],
+    "description": "Analyzes financial data, builds valuation models, and produces research reports to guide investment decisions across equity, debt, and alternative markets.",
+    "tagline": "Quantitative finance professional building models, producing equity research, and driving data-driven investment decisions.",
+    "demand_level": "critical",
+    "avg_time_to_ready_weeks": 14,
+    "tier_label": "Target Financial Institution Tier",
+    "target_tiers": [
+      "Bulge Bracket Investment Bank Research Division",
+      "Top-Tier Equity & Asset Management Fund (Vanguard, Fidelity, HDFC AMC)",
+      "Big 4 Financial Advisory & Valuation (Deloitte, PwC, EY, KPMG)",
+      "Corporate Finance & Treasury (Fortune 500 Companies)",
+      "FinTech & Digital Finance Scaleup"
+    ],
+    "degree_label": "Finance / Commerce Degree",
+    "branch_label": "Financial Concentration",
+    "suggested_degrees": [
+      "B.Com / BBA Finance",
+      "MBA Finance",
+      "CFA Charter",
+      "M.Sc Finance / Financial Engineering"
+    ],
+    "suggested_branches": [
+      "Equity Research",
+      "Corporate Finance",
+      "Asset Management",
+      "Financial Planning & Analysis",
+      "Risk Management"
+    ],
+    "skills": [
+      {
+        "name": "Financial Accounting & Reporting (GAAP/IFRS)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://www.ifrs.org/",
+        "category": "accounting"
+      },
+      {
+        "name": "Financial Statement Analysis & Quality of Earnings",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Financial Accounting & Reporting (GAAP/IFRS)"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/accounting/financial-statements/",
+        "category": "accounting"
+      },
+      {
+        "name": "Financial Modeling & Excel / Python",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Financial Statement Analysis & Quality of Earnings"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/excel/financial-modeling-best-practices/",
+        "category": "modeling"
+      },
+      {
+        "name": "DCF & Comparable Company Valuation",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Financial Modeling & Excel / Python"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/valuation/dcf-model-training-free-guide/",
+        "category": "modeling"
+      },
+      {
+        "name": "Equity Research Report Writing",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "DCF & Comparable Company Valuation"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/equity-research/equity-research-overview/",
+        "category": "analytics"
+      },
+      {
+        "name": "Portfolio Analysis & Risk-Return Metrics",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "DCF & Comparable Company Valuation"
+        ],
+        "source_url": "https://www.cfainstitute.org/en/programs/cfa/curriculum",
+        "category": "analytics"
+      },
+      {
+        "name": "Bloomberg Terminal & FactSet Data Analysis",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Financial Statement Analysis & Quality of Earnings"
+        ],
+        "source_url": "https://www.bloomberg.com/professional/training/",
+        "category": "tools"
+      },
+      {
+        "name": "Macroeconomics & Industry Analysis",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.imf.org/en/Publications/WEO",
+        "category": "analytics"
+      },
+      {
+        "name": "CFA-Level Fixed Income & Derivatives",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Portfolio Analysis & Risk-Return Metrics"
+        ],
+        "source_url": "https://www.cfainstitute.org/en/programs/cfa/curriculum",
+        "category": "products"
+      },
+      {
+        "name": "Financial Risk Management & Stress Testing",
+        "required_level": 3.5,
+        "demand_level": "frequently mentioned",
+        "weight": 0.75,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Portfolio Analysis & Risk-Return Metrics"
+        ],
+        "source_url": "https://www.garp.org/",
+        "category": "risk"
       }
     ]
   },
@@ -357,6 +2136,1117 @@
     ]
   },
   {
+    "id": "game_developer",
+    "title": "Game Developer",
+    "category": "Games & Graphics",
+    "aliases": [
+      "game dev",
+      "game programmer",
+      "unity developer",
+      "unreal developer",
+      "gameplay engineer",
+      "3d graphics engineer"
+    ],
+    "description": "Programs immersive gameplay mechanics, real-time rendering pipelines, physics simulations, and multiplayer networking in Unity or Unreal Engine.",
+    "skills": [
+      {
+        "name": "C++ / C#",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [],
+        "source_url": "https://en.cppreference.com/w/",
+        "category": "language"
+      },
+      {
+        "name": "Unity or Unreal Engine 5",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "C++ / C#"
+        ],
+        "source_url": "https://docs.unrealengine.com/5.0/en-US/",
+        "category": "engine"
+      },
+      {
+        "name": "3D Linear Algebra & Physics",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://www.scratchapixel.com/",
+        "category": "math"
+      },
+      {
+        "name": "Shaders & Computer Graphics (HLSL/GLSL)",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "3D Linear Algebra & Physics"
+        ],
+        "source_url": "https://thebookofshaders.com/",
+        "category": "graphics"
+      },
+      {
+        "name": "Game Architecture & ECS",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://gameprogrammingpatterns.com/",
+        "category": "architecture"
+      }
+    ]
+  },
+  {
+    "id": "investment_banker",
+    "title": "Investment Banker",
+    "category": "Finance & Banking",
+    "aliases": [
+      "ib analyst",
+      "investment banking analyst",
+      "m&a analyst",
+      "m&a banker",
+      "corporate finance banker",
+      "bulge bracket analyst",
+      "deal banker",
+      "capital markets banker",
+      "mergers acquisitions"
+    ],
+    "description": "Structures and executes high-stakes financial transactions including M&A deals, IPOs, and capital raises for corporations and institutions.",
+    "tagline": "Deal-driven finance professional executing M&A, capital raises, and complex financial transactions for institutional clients.",
+    "demand_level": "critical",
+    "avg_time_to_ready_weeks": 18,
+    "tier_label": "Target Financial Institution Tier",
+    "target_tiers": [
+      "Bulge Bracket Bank (Goldman Sachs, Morgan Stanley, J.P. Morgan, Citi)",
+      "Elite Boutique IB (Lazard, Evercore, Rothschild, Moelis)",
+      "Middle Market Bank (Jefferies, Houlihan Lokey, RBC Capital Markets)",
+      "Big 4 Transaction Advisory (Deloitte, PwC, EY, KPMG)",
+      "Corporate M&A & Strategy (Fortune 500 Corporate Development)"
+    ],
+    "degree_label": "Finance / Commerce Degree",
+    "branch_label": "Financial Concentration",
+    "suggested_degrees": [
+      "B.Com / BBA Finance",
+      "MBA Finance (IIM / Wharton / LBS)",
+      "CFA Charter",
+      "CA (Chartered Accountant)"
+    ],
+    "suggested_branches": [
+      "Corporate Finance",
+      "Investment Banking",
+      "Capital Markets",
+      "Mergers & Acquisitions",
+      "Private Equity"
+    ],
+    "skills": [
+      {
+        "name": "Financial Accounting & US GAAP / IFRS",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [],
+        "source_url": "https://www.ifrs.org/",
+        "category": "accounting"
+      },
+      {
+        "name": "Financial Statement Analysis & Ratio Analysis",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Financial Accounting & US GAAP / IFRS"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/accounting/financial-statements/",
+        "category": "accounting"
+      },
+      {
+        "name": "Financial Modeling (3-Statement Model & Scenarios)",
+        "required_level": 5.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Financial Statement Analysis & Ratio Analysis"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/excel/financial-modeling-best-practices/",
+        "category": "modeling"
+      },
+      {
+        "name": "DCF Valuation & Comparable Company Analysis",
+        "required_level": 5.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Financial Modeling (3-Statement Model & Scenarios)"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/valuation/dcf-model-training-free-guide/",
+        "category": "modeling"
+      },
+      {
+        "name": "LBO Modeling & Leveraged Finance",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "DCF Valuation & Comparable Company Analysis"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/leveraged-finance/lbo-model/",
+        "category": "deal"
+      },
+      {
+        "name": "M&A Deal Structuring & Due Diligence",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "LBO Modeling & Leveraged Finance"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/mergers-acquisitions/mergers-acquisitions-m-a-process/",
+        "category": "deal"
+      },
+      {
+        "name": "Capital Markets & Equity / Debt Issuance",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "DCF Valuation & Comparable Company Analysis"
+        ],
+        "source_url": "https://www.investopedia.com/terms/c/capitalmarkets.asp",
+        "category": "deal"
+      },
+      {
+        "name": "Bloomberg Terminal & FactSet Proficiency",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Financial Statement Analysis & Ratio Analysis"
+        ],
+        "source_url": "https://www.bloomberg.com/professional/training/",
+        "category": "tools"
+      },
+      {
+        "name": "Pitch Book & CIM Preparation",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "M&A Deal Structuring & Due Diligence",
+          "Capital Markets & Equity / Debt Issuance"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/investment-banking/pitchbook/",
+        "category": "deal"
+      },
+      {
+        "name": "Corporate Governance & Securities Regulation",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Capital Markets & Equity / Debt Issuance"
+        ],
+        "source_url": "https://www.sec.gov/divisions/corpfin/cfguidance.shtml",
+        "category": "compliance"
+      },
+      {
+        "name": "Excel & VBA Advanced Financial Automation",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://corporatefinanceinstitute.com/resources/excel/",
+        "category": "tools"
+      },
+      {
+        "name": "Industry Sector Analysis & Equity Research",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Financial Statement Analysis & Ratio Analysis"
+        ],
+        "source_url": "https://corporatefinanceinstitute.com/resources/equity-research/equity-research-overview/",
+        "category": "analytics"
+      }
+    ]
+  },
+  {
+    "id": "ml_engineer",
+    "title": "Machine Learning Engineer",
+    "category": "AI & Data Science",
+    "aliases": [
+      "mle",
+      "machine learning engineer",
+      "ml engineer",
+      "machine learning",
+      "machine learning eng",
+      "machin learnng eng",
+      "applied ml engineer",
+      "deep learning engineer",
+      "ai engineer ml"
+    ],
+    "description": "Designs, trains, and operationalizes machine learning systems, optimizing loss functions, distributed training, and real-time inference latency.",
+    "skills": [
+      {
+        "name": "PyTorch / TensorFlow",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Python"
+        ],
+        "source_url": "https://pytorch.org/docs/stable/index.html",
+        "category": "deep_learning"
+      },
+      {
+        "name": "Python & Optimization",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [],
+        "source_url": "https://docs.python.org/3/",
+        "category": "core"
+      },
+      {
+        "name": "MLOps (MLflow / Kubeflow)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Docker"
+        ],
+        "source_url": "https://mlflow.org/docs/latest/index.html",
+        "category": "mlops"
+      },
+      {
+        "name": "Model Serving (Triton / FastAPI)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "PyTorch / TensorFlow"
+        ],
+        "source_url": "https://fastapi.tiangolo.com/",
+        "category": "serving"
+      },
+      {
+        "name": "Feature Stores & Data Pipelines",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "SQL"
+        ],
+        "source_url": "https://feast.dev/",
+        "category": "data"
+      }
+    ]
+  },
+  {
+    "id": "mechanical_engineer",
+    "title": "Mechanical Engineer",
+    "category": "Core Engineering",
+    "aliases": [
+      "mech engineer",
+      "mechanical",
+      "design engineer",
+      "product engineer",
+      "manufacturing engineer",
+      "mech eng",
+      "thermal engineer",
+      "structural engineer mech",
+      "production engineer",
+      "plant engineer"
+    ],
+    "description": "Designs, analyzes, and develops mechanical systems, machines, and industrial products using CAD/CAE tools, engineering mechanics, and manufacturing processes.",
+    "tagline": "Mechanical systems engineer designing, simulating, and manufacturing precision components and industrial machinery.",
+    "demand_level": "high-priority",
+    "avg_time_to_ready_weeks": 18,
+    "tier_label": "Target Engineering Industry Tier",
+    "target_tiers": [
+      "Tier-1 Automotive & Defense OEM (Tesla, Boeing, ISRO, DRDO, Tata Motors)",
+      "Global Industrial Conglomerate (L&T, Siemens, GE, ABB, Caterpillar)",
+      "Top Aerospace & Space Systems Company (SpaceX, HAL, ISRO)",
+      "Advanced EPC & Heavy Engineering Project Company",
+      "Precision Manufacturing & R&D Product Startup"
+    ],
+    "degree_label": "Engineering Degree",
+    "branch_label": "Engineering Discipline",
+    "suggested_degrees": [
+      "B.Tech / B.E. Mechanical Engineering",
+      "M.Tech Mechanical Engineering",
+      "M.S. Mechanical Engineering",
+      "Diploma + B.Tech (Lateral)"
+    ],
+    "suggested_branches": [
+      "Mechanical Design & CAD",
+      "Thermal & Fluid Engineering",
+      "Manufacturing & Production",
+      "Automotive Engineering",
+      "Aerospace Structures"
+    ],
+    "skills": [
+      {
+        "name": "Engineering Mathematics (Calculus, Linear Algebra, ODEs)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 45,
+        "prerequisites": [],
+        "source_url": "https://www.khanacademy.org/math/multivariable-calculus",
+        "category": "mechanics"
+      },
+      {
+        "name": "Engineering Mechanics (Statics & Dynamics)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Engineering Mathematics (Calculus, Linear Algebra, ODEs)"
+        ],
+        "source_url": "https://www.engineeringtoolbox.com/",
+        "category": "mechanics"
+      },
+      {
+        "name": "Strength of Materials & Structural Analysis",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Engineering Mechanics (Statics & Dynamics)"
+        ],
+        "source_url": "https://www.engineeringtoolbox.com/",
+        "category": "mechanics"
+      },
+      {
+        "name": "Thermodynamics & Heat Transfer",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Engineering Mathematics (Calculus, Linear Algebra, ODEs)"
+        ],
+        "source_url": "https://www.engineeringtoolbox.com/thermodynamics-d_1243.html",
+        "category": "mechanics"
+      },
+      {
+        "name": "Fluid Mechanics & Hydraulic Systems",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Thermodynamics & Heat Transfer"
+        ],
+        "source_url": "https://www.engineeringtoolbox.com/fluid-mechanics-d_1267.html",
+        "category": "mechanics"
+      },
+      {
+        "name": "CAD Design (SolidWorks / AutoCAD / CATIA / Inventor)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [],
+        "source_url": "https://www.solidworks.com/",
+        "category": "design"
+      },
+      {
+        "name": "Finite Element Analysis (FEA) & ANSYS / Abaqus",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Strength of Materials & Structural Analysis",
+          "CAD Design (SolidWorks / AutoCAD / CATIA / Inventor)"
+        ],
+        "source_url": "https://www.ansys.com/",
+        "category": "simulation"
+      },
+      {
+        "name": "Manufacturing Processes & GD&T Standards",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "CAD Design (SolidWorks / AutoCAD / CATIA / Inventor)"
+        ],
+        "source_url": "https://www.asme.org/",
+        "category": "manufacturing"
+      },
+      {
+        "name": "Materials Science & Selection",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Strength of Materials & Structural Analysis"
+        ],
+        "source_url": "https://www.matweb.com/",
+        "category": "mechanics"
+      },
+      {
+        "name": "Quality Management & Six Sigma / Lean",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Manufacturing Processes & GD&T Standards"
+        ],
+        "source_url": "https://asq.org/quality-resources/six-sigma",
+        "category": "manufacturing"
+      },
+      {
+        "name": "Control Systems & PLC / Automation Basics",
+        "required_level": 3.5,
+        "demand_level": "frequently mentioned",
+        "weight": 0.75,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Engineering Mechanics (Statics & Dynamics)"
+        ],
+        "source_url": "https://www.plcacademy.com/",
+        "category": "systems"
+      },
+      {
+        "name": "Project Management & Engineering Documentation",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.pmi.org/",
+        "category": "systems"
+      }
+    ]
+  },
+  {
+    "id": "medical_physician",
+    "title": "Medical Physician",
+    "category": "Medicine & Healthcare",
+    "aliases": [
+      "doctor",
+      "mbbs doctor",
+      "general physician",
+      "medical officer",
+      "clinical doctor",
+      "gp",
+      "medical doctor",
+      "md physician",
+      "house officer",
+      "junior doctor"
+    ],
+    "description": "Diagnoses and treats illnesses across general medicine, manages patient care, and coordinates with specialists in clinical and hospital settings.",
+    "tagline": "Clinical physician delivering patient-centered diagnosis, treatment, and care across general medicine.",
+    "demand_level": "critical",
+    "avg_time_to_ready_weeks": 26,
+    "tier_label": "Target Hospital / Healthcare Tier",
+    "target_tiers": [
+      "Top Super-Specialty Hospital (AIIMS / Apollo / PGI / Mayo Clinic)",
+      "Premier Academic Teaching Hospital & Medical College",
+      "Multi-Specialty Corporate Hospital (Fortis / Max / Manipal)",
+      "Government Public Health Services & District Hospital",
+      "Primary Care, Community Health & Telemedicine"
+    ],
+    "degree_label": "Medical Qualification",
+    "branch_label": "Medical Specialty",
+    "suggested_degrees": [
+      "MBBS",
+      "MD Internal Medicine",
+      "MBBS + DNB",
+      "BDS (Dentistry)",
+      "BAMS / BHMS"
+    ],
+    "suggested_branches": [
+      "General Medicine",
+      "Internal Medicine",
+      "Family Medicine",
+      "Emergency Medicine",
+      "Community Medicine"
+    ],
+    "skills": [
+      {
+        "name": "Anatomy & Physiology",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 60,
+        "prerequisites": [],
+        "source_url": "https://www.amboss.com/us/knowledge/anatomy",
+        "category": "sciences"
+      },
+      {
+        "name": "Biochemistry & Genetics",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Anatomy & Physiology"
+        ],
+        "source_url": "https://www.amboss.com/us/knowledge/biochemistry",
+        "category": "sciences"
+      },
+      {
+        "name": "Pathology & Microbiology",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Biochemistry & Genetics"
+        ],
+        "source_url": "https://www.amboss.com/us/knowledge/pathology",
+        "category": "clinical"
+      },
+      {
+        "name": "Clinical Pharmacology & Therapeutics",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Pathology & Microbiology"
+        ],
+        "source_url": "https://www.amboss.com/us/knowledge/pharmacology",
+        "category": "pharmacology"
+      },
+      {
+        "name": "Clinical Examination & Patient History Taking",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [
+          "Anatomy & Physiology"
+        ],
+        "source_url": "https://geekymedics.com/osce-guides/",
+        "category": "clinical"
+      },
+      {
+        "name": "Diagnostic Medicine & Interpretation",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "Clinical Examination & Patient History Taking",
+          "Pathology & Microbiology"
+        ],
+        "source_url": "https://www.amboss.com/us/knowledge/diagnostics",
+        "category": "diagnostics"
+      },
+      {
+        "name": "Internal Medicine & General Practice",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 55,
+        "prerequisites": [
+          "Diagnostic Medicine & Interpretation"
+        ],
+        "source_url": "https://www.uptodate.com/contents/search",
+        "category": "clinical"
+      },
+      {
+        "name": "Emergency Medicine & Life Support (BLS/ACLS)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Internal Medicine & General Practice"
+        ],
+        "source_url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines",
+        "category": "procedures"
+      },
+      {
+        "name": "Surgery Basics & Wound Management",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Anatomy & Physiology",
+          "Clinical Examination & Patient History Taking"
+        ],
+        "source_url": "https://www.amboss.com/us/knowledge/surgery",
+        "category": "procedures"
+      },
+      {
+        "name": "Obstetrics & Gynaecology Essentials",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Clinical Examination & Patient History Taking"
+        ],
+        "source_url": "https://www.amboss.com/us/knowledge/obstetrics-and-gynecology",
+        "category": "clinical"
+      },
+      {
+        "name": "Paediatrics & Child Health",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Internal Medicine & General Practice"
+        ],
+        "source_url": "https://www.amboss.com/us/knowledge/pediatrics",
+        "category": "clinical"
+      },
+      {
+        "name": "Medical Ethics & Patient Safety",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.nmc.org.in/rules-regulations/code-of-medical-ethics-regulations/",
+        "category": "clinical"
+      },
+      {
+        "name": "Clinical Research & Evidence-Based Medicine",
+        "required_level": 3.5,
+        "demand_level": "frequently mentioned",
+        "weight": 0.75,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Internal Medicine & General Practice"
+        ],
+        "source_url": "https://www.cochranelibrary.com/",
+        "category": "research"
+      }
+    ]
+  },
+  {
+    "id": "chef_cook",
+    "title": "Professional Cook & Chef",
+    "category": "Culinary Arts & Hospitality",
+    "aliases": [
+      "cook",
+      "professional cook",
+      "chef",
+      "head chef",
+      "sous chef",
+      "line cook",
+      "culinary",
+      "culinary arts",
+      "executive chef",
+      "pastry chef",
+      "commis chef",
+      "chef de partie"
+    ],
+    "tagline": "Master professional kitchen operations, culinary techniques, brigade coordination, and menu execution.",
+    "description": "Prepares, seasons, and cooks a wide range of foods in commercial kitchens, fine dining restaurants, hotels, and catering establishments. Masters culinary knife skills, food safety (HACCP), station line cooking, recipe standardization, and brigade leadership.",
+    "tier_label": "Target Kitchen & Hospitality Tier",
+    "target_tiers": [
+      "Michelin Star & Premier Fine Dining Restaurant",
+      "Luxury 5-Star Hotel & Resort Kitchen Brigade",
+      "High-Volume Contemporary Bistro & Gastropub",
+      "Bespoke Catering & Private Dining Service",
+      "Artisan Bakery & Patisserie Studio"
+    ],
+    "degree_label": "Culinary Qualification",
+    "branch_label": "Culinary Specialization",
+    "suggested_degrees": [
+      "Diploma in Culinary Arts",
+      "Associate Degree in Culinary Arts (AAS)",
+      "B.Sc. Hospitality & Culinary Management",
+      "ServSafe Manager & HACCP Certification",
+      "Apprenticeship / Culinary Guild Credential"
+    ],
+    "suggested_branches": [
+      "Classical French & Contemporary Cuisine",
+      "Pastry & Artisan Baking",
+      "Garde Manger & Cold Kitchen",
+      "Sauces & Saut\u00e9 Station",
+      "Farm-to-Table & Seasonal Gastronomy"
+    ],
+    "demand_level": "High Demand",
+    "avg_time_to_ready_weeks": 10,
+    "skills": [
+      {
+        "name": "Knife Skills & Mise en Place",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://www.culinaryinstitute.edu",
+        "category": "core_techniques"
+      },
+      {
+        "name": "Kitchen Safety & Food Hygiene (HACCP)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.servsafe.com",
+        "category": "safety_compliance"
+      },
+      {
+        "name": "Foundational Cooking Techniques & Mother Sauces",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Knife Skills & Mise en Place"
+        ],
+        "source_url": "https://www.escoffier.edu",
+        "category": "core_techniques"
+      },
+      {
+        "name": "Station Management & Line Cooking",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Foundational Cooking Techniques & Mother Sauces"
+        ],
+        "source_url": "https://www.culinaryinstitute.edu",
+        "category": "kitchen_operations"
+      },
+      {
+        "name": "Meat, Poultry & Seafood Fabrication",
+        "required_level": 4.0,
+        "demand_level": "high-priority",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Knife Skills & Mise en Place"
+        ],
+        "source_url": "https://www.culinaryinstitute.edu",
+        "category": "butchery"
+      },
+      {
+        "name": "Pastry & Baking Fundamentals",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://www.escoffier.edu",
+        "category": "baking"
+      },
+      {
+        "name": "Flavor Profiling, Seasoning & Palate Calibration",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.culinaryinstitute.edu",
+        "category": "sensory"
+      },
+      {
+        "name": "Plating Aesthetics & Culinary Presentation",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 20,
+        "prerequisites": [
+          "Foundational Cooking Techniques & Mother Sauces"
+        ],
+        "source_url": "https://www.escoffier.edu",
+        "category": "presentation"
+      },
+      {
+        "name": "Recipe Costing & Yield Management",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [],
+        "source_url": "https://www.culinaryinstitute.edu",
+        "category": "cost_control"
+      },
+      {
+        "name": "Menu Engineering & Dietary Adaptation",
+        "required_level": 3.5,
+        "demand_level": "moderate",
+        "weight": 0.7,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Recipe Costing & Yield Management"
+        ],
+        "source_url": "https://www.culinaryinstitute.edu",
+        "category": "menu_design"
+      },
+      {
+        "name": "Kitchen Brigade Leadership & Expediting",
+        "required_level": 3.5,
+        "demand_level": "moderate",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "Station Management & Line Cooking"
+        ],
+        "source_url": "https://www.escoffier.edu",
+        "category": "leadership"
+      },
+      {
+        "name": "Commercial Kitchen Equipment Operation & Maintenance",
+        "required_level": 3.5,
+        "demand_level": "frequently mentioned",
+        "weight": 0.7,
+        "est_hours_to_learn": 15,
+        "prerequisites": [
+          "Kitchen Safety & Food Hygiene (HACCP)"
+        ],
+        "source_url": "https://www.servsafe.com",
+        "category": "equipment"
+      }
+    ]
+  },
+  {
+    "id": "qa_sdet",
+    "title": "QA / SDET",
+    "category": "Software Engineering",
+    "aliases": [
+      "sdet",
+      "qa",
+      "qa engineer",
+      "software development engineer in test",
+      "automation tester",
+      "test engineer"
+    ],
+    "description": "Engineers automated test suites, end-to-end browser workflows, load testing harnesses, and quality governance pipelines.",
+    "skills": [
+      {
+        "name": "Test Automation (Playwright / Cypress)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "JavaScript"
+        ],
+        "source_url": "https://playwright.dev/docs/intro",
+        "category": "automation"
+      },
+      {
+        "name": "Python or Java for Testing",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://docs.pytest.org/en/stable/",
+        "category": "core"
+      },
+      {
+        "name": "API Testing (Postman / REST Assured)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://learning.postman.com/docs/",
+        "category": "api"
+      },
+      {
+        "name": "Performance Testing (JMeter / k6)",
+        "required_level": 3.0,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://k6.io/docs/",
+        "category": "performance"
+      },
+      {
+        "name": "CI/CD Test Integration",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://docs.github.com/en/actions",
+        "category": "ci"
+      }
+    ]
+  },
+  {
+    "id": "robotics_engineer",
+    "title": "Robotics Engineer",
+    "category": "Hardware & Systems",
+    "aliases": [
+      "robotics",
+      "ros developer",
+      "autonomous systems engineer",
+      "motion planning engineer",
+      "slam engineer"
+    ],
+    "description": "Engineers autonomous robotics stacks incorporating ROS 2, SLAM navigation, kinematics, sensor fusion, and control systems.",
+    "skills": [
+      {
+        "name": "ROS 2 (Robot Operating System)",
+        "required_level": 4.5,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 50,
+        "prerequisites": [
+          "C++",
+          "Linux"
+        ],
+        "source_url": "https://docs.ros.org/en/humble/",
+        "category": "robotics"
+      },
+      {
+        "name": "C++ & Real-time Systems",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 45,
+        "prerequisites": [],
+        "source_url": "https://en.cppreference.com/w/",
+        "category": "language"
+      },
+      {
+        "name": "SLAM & Sensor Fusion (LiDAR, IMU, Kalman Filter)",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "ROS 2 (Robot Operating System)"
+        ],
+        "source_url": "https://navigation.ros.org/",
+        "category": "navigation"
+      },
+      {
+        "name": "Control Theory & Kinematics",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://modernrobotics.northwestern.edu/",
+        "category": "physics"
+      },
+      {
+        "name": "Simulation (Gazebo / Isaac Sim)",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.8,
+        "est_hours_to_learn": 25,
+        "prerequisites": [
+          "ROS 2 (Robot Operating System)"
+        ],
+        "source_url": "https://gazebosim.org/docs",
+        "category": "simulation"
+      }
+    ]
+  },
+  {
+    "id": "sre",
+    "title": "Site Reliability Engineer",
+    "category": "Infrastructure & Cloud",
+    "aliases": [
+      "sre",
+      "reliability engineer",
+      "production engineer",
+      "systems reliability engineer",
+      "systems engineer"
+    ],
+    "description": "Applies software engineering principles to operations, establishing SLOs/SLAs, automated incident recovery, telemetry, and high-availability architecture.",
+    "skills": [
+      {
+        "name": "Linux Kernel & Internals",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://linuxjourney.com/",
+        "category": "os"
+      },
+      {
+        "name": "Observability (Prometheus/Grafana)",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.95,
+        "est_hours_to_learn": 30,
+        "prerequisites": [
+          "Docker"
+        ],
+        "source_url": "https://prometheus.io/docs/introduction/overview/",
+        "category": "telemetry"
+      },
+      {
+        "name": "Python/Go Automation",
+        "required_level": 3.5,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 35,
+        "prerequisites": [],
+        "source_url": "https://go.dev/doc/",
+        "category": "automation"
+      },
+      {
+        "name": "Kubernetes",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
+        "est_hours_to_learn": 40,
+        "prerequisites": [
+          "Docker"
+        ],
+        "source_url": "https://kubernetes.io/docs/",
+        "category": "orchestration"
+      },
+      {
+        "name": "Incident Management & SLOs",
+        "required_level": 3.5,
+        "demand_level": "high-priority",
+        "weight": 0.85,
+        "est_hours_to_learn": 20,
+        "prerequisites": [],
+        "source_url": "https://sre.google/sre-book/table-of-contents/",
+        "category": "operations"
+      }
+    ]
+  },
+  {
     "id": "sde_dsa",
     "title": "Software Development Engineer (DSA-heavy)",
     "category": "Software Engineering",
@@ -451,1140 +3341,134 @@
     ]
   },
   {
-    "id": "devops_engineer",
-    "title": "DevOps Engineer",
-    "category": "Infrastructure & Cloud",
+    "id": "solutions_engineer",
+    "title": "Solutions Engineer",
+    "category": "Enterprise & Support",
     "aliases": [
-      "devops",
-      "devops engineer",
-      "platform engineer",
-      "infrastructure engineer",
-      "build engineer",
-      "ci cd engineer"
+      "solutions architect",
+      "sales engineer",
+      "technical solutions engineer",
+      "presales engineer",
+      "technical account manager"
     ],
-    "description": "Automates software delivery pipelines, container orchestrations, infrastructure as code, and continuous integration workflows.",
+    "description": "Bridges enterprise customer business requirements with technical product capabilities through POCs, API integrations, and cloud architectures.",
     "skills": [
       {
-        "name": "Docker",
+        "name": "API Integrations & Webhooks",
         "required_level": 4.0,
         "demand_level": "critical",
         "weight": 1.0,
         "est_hours_to_learn": 30,
-        "prerequisites": [
-          "Linux"
-        ],
-        "source_url": "https://docs.docker.com/",
-        "category": "containers"
-      },
-      {
-        "name": "Kubernetes",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.95,
-        "est_hours_to_learn": 40,
-        "prerequisites": [
-          "Docker"
-        ],
-        "source_url": "https://kubernetes.io/docs/home/",
-        "category": "orchestration"
-      },
-      {
-        "name": "CI/CD (GitHub Actions)",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 25,
-        "prerequisites": [
-          "Git"
-        ],
-        "source_url": "https://docs.github.com/en/actions",
-        "category": "automation"
-      },
-      {
-        "name": "Terraform",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 30,
-        "prerequisites": [
-          "AWS Cloud"
-        ],
-        "source_url": "https://developer.hashicorp.com/terraform/docs",
-        "category": "iac"
-      },
-      {
-        "name": "Linux & Bash",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.95,
-        "est_hours_to_learn": 30,
         "prerequisites": [],
-        "source_url": "https://linuxjourney.com/",
-        "category": "os"
+        "source_url": "https://restfulapi.net/",
+        "category": "integration"
       },
       {
-        "name": "AWS Cloud",
+        "name": "Cloud Infrastructure Basics (AWS/Azure)",
         "required_level": 3.5,
         "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 40,
+        "weight": 0.95,
+        "est_hours_to_learn": 35,
         "prerequisites": [],
         "source_url": "https://aws.amazon.com/training/",
         "category": "cloud"
-      }
-    ]
-  },
-  {
-    "id": "sre",
-    "title": "Site Reliability Engineer",
-    "category": "Infrastructure & Cloud",
-    "aliases": [
-      "sre",
-      "reliability engineer",
-      "production engineer",
-      "systems reliability engineer",
-      "systems engineer"
-    ],
-    "description": "Applies software engineering principles to operations, establishing SLOs/SLAs, automated incident recovery, telemetry, and high-availability architecture.",
-    "skills": [
-      {
-        "name": "Linux Kernel & Internals",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 35,
-        "prerequisites": [],
-        "source_url": "https://linuxjourney.com/",
-        "category": "os"
       },
       {
-        "name": "Observability (Prometheus/Grafana)",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.95,
-        "est_hours_to_learn": 30,
-        "prerequisites": [
-          "Docker"
-        ],
-        "source_url": "https://prometheus.io/docs/introduction/overview/",
-        "category": "telemetry"
-      },
-      {
-        "name": "Python/Go Automation",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 35,
-        "prerequisites": [],
-        "source_url": "https://go.dev/doc/",
-        "category": "automation"
-      },
-      {
-        "name": "Kubernetes",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 40,
-        "prerequisites": [
-          "Docker"
-        ],
-        "source_url": "https://kubernetes.io/docs/",
-        "category": "orchestration"
-      },
-      {
-        "name": "Incident Management & SLOs",
+        "name": "Python/JavaScript Scripting",
         "required_level": 3.5,
         "demand_level": "high-priority",
-        "weight": 0.85,
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://docs.python.org/3/",
+        "category": "code"
+      },
+      {
+        "name": "Technical Presentations & Demo Architecture",
+        "required_level": 4.0,
+        "demand_level": "critical",
+        "weight": 0.9,
         "est_hours_to_learn": 20,
         "prerequisites": [],
-        "source_url": "https://sre.google/sre-book/table-of-contents/",
-        "category": "operations"
-      }
-    ]
-  },
-  {
-    "id": "cloud_engineer",
-    "title": "Cloud Engineer",
-    "category": "Infrastructure & Cloud",
-    "aliases": [
-      "cloud",
-      "cloud architect",
-      "aws engineer",
-      "azure engineer",
-      "gcp engineer",
-      "cloud solutions architect"
-    ],
-    "description": "Architects, provisions, and secures cloud computing environments across compute, networking, storage, and serverless stacks.",
-    "skills": [
-      {
-        "name": "AWS/Azure Cloud Services",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 45,
-        "prerequisites": [],
-        "source_url": "https://docs.aws.amazon.com/",
-        "category": "cloud"
+        "source_url": "https://www.commandofthemessage.com/",
+        "category": "communication"
       },
       {
-        "name": "Cloud Networking (VPC, DNS, Subnets)",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [],
-        "source_url": "https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html",
-        "category": "networking"
-      },
-      {
-        "name": "Terraform",
-        "required_level": 3.5,
+        "name": "Enterprise Security & SSO (OAuth, SAML)",
+        "required_level": 3.0,
         "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 30,
+        "weight": 0.8,
+        "est_hours_to_learn": 20,
         "prerequisites": [],
-        "source_url": "https://developer.hashicorp.com/terraform/docs",
-        "category": "iac"
-      },
-      {
-        "name": "IAM & Cloud Security",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.85,
-        "est_hours_to_learn": 25,
-        "prerequisites": [],
-        "source_url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html",
+        "source_url": "https://auth0.com/docs/",
         "category": "security"
-      },
-      {
-        "name": "Serverless (Lambda/Functions)",
-        "required_level": 3.0,
-        "demand_level": "frequently mentioned",
-        "weight": 0.75,
-        "est_hours_to_learn": 20,
-        "prerequisites": [],
-        "source_url": "https://docs.aws.amazon.com/lambda/",
-        "category": "compute"
       }
     ]
   },
   {
-    "id": "data_analyst",
-    "title": "Data Analyst",
-    "category": "Data & Analytics",
-    "aliases": [
-      "analyst",
-      "business intelligence",
-      "bi analyst",
-      "product analyst",
-      "data reporting analyst"
-    ],
-    "description": "Uncovers business insights through statistical exploration, SQL transformations, cohort analysis, and interactive dashboard storytelling.",
-    "skills": [
-      {
-        "name": "SQL & Advanced Queries",
-        "required_level": 4.5,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 40,
-        "prerequisites": [],
-        "source_url": "https://mode.com/sql-tutorial/",
-        "category": "core"
-      },
-      {
-        "name": "Power BI / Tableau",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.95,
-        "est_hours_to_learn": 35,
-        "prerequisites": [
-          "SQL"
-        ],
-        "source_url": "https://learn.microsoft.com/en-us/power-bi/",
-        "category": "visualization"
-      },
-      {
-        "name": "Python (Pandas/NumPy)",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 35,
-        "prerequisites": [],
-        "source_url": "https://pandas.pydata.org/docs/",
-        "category": "analysis"
-      },
-      {
-        "name": "Excel & Business Modeling",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.8,
-        "est_hours_to_learn": 25,
-        "prerequisites": [],
-        "source_url": "https://support.microsoft.com/en-us/excel",
-        "category": "reporting"
-      },
-      {
-        "name": "Statistical Analysis & A/B Testing",
-        "required_level": 3.0,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 25,
-        "prerequisites": [],
-        "source_url": "https://www.khanacademy.org/math/statistics-probability",
-        "category": "statistics"
-      }
-    ]
-  },
-  {
-    "id": "data_scientist",
-    "title": "Data Scientist",
-    "category": "AI & Data Science",
-    "aliases": [
-      "ds",
-      "data scientist",
-      "applied scientist",
-      "decision scientist",
-      "statistical modeler"
-    ],
-    "description": "Builds predictive statistical models, designs experiments, conducts feature engineering, and translates ambiguous data into business value.",
-    "skills": [
-      {
-        "name": "Python for Data Science",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 40,
-        "prerequisites": [],
-        "source_url": "https://docs.python.org/3/",
-        "category": "core"
-      },
-      {
-        "name": "Machine Learning (Scikit-Learn)",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 45,
-        "prerequisites": [
-          "Python for Data Science"
-        ],
-        "source_url": "https://scikit-learn.org/stable/",
-        "category": "ml"
-      },
-      {
-        "name": "Applied Statistics & Probability",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 35,
-        "prerequisites": [],
-        "source_url": "https://www.statlearning.com/",
-        "category": "theory"
-      },
-      {
-        "name": "SQL & Data Wrangling",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [],
-        "source_url": "https://mode.com/sql-tutorial/",
-        "category": "data"
-      },
-      {
-        "name": "A/B Testing & Causal Inference",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 25,
-        "prerequisites": [
-          "Applied Statistics & Probability"
-        ],
-        "source_url": "https://exp-platform.com/",
-        "category": "experimentation"
-      }
-    ]
-  },
-  {
-    "id": "ml_engineer",
-    "title": "Machine Learning Engineer",
-    "category": "AI & Data Science",
-    "aliases": [
-      "mle",
-      "machine learning engineer",
-      "ml engineer",
-      "applied ml engineer",
-      "deep learning engineer",
-      "ai engineer ml"
-    ],
-    "description": "Designs, trains, and operationalizes machine learning systems, optimizing loss functions, distributed training, and real-time inference latency.",
-    "skills": [
-      {
-        "name": "PyTorch / TensorFlow",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 50,
-        "prerequisites": [
-          "Python"
-        ],
-        "source_url": "https://pytorch.org/docs/stable/index.html",
-        "category": "deep_learning"
-      },
-      {
-        "name": "Python & Optimization",
-        "required_level": 4.5,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 40,
-        "prerequisites": [],
-        "source_url": "https://docs.python.org/3/",
-        "category": "core"
-      },
-      {
-        "name": "MLOps (MLflow / Kubeflow)",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 35,
-        "prerequisites": [
-          "Docker"
-        ],
-        "source_url": "https://mlflow.org/docs/latest/index.html",
-        "category": "mlops"
-      },
-      {
-        "name": "Model Serving (Triton / FastAPI)",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 25,
-        "prerequisites": [
-          "PyTorch / TensorFlow"
-        ],
-        "source_url": "https://fastapi.tiangolo.com/",
-        "category": "serving"
-      },
-      {
-        "name": "Feature Stores & Data Pipelines",
-        "required_level": 3.0,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 25,
-        "prerequisites": [
-          "SQL"
-        ],
-        "source_url": "https://feast.dev/",
-        "category": "data"
-      }
-    ]
-  },
-  {
-    "id": "ai_genai_engineer",
-    "title": "AI/GenAI Engineer",
-    "category": "AI & Data Science",
-    "aliases": [
-      "genai",
-      "genai engineer",
-      "llm engineer",
-      "ai engineer",
-      "generative ai engineer",
-      "rag engineer",
-      "agentic ai engineer"
-    ],
-    "description": "Constructs generative AI applications, multi-agent frameworks, semantic vector retrieval (RAG), fine-tuning pipelines, and prompt optimization systems.",
-    "skills": [
-      {
-        "name": "LLM Orchestration (LangChain / LlamaIndex)",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 35,
-        "prerequisites": [
-          "Python"
-        ],
-        "source_url": "https://python.langchain.com/docs/",
-        "category": "ai"
-      },
-      {
-        "name": "Vector Databases (Pinecone / Chroma / pgvector)",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.95,
-        "est_hours_to_learn": 25,
-        "prerequisites": [],
-        "source_url": "https://docs.trychroma.com/",
-        "category": "rag"
-      },
-      {
-        "name": "RAG Architecture & Evaluation",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 30,
-        "prerequisites": [
-          "LLM Orchestration (LangChain / LlamaIndex)"
-        ],
-        "source_url": "https://www.promptingguide.ai/techniques/rag",
-        "category": "rag"
-      },
-      {
-        "name": "Python & Async Programming",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 35,
-        "prerequisites": [],
-        "source_url": "https://docs.python.org/3/library/asyncio.html",
-        "category": "core"
-      },
-      {
-        "name": "Fine-Tuning & Quantization (LoRA/QLoRA)",
-        "required_level": 3.0,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 30,
-        "prerequisites": [
-          "Python"
-        ],
-        "source_url": "https://huggingface.co/docs/peft/index",
-        "category": "models"
-      }
-    ]
-  },
-  {
-    "id": "data_engineer",
-    "title": "Data Engineer",
-    "category": "Data & Analytics",
-    "aliases": [
-      "de",
-      "data engineer",
-      "etl engineer",
-      "big data engineer",
-      "spark developer",
-      "data platform engineer"
-    ],
-    "description": "Constructs scalable streaming and batch pipelines, data lakes, distributed transformations, and data warehousing schemas.",
-    "skills": [
-      {
-        "name": "Apache Spark / PySpark",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 45,
-        "prerequisites": [
-          "Python",
-          "SQL"
-        ],
-        "source_url": "https://spark.apache.org/docs/latest/",
-        "category": "distributed"
-      },
-      {
-        "name": "SQL & Data Warehousing (Snowflake/BigQuery)",
-        "required_level": 4.5,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 40,
-        "prerequisites": [],
-        "source_url": "https://docs.snowflake.com/",
-        "category": "warehouse"
-      },
-      {
-        "name": "Data Orchestration (Airflow / Prefect)",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [
-          "Python"
-        ],
-        "source_url": "https://airflow.apache.org/docs/",
-        "category": "orchestration"
-      },
-      {
-        "name": "Streaming (Kafka / Flink)",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 35,
-        "prerequisites": [],
-        "source_url": "https://kafka.apache.org/documentation/",
-        "category": "streaming"
-      },
-      {
-        "name": "Data Modeling & dbt",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 25,
-        "prerequisites": [
-          "SQL & Data Warehousing (Snowflake/BigQuery)"
-        ],
-        "source_url": "https://docs.getdbt.com/",
-        "category": "modeling"
-      }
-    ]
-  },
-  {
-    "id": "android_developer",
-    "title": "Android Developer",
-    "category": "Web & Mobile",
-    "aliases": [
-      "android",
-      "android engineer",
-      "kotlin developer",
-      "native android",
-      "mobile android developer"
-    ],
-    "description": "Builds responsive native Android applications utilizing Kotlin, Jetpack Compose, Coroutines, and modern clean architecture.",
-    "skills": [
-      {
-        "name": "Kotlin",
-        "required_level": 4.5,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 40,
-        "prerequisites": [],
-        "source_url": "https://kotlinlang.org/docs/home.html",
-        "category": "language"
-      },
-      {
-        "name": "Jetpack Compose",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 35,
-        "prerequisites": [
-          "Kotlin"
-        ],
-        "source_url": "https://developer.android.com/jetpack/compose",
-        "category": "ui"
-      },
-      {
-        "name": "Android Architecture (MVVM/MVI)",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [
-          "Kotlin"
-        ],
-        "source_url": "https://developer.android.com/topic/architecture",
-        "category": "architecture"
-      },
-      {
-        "name": "Coroutines & Flow",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 25,
-        "prerequisites": [
-          "Kotlin"
-        ],
-        "source_url": "https://kotlinlang.org/docs/coroutines-overview.html",
-        "category": "async"
-      },
-      {
-        "name": "Room Database & Networking (Retrofit)",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 25,
-        "prerequisites": [
-          "Android Architecture (MVVM/MVI)"
-        ],
-        "source_url": "https://square.github.io/retrofit/",
-        "category": "data"
-      }
-    ]
-  },
-  {
-    "id": "ios_developer",
-    "title": "iOS Developer",
-    "category": "Web & Mobile",
-    "aliases": [
-      "ios",
-      "ios engineer",
-      "swift developer",
-      "apple developer",
-      "swiftui engineer",
-      "native ios"
-    ],
-    "description": "Creates sleek native iOS, iPadOS, and watchOS experiences leveraging Swift, SwiftUI, Combine, and Apple HIG best practices.",
-    "skills": [
-      {
-        "name": "Swift",
-        "required_level": 4.5,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 40,
-        "prerequisites": [],
-        "source_url": "https://docs.swift.org/swift-book/",
-        "category": "language"
-      },
-      {
-        "name": "SwiftUI",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 35,
-        "prerequisites": [
-          "Swift"
-        ],
-        "source_url": "https://developer.apple.com/documentation/swiftui",
-        "category": "ui"
-      },
-      {
-        "name": "iOS Architecture & Combine",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [
-          "Swift"
-        ],
-        "source_url": "https://developer.apple.com/documentation/combine",
-        "category": "architecture"
-      },
-      {
-        "name": "CoreData / SwiftData",
-        "required_level": 3.0,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 25,
-        "prerequisites": [
-          "Swift"
-        ],
-        "source_url": "https://developer.apple.com/documentation/swiftdata",
-        "category": "data"
-      },
-      {
-        "name": "App Store Deployment & CI",
-        "required_level": 3.0,
-        "demand_level": "frequently mentioned",
-        "weight": 0.75,
-        "est_hours_to_learn": 15,
-        "prerequisites": [],
-        "source_url": "https://developer.apple.com/app-store/",
-        "category": "tools"
-      }
-    ]
-  },
-  {
-    "id": "mobile_cross_platform",
-    "title": "Cross-Platform Mobile Developer",
-    "category": "Web & Mobile",
-    "aliases": [
-      "flutter",
-      "react native",
-      "cross platform mobile",
-      "hybrid app developer",
-      "mobile engineer",
-      "mobile developer"
-    ],
-    "description": "Develops performant cross-platform mobile apps for iOS and Android using Flutter/Dart or React Native with native bridge integrations.",
-    "skills": [
-      {
-        "name": "Flutter & Dart",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 40,
-        "prerequisites": [],
-        "source_url": "https://docs.flutter.dev/",
-        "category": "core"
-      },
-      {
-        "name": "React Native",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 40,
-        "prerequisites": [
-          "JavaScript"
-        ],
-        "source_url": "https://reactnative.dev/docs/getting-started",
-        "category": "core"
-      },
-      {
-        "name": "Mobile State Management (Bloc/Riverpod/Redux)",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 25,
-        "prerequisites": [],
-        "source_url": "https://bloclibrary.dev/",
-        "category": "state"
-      },
-      {
-        "name": "Mobile Offline Storage & SQLite",
-        "required_level": 3.0,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 20,
-        "prerequisites": [],
-        "source_url": "https://docs.flutter.dev/cookbook/persistence/sqlite",
-        "category": "data"
-      },
-      {
-        "name": "App Performance & Bridging",
-        "required_level": 3.0,
-        "demand_level": "high-priority",
-        "weight": 0.75,
-        "est_hours_to_learn": 20,
-        "prerequisites": [],
-        "source_url": "https://reactnative.dev/docs/performance",
-        "category": "optimization"
-      }
-    ]
-  },
-  {
-    "id": "game_developer",
-    "title": "Game Developer",
-    "category": "Games & Graphics",
-    "aliases": [
-      "game dev",
-      "game programmer",
-      "unity developer",
-      "unreal developer",
-      "gameplay engineer",
-      "3d graphics engineer"
-    ],
-    "description": "Programs immersive gameplay mechanics, real-time rendering pipelines, physics simulations, and multiplayer networking in Unity or Unreal Engine.",
-    "skills": [
-      {
-        "name": "C++ / C#",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 45,
-        "prerequisites": [],
-        "source_url": "https://en.cppreference.com/w/",
-        "category": "language"
-      },
-      {
-        "name": "Unity or Unreal Engine 5",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 50,
-        "prerequisites": [
-          "C++ / C#"
-        ],
-        "source_url": "https://docs.unrealengine.com/5.0/en-US/",
-        "category": "engine"
-      },
-      {
-        "name": "3D Linear Algebra & Physics",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [],
-        "source_url": "https://www.scratchapixel.com/",
-        "category": "math"
-      },
-      {
-        "name": "Shaders & Computer Graphics (HLSL/GLSL)",
-        "required_level": 3.0,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 35,
-        "prerequisites": [
-          "3D Linear Algebra & Physics"
-        ],
-        "source_url": "https://thebookofshaders.com/",
-        "category": "graphics"
-      },
-      {
-        "name": "Game Architecture & ECS",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 25,
-        "prerequisites": [],
-        "source_url": "https://gameprogrammingpatterns.com/",
-        "category": "architecture"
-      }
-    ]
-  },
-  {
-    "id": "cybersecurity_analyst",
-    "title": "Cybersecurity Analyst",
+    "id": "systems_networking_engineer",
+    "title": "Systems & Networking Engineer",
     "category": "Security & Networks",
     "aliases": [
-      "security",
-      "cyber security",
-      "soc analyst",
-      "security engineer",
-      "infosec analyst",
-      "penetration tester"
+      "network engineer",
+      "systems engineer",
+      "network architect",
+      "datacenter network engineer",
+      "infrastructure networking"
     ],
-    "description": "Protects organizational assets by monitoring intrusion telemetry, performing vulnerability assessments, SIEM triage, and incident response.",
+    "description": "Designs low-latency datacenter topologies, BGP/OSPF routing fabrics, SDN controllers, load balancers, and packet inspection pipelines.",
     "skills": [
       {
-        "name": "Network Security & Protocols (TCP/IP, TLS)",
-        "required_level": 4.0,
+        "name": "TCP/IP & Routing Protocols (BGP, OSPF)",
+        "required_level": 4.5,
         "demand_level": "critical",
         "weight": 1.0,
-        "est_hours_to_learn": 35,
+        "est_hours_to_learn": 45,
         "prerequisites": [],
-        "source_url": "https://www.wireshark.org/docs/",
+        "source_url": "https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/26634-bgp-toc.html",
         "category": "networking"
       },
       {
-        "name": "SIEM & Log Analysis (Splunk/ELK)",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [],
-        "source_url": "https://docs.splunk.com/",
-        "category": "operations"
-      },
-      {
-        "name": "Linux Security & Hardening",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [],
-        "source_url": "https://linuxjourney.com/",
-        "category": "os"
-      },
-      {
-        "name": "Web Vulnerabilities (OWASP Top 10)",
+        "name": "Linux Network Stack & eBPF",
         "required_level": 4.0,
         "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 30,
+        "weight": 0.95,
+        "est_hours_to_learn": 40,
         "prerequisites": [],
-        "source_url": "https://owasp.org/www-project-top-ten/",
-        "category": "appsec"
+        "source_url": "https://ebpf.io/",
+        "category": "kernel"
       },
       {
-        "name": "Cryptography Fundamentals",
-        "required_level": 3.0,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 25,
-        "prerequisites": [],
-        "source_url": "https://www.cryptopals.com/",
-        "category": "crypto"
-      }
-    ]
-  },
-  {
-    "id": "qa_sdet",
-    "title": "QA / SDET",
-    "category": "Software Engineering",
-    "aliases": [
-      "sdet",
-      "qa",
-      "qa engineer",
-      "software development engineer in test",
-      "automation tester",
-      "test engineer"
-    ],
-    "description": "Engineers automated test suites, end-to-end browser workflows, load testing harnesses, and quality governance pipelines.",
-    "skills": [
-      {
-        "name": "Test Automation (Playwright / Cypress)",
-        "required_level": 4.5,
+        "name": "Network Automation (Ansible / Python Netmiko)",
+        "required_level": 3.5,
         "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 35,
-        "prerequisites": [
-          "JavaScript"
-        ],
-        "source_url": "https://playwright.dev/docs/intro",
+        "weight": 0.9,
+        "est_hours_to_learn": 30,
+        "prerequisites": [],
+        "source_url": "https://docs.ansible.com/ansible/latest/network/index.html",
         "category": "automation"
       },
       {
-        "name": "Python or Java for Testing",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.95,
-        "est_hours_to_learn": 35,
-        "prerequisites": [],
-        "source_url": "https://docs.pytest.org/en/stable/",
-        "category": "core"
-      },
-      {
-        "name": "API Testing (Postman / REST Assured)",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 20,
-        "prerequisites": [],
-        "source_url": "https://learning.postman.com/docs/",
-        "category": "api"
-      },
-      {
-        "name": "Performance Testing (JMeter / k6)",
-        "required_level": 3.0,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 20,
-        "prerequisites": [],
-        "source_url": "https://k6.io/docs/",
-        "category": "performance"
-      },
-      {
-        "name": "CI/CD Test Integration",
+        "name": "Load Balancing & Reverse Proxies (NGINX/HAProxy)",
         "required_level": 3.5,
         "demand_level": "high-priority",
         "weight": 0.85,
         "est_hours_to_learn": 20,
         "prerequisites": [],
-        "source_url": "https://docs.github.com/en/actions",
-        "category": "ci"
-      }
-    ]
-  },
-  {
-    "id": "embedded_iot_engineer",
-    "title": "Embedded & IoT Engineer",
-    "category": "Hardware & Systems",
-    "aliases": [
-      "embedded",
-      "iot",
-      "firmware engineer",
-      "embedded systems engineer",
-      "microcontroller developer",
-      "hardware engineer"
-    ],
-    "description": "Programs bare-metal and RTOS microcontrollers (ARM, ESP32, STM32) interfacing with sensors, actuators, and communication buses.",
-    "skills": [
-      {
-        "name": "Embedded C / C++",
-        "required_level": 4.5,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 50,
-        "prerequisites": [],
-        "source_url": "https://en.cppreference.com/w/",
-        "category": "language"
+        "source_url": "https://www.haproxy.org/",
+        "category": "infrastructure"
       },
       {
-        "name": "Microcontrollers & Hardware Peripherals (GPIO, I2C, SPI, UART)",
+        "name": "Packet Analysis (Wireshark/tcpdump)",
         "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 40,
-        "prerequisites": [
-          "Embedded C / C++"
-        ],
-        "source_url": "https://www.espressif.com/en/products/socs/esp32",
-        "category": "hardware"
-      },
-      {
-        "name": "FreeRTOS & Concurrency",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [
-          "Embedded C / C++"
-        ],
-        "source_url": "https://www.freertos.org/Documentation/RTOS_book.html",
-        "category": "os"
-      },
-      {
-        "name": "IoT Protocols (MQTT, CoAP)",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 20,
-        "prerequisites": [],
-        "source_url": "https://mqtt.org/documentation/",
-        "category": "protocols"
-      },
-      {
-        "name": "Circuit Analysis & Debugging (Oscilloscope/Logic Analyzer)",
-        "required_level": 3.0,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 25,
-        "prerequisites": [],
-        "source_url": "https://learn.sparkfun.com/",
-        "category": "tools"
-      }
-    ]
-  },
-  {
-    "id": "blockchain_developer",
-    "title": "Blockchain Developer",
-    "category": "Emerging Tech",
-    "aliases": [
-      "web3",
-      "blockchain",
-      "smart contract developer",
-      "solidity engineer",
-      "crypto developer",
-      "ethereum developer"
-    ],
-    "description": "Codes decentralized applications, smart contract protocols, zero-knowledge proofs, and secure token economics on EVM-compatible chains.",
-    "skills": [
-      {
-        "name": "Solidity",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 40,
-        "prerequisites": [
-          "JavaScript"
-        ],
-        "source_url": "https://docs.soliditylang.org/",
-        "category": "smart_contracts"
-      },
-      {
-        "name": "EVM Internals & Gas Optimization",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.95,
-        "est_hours_to_learn": 35,
-        "prerequisites": [
-          "Solidity"
-        ],
-        "source_url": "https://ethereum.org/en/developers/docs/evm/",
-        "category": "theory"
-      },
-      {
-        "name": "Foundry / Hardhat Testing",
-        "required_level": 3.5,
         "demand_level": "critical",
         "weight": 0.9,
         "est_hours_to_learn": 25,
         "prerequisites": [
-          "Solidity"
+          "TCP/IP & Routing Protocols (BGP, OSPF)"
         ],
-        "source_url": "https://book.getfoundry.sh/",
-        "category": "tools"
-      },
-      {
-        "name": "Web3.js / Ethers.js",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 20,
-        "prerequisites": [
-          "JavaScript"
-        ],
-        "source_url": "https://docs.ethers.org/v6/",
-        "category": "client"
-      },
-      {
-        "name": "Smart Contract Security & Auditing",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [
-          "Solidity"
-        ],
-        "source_url": "https://consensys.github.io/smart-contract-best-practices/",
-        "category": "security"
+        "source_url": "https://www.wireshark.org/docs/",
+        "category": "diagnostics"
       }
     ]
   },
@@ -1725,345 +3609,74 @@
     ]
   },
   {
-    "id": "solutions_engineer",
-    "title": "Solutions Engineer",
-    "category": "Enterprise & Support",
+    "id": "ios_developer",
+    "title": "iOS Developer",
+    "category": "Web & Mobile",
     "aliases": [
-      "solutions architect",
-      "sales engineer",
-      "technical solutions engineer",
-      "presales engineer",
-      "technical account manager"
+      "ios",
+      "ios engineer",
+      "swift developer",
+      "apple developer",
+      "swiftui engineer",
+      "native ios"
     ],
-    "description": "Bridges enterprise customer business requirements with technical product capabilities through POCs, API integrations, and cloud architectures.",
+    "description": "Creates sleek native iOS, iPadOS, and watchOS experiences leveraging Swift, SwiftUI, Combine, and Apple HIG best practices.",
     "skills": [
       {
-        "name": "API Integrations & Webhooks",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 30,
-        "prerequisites": [],
-        "source_url": "https://restfulapi.net/",
-        "category": "integration"
-      },
-      {
-        "name": "Cloud Infrastructure Basics (AWS/Azure)",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.95,
-        "est_hours_to_learn": 35,
-        "prerequisites": [],
-        "source_url": "https://aws.amazon.com/training/",
-        "category": "cloud"
-      },
-      {
-        "name": "Python/JavaScript Scripting",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [],
-        "source_url": "https://docs.python.org/3/",
-        "category": "code"
-      },
-      {
-        "name": "Technical Presentations & Demo Architecture",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 20,
-        "prerequisites": [],
-        "source_url": "https://www.commandofthemessage.com/",
-        "category": "communication"
-      },
-      {
-        "name": "Enterprise Security & SSO (OAuth, SAML)",
-        "required_level": 3.0,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 20,
-        "prerequisites": [],
-        "source_url": "https://auth0.com/docs/",
-        "category": "security"
-      }
-    ]
-  },
-  {
-    "id": "database_administrator",
-    "title": "Database Administrator",
-    "category": "Data & Infrastructure",
-    "aliases": [
-      "dba",
-      "database engineer",
-      "postgres dba",
-      "mysql dba",
-      "database reliability engineer"
-    ],
-    "description": "Guarantees database throughput, index tuning, write replication, disaster recovery, read-replica scaling, and high-concurrency vacuuming.",
-    "skills": [
-      {
-        "name": "Advanced PostgreSQL & Query Optimization",
-        "required_level": 4.5,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 45,
-        "prerequisites": [
-          "SQL"
-        ],
-        "source_url": "https://www.postgresql.org/docs/current/performance-tips.html",
-        "category": "database"
-      },
-      {
-        "name": "High Availability, Replication & Backups",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 35,
-        "prerequisites": [],
-        "source_url": "https://www.postgresql.org/docs/current/high-availability.html",
-        "category": "ha"
-      },
-      {
-        "name": "Linux OS & Disk I/O Tuning",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.9,
-        "est_hours_to_learn": 30,
-        "prerequisites": [],
-        "source_url": "https://linuxjourney.com/",
-        "category": "os"
-      },
-      {
-        "name": "Database Security & Access Auditing",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 25,
-        "prerequisites": [],
-        "source_url": "https://www.postgresql.org/docs/current/user-manag.html",
-        "category": "security"
-      },
-      {
-        "name": "Connection Pooling (PgBouncer)",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 15,
-        "prerequisites": [],
-        "source_url": "https://www.pgbouncer.org/",
-        "category": "scaling"
-      }
-    ]
-  },
-  {
-    "id": "computer_vision_engineer",
-    "title": "Computer Vision Engineer",
-    "category": "AI & Data Science",
-    "aliases": [
-      "cv",
-      "computer vision",
-      "cv engineer",
-      "vision ai engineer",
-      "image processing engineer",
-      "object detection engineer"
-    ],
-    "description": "Constructs spatial image segmentation, object detection, edge inference, and generative diffusion models using OpenCV, PyTorch, and CUDA.",
-    "skills": [
-      {
-        "name": "OpenCV & Image Processing",
+        "name": "Swift",
         "required_level": 4.5,
         "demand_level": "critical",
         "weight": 1.0,
         "est_hours_to_learn": 40,
-        "prerequisites": [
-          "Python"
-        ],
-        "source_url": "https://docs.opencv.org/",
-        "category": "vision"
-      },
-      {
-        "name": "PyTorch & CNN / Vision Transformers",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 45,
-        "prerequisites": [
-          "Python"
-        ],
-        "source_url": "https://pytorch.org/vision/stable/index.html",
-        "category": "models"
-      },
-      {
-        "name": "Object Detection (YOLO / Detectron2)",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.95,
-        "est_hours_to_learn": 30,
-        "prerequisites": [
-          "PyTorch & CNN / Vision Transformers"
-        ],
-        "source_url": "https://docs.ultralytics.com/",
-        "category": "detection"
-      },
-      {
-        "name": "Edge Deployment (TensorRT / ONNX)",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 25,
         "prerequisites": [],
-        "source_url": "https://developer.nvidia.com/tensorrt",
-        "category": "optimization"
-      },
-      {
-        "name": "Linear Algebra & Camera Geometry",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 25,
-        "prerequisites": [],
-        "source_url": "https://szeliski.org/Book/",
-        "category": "math"
-      }
-    ]
-  },
-  {
-    "id": "robotics_engineer",
-    "title": "Robotics Engineer",
-    "category": "Hardware & Systems",
-    "aliases": [
-      "robotics",
-      "ros developer",
-      "autonomous systems engineer",
-      "motion planning engineer",
-      "slam engineer"
-    ],
-    "description": "Engineers autonomous robotics stacks incorporating ROS 2, SLAM navigation, kinematics, sensor fusion, and control systems.",
-    "skills": [
-      {
-        "name": "ROS 2 (Robot Operating System)",
-        "required_level": 4.5,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 50,
-        "prerequisites": [
-          "C++",
-          "Linux"
-        ],
-        "source_url": "https://docs.ros.org/en/humble/",
-        "category": "robotics"
-      },
-      {
-        "name": "C++ & Real-time Systems",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 45,
-        "prerequisites": [],
-        "source_url": "https://en.cppreference.com/w/",
+        "source_url": "https://docs.swift.org/swift-book/",
         "category": "language"
       },
       {
-        "name": "SLAM & Sensor Fusion (LiDAR, IMU, Kalman Filter)",
-        "required_level": 3.5,
-        "demand_level": "critical",
-        "weight": 0.95,
-        "est_hours_to_learn": 40,
-        "prerequisites": [
-          "ROS 2 (Robot Operating System)"
-        ],
-        "source_url": "https://navigation.ros.org/",
-        "category": "navigation"
-      },
-      {
-        "name": "Control Theory & Kinematics",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 35,
-        "prerequisites": [],
-        "source_url": "https://modernrobotics.northwestern.edu/",
-        "category": "physics"
-      },
-      {
-        "name": "Simulation (Gazebo / Isaac Sim)",
-        "required_level": 3.5,
-        "demand_level": "high-priority",
-        "weight": 0.8,
-        "est_hours_to_learn": 25,
-        "prerequisites": [
-          "ROS 2 (Robot Operating System)"
-        ],
-        "source_url": "https://gazebosim.org/docs",
-        "category": "simulation"
-      }
-    ]
-  },
-  {
-    "id": "systems_networking_engineer",
-    "title": "Systems & Networking Engineer",
-    "category": "Security & Networks",
-    "aliases": [
-      "network engineer",
-      "systems engineer",
-      "network architect",
-      "datacenter network engineer",
-      "infrastructure networking"
-    ],
-    "description": "Designs low-latency datacenter topologies, BGP/OSPF routing fabrics, SDN controllers, load balancers, and packet inspection pipelines.",
-    "skills": [
-      {
-        "name": "TCP/IP & Routing Protocols (BGP, OSPF)",
-        "required_level": 4.5,
-        "demand_level": "critical",
-        "weight": 1.0,
-        "est_hours_to_learn": 45,
-        "prerequisites": [],
-        "source_url": "https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/26634-bgp-toc.html",
-        "category": "networking"
-      },
-      {
-        "name": "Linux Network Stack & eBPF",
+        "name": "SwiftUI",
         "required_level": 4.0,
         "demand_level": "critical",
-        "weight": 0.95,
-        "est_hours_to_learn": 40,
-        "prerequisites": [],
-        "source_url": "https://ebpf.io/",
-        "category": "kernel"
+        "weight": 1.0,
+        "est_hours_to_learn": 35,
+        "prerequisites": [
+          "Swift"
+        ],
+        "source_url": "https://developer.apple.com/documentation/swiftui",
+        "category": "ui"
       },
       {
-        "name": "Network Automation (Ansible / Python Netmiko)",
+        "name": "iOS Architecture & Combine",
         "required_level": 3.5,
         "demand_level": "critical",
         "weight": 0.9,
         "est_hours_to_learn": 30,
-        "prerequisites": [],
-        "source_url": "https://docs.ansible.com/ansible/latest/network/index.html",
-        "category": "automation"
+        "prerequisites": [
+          "Swift"
+        ],
+        "source_url": "https://developer.apple.com/documentation/combine",
+        "category": "architecture"
       },
       {
-        "name": "Load Balancing & Reverse Proxies (NGINX/HAProxy)",
-        "required_level": 3.5,
+        "name": "CoreData / SwiftData",
+        "required_level": 3.0,
         "demand_level": "high-priority",
-        "weight": 0.85,
-        "est_hours_to_learn": 20,
-        "prerequisites": [],
-        "source_url": "https://www.haproxy.org/",
-        "category": "infrastructure"
-      },
-      {
-        "name": "Packet Analysis (Wireshark/tcpdump)",
-        "required_level": 4.0,
-        "demand_level": "critical",
-        "weight": 0.9,
+        "weight": 0.8,
         "est_hours_to_learn": 25,
         "prerequisites": [
-          "TCP/IP & Routing Protocols (BGP, OSPF)"
+          "Swift"
         ],
-        "source_url": "https://www.wireshark.org/docs/",
-        "category": "diagnostics"
+        "source_url": "https://developer.apple.com/documentation/swiftdata",
+        "category": "data"
+      },
+      {
+        "name": "App Store Deployment & CI",
+        "required_level": 3.0,
+        "demand_level": "frequently mentioned",
+        "weight": 0.75,
+        "est_hours_to_learn": 15,
+        "prerequisites": [],
+        "source_url": "https://developer.apple.com/app-store/",
+        "category": "tools"
       }
     ]
   }

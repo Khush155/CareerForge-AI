@@ -41,9 +41,13 @@ ABBREVIATIONS: dict[str, str] = {
     "ios": "iOS Developer",
     "fe": "Frontend Developer",
     "be": "Backend Developer",
-    "fs": "Full Stack Developer",
     "cv": "Computer Vision Engineer",
     "iot": "Embedded IoT Engineer",
+    "eng": "Engineer",
+    "dev": "Developer",
+    "machin": "Machine",
+    "learnng": "Learning",
+    "mle": "Machine Learning Engineer",
 }
 
 # Common occupational markers indicating a genuine career inquiry
@@ -56,7 +60,9 @@ COMMON_OCCUPATIONAL_MARKERS: set[str] = {
     "surgeon", "nurse", "nursing", "dentist", "pharmacist", "radiologist",
     "lawyer", "advocate", "attorney", "accountant", "auditor", "trader",
     "banker", "writer", "editor", "pilot", "mechanic", "electrician",
-    "chef", "artist", "teacher", "professor", "instructor", "therapist",
+    "chef", "cook", "cooking", "baker", "barista", "sommelier", "culinary",
+    "plumber", "carpenter", "welder", "machinist", "technologist",
+    "artist", "teacher", "professor", "instructor", "therapist",
     "operator", "coordinator", "agent", "executive", "representative", "specialized"
 }
 
@@ -219,8 +225,18 @@ def is_plausible_job_title(text: str) -> bool:
         | {"cardio", "doctor", "physician", "surgeon", "medical", "nurse", "nursing", "clinic", "hospital", "pharma", "biotech", "dental", "dentist"}
         | {"finance", "invest", "bank", "equity", "hedge", "quant", "audit", "accountant", "accounting", "trader", "wealth", "actuary", "cfa", "ca"}
         | {"law", "legal", "lawyer", "advocate", "attorney", "counsel", "litigation", "corporate"}
+        | {"cook", "cooking", "chef", "baker", "bakery", "pastry", "culinary", "barista", "sommelier", "restaurant", "kitchen", "gastronomy", "catering"}
+        | {"mechanical", "civil", "aerospace", "electrical", "chemical", "structural", "automobile", "automotive", "metallurgy", "cad", "cam"}
+        | {"graphic", "design", "ui", "ux", "fashion", "interior", "animation", "animator", "artist", "illustrator"}
     )
-    return bool(words & all_domains)
+    if bool(words & all_domains):
+        return True
+
+    # Check if query is a reasonable multi-word job title (not gibberish)
+    if not is_gibberish_query(text) and len(clean) >= 4:
+        return True
+
+    return False
 
 
 class RoleResolver:
@@ -269,19 +285,21 @@ class RoleResolver:
 
     def _load_roles(self) -> None:
         """Load all rich role definitions from disk."""
+        loaded_ids: set[str] = set()
         index_file = self.data_dir / "index.json"
         if index_file.exists():
             try:
                 with open(index_file, "r", encoding="utf-8") as f:
                     raw_data = json.load(f)
                     for item in raw_data:
-                        self.roles.append(RoleDefinition.model_validate(item))
+                        r = RoleDefinition.model_validate(item)
+                        self.roles.append(r)
+                        loaded_ids.add(r.id)
                 logger.info("Loaded %d roles from index.json", len(self.roles))
-                return
             except (OSError, json.JSONDecodeError, ValueError) as e:
                 logger.warning("Failed to load roles from index.json: %s. Loading individual files.", e)
 
-        # Fallback to individual role json files
+        # Supplement with any standalone role files not yet loaded
         if self.data_dir.exists():
             for file_path in self.data_dir.glob("*.json"):
                 if file_path.name == "index.json":
@@ -289,15 +307,19 @@ class RoleResolver:
                 try:
                     with open(file_path, "r", encoding="utf-8") as f:
                         data = json.load(f)
-                        self.roles.append(RoleDefinition.model_validate(data))
+                        if isinstance(data, dict) and data.get("id") and data["id"] not in loaded_ids:
+                            self.roles.append(RoleDefinition.model_validate(data))
+                            loaded_ids.add(data["id"])
                 except (OSError, json.JSONDecodeError, ValueError) as err:
                     logger.debug("Skipping role file %s: %s", file_path.name, err)
 
-        logger.info("Loaded %d roles from individual json files", len(self.roles))
+        logger.info("Total loaded roles in catalog: %d", len(self.roles))
 
     def normalize_query(self, query: str) -> str:
         """Lowercase, remove punctuation, and expand tech acronyms."""
         cleaned = re.sub(r"[^\w\s]", " ", query.lower()).strip()
+        cleaned = re.sub(r"\bcyber\s+security\b", "cybersecurity", cleaned)
+        cleaned = re.sub(r"\bmachin\s+learnng\b", "machine learning", cleaned)
         tokens = cleaned.split()
         expanded_tokens = [ABBREVIATIONS.get(tok, tok) for tok in tokens]
         return " ".join(expanded_tokens).lower()
@@ -324,6 +346,40 @@ class RoleResolver:
         """Classify domain, contextual tagline, and demand tier for search queries."""
         text = raw_q.lower()
         tokens = set(re.sub(r"[^\w\s]", " ", text).split())
+
+        # Check security keywords first
+        security_kw = {
+            "cyber", "security", "cybersecurity", "infosec", "hacker", "hacking", "soc",
+            "pentest", "penetration testing", "cryptography", "malware", "firewall", "ethical hacking"
+        }
+        if any(k in text or k in tokens for k in security_kw):
+            return (
+                "Security & Networks",
+                f"Cyber defense, security operations & vulnerability mitigation for {canonical_title}",
+                "Critical Need"
+            )
+
+        ai_ml_kw = {
+            "machine learning", "deep learning", "ai", "artificial intelligence", "ml", "nlp",
+            "computer vision", "data scientist", "data science", "neural", "llm", "machin", "learnng"
+        }
+        if any((k in tokens if len(k) <= 2 else (k in text or k in tokens)) for k in ai_ml_kw):
+            return (
+                "AI & Data Science",
+                f"Intelligent systems, deep learning architectures & data science for {canonical_title}",
+                "Critical Need"
+            )
+
+        culinary_kw = {
+            "cook", "cooking", "chef", "baker", "bakery", "pastry", "culinary", "barista",
+            "sommelier", "restaurant", "kitchen", "gastronomy", "catering", "garde manger"
+        }
+        if any(k in text or k in tokens for k in culinary_kw):
+            return (
+                "Culinary Arts & Hospitality",
+                f"Professional culinary techniques & kitchen brigade operations for {canonical_title}",
+                "High Demand"
+            )
 
         medical_kw = {
             "cardio", "cardiology", "cardiologist", "doctor", "physician", "surgeon", "surgery",
@@ -363,10 +419,10 @@ class RoleResolver:
 
         finance_kw = {
             "invest", "bank", "banking", "equity", "hedge", "quant", "chartered", "audit",
-            "accountant", "accounting", "trader", "trading", "wealth", "actuary", "cfa", "ca",
+            "accountant", "accounting", "trader", "trading", "wealth", "actuary", "cfa",
             "valuation", "fintech", "taxation", "financial"
         }
-        if any(k in text or k in tokens for k in finance_kw):
+        if any((k in tokens if len(k) <= 3 else (k in text or k in tokens)) for k in finance_kw) or "ca" in tokens:
             return (
                 "Finance & Banking",
                 f"Institutional capital markets, valuation & financial analysis for {canonical_title}",
@@ -476,35 +532,37 @@ class RoleResolver:
             for a in aliases_lower:
                 role_tokens.update(a.split())
 
-            # Direct match
+            # 1. Exact match
             score = 0.0
             if q == title_lower or any(q == a for a in aliases_lower) or raw_q.lower() == title_lower:
                 score = 1.0
                 has_exact_title_match = True
-            elif (len(q) > 3 and re.search(rf"\b{re.escape(q)}\b", title_lower)) or any(a in q_tokens or (len(a) > 2 and re.search(rf"\b{re.escape(a)}\b", raw_q.lower())) for a in aliases_lower):
+            # 2. Title prefix or title word prefix match (e.g. 'cardio' -> 'Cardiologist', 'cook' -> 'Professional Cook & Chef')
+            elif title_lower.startswith(q) or any(w.startswith(q) for w in title_lower.split()):
+                score = 0.95
+            # 3. Alias prefix or alias word prefix match (e.g. 'cook' -> 'chef_cook' with alias 'cook')
+            elif any(a.startswith(q) or any(w.startswith(q) for w in a.split()) for a in aliases_lower):
+                score = 0.90
+            # 4. Substring containment in title or aliases
+            elif (len(q) >= 3 and q in title_lower) or any(len(q) >= 3 and q in a for a in aliases_lower):
                 score = 0.85
-            elif (len(title_lower) > 3 and re.search(rf"\b{re.escape(title_lower)}\b", q)) or any(a in q_tokens for a in aliases_lower):
+            elif (len(title_lower) > 3 and title_lower in q) or any(len(a) > 2 and a in q for a in aliases_lower):
                 score = 0.80
             else:
-                # Token overlap
+                # 5. Meaningful token overlap
                 common = q_tokens & role_tokens
                 meaningful = common - {"engineer", "developer", "specialist", "analyst", "manager", "associate", "intern", "lead", "senior", "junior"}
                 if meaningful:
-                    score = 0.50 + min(0.35, len(meaningful) * 0.15)
+                    score = 0.55 + min(0.35, len(meaningful) * 0.15)
                 elif common:
-                    score = 0.40
+                    score = 0.45
                 else:
+                    # 6. Sequence similarity
                     sim = difflib.SequenceMatcher(None, q, title_lower).ratio()
-                    alias_sims = []
-                    for a in aliases_lower:
-                        if len(a) <= 3:
-                            if a == q or a in q_tokens:
-                                alias_sims.append(0.90)
-                        else:
-                            alias_sims.append(difflib.SequenceMatcher(None, q, a).ratio())
+                    alias_sims = [difflib.SequenceMatcher(None, q, a).ratio() for a in aliases_lower]
                     max_alias_sim = max(alias_sims, default=0.0)
                     top_sim = max(sim, max_alias_sim)
-                    if top_sim >= 0.70:
+                    if top_sim >= 0.65:
                         score = top_sim * 0.85
 
             if score >= 0.45:
@@ -514,8 +572,21 @@ class RoleResolver:
 
         suggestions: list[dict] = []
 
-        # Only present custom job suggestion if it is a plausible job title and not exact catalog match
-        if not has_exact_title_match and len(raw_q) >= 3 and is_plausible_job_title(raw_q):
+        # 1. First add high-confidence catalog matches
+        for score, r in results:
+            if score >= 0.80 and len(suggestions) < limit:
+                if not any(s["id"] == r.id or s["title"].lower() == r.title.lower() for s in suggestions):
+                    suggestions.append({
+                        "id": r.id,
+                        "title": r.title,
+                        "category": r.category,
+                        "tagline": r.tagline or r.description[:70],
+                        "demand_level": r.demand_level,
+                    })
+
+        # 2. Present custom job suggestion if plausible and not already an exact catalog match
+        has_high_exact = any(s["title"].lower() == canonical_title.lower() for s in suggestions)
+        if not has_high_exact and len(raw_q) >= 3 and is_plausible_job_title(raw_q) and len(suggestions) < limit:
             cat, tagline, demand = self.classify_query_domain(raw_q, canonical_title)
             slug = re.sub(r"[^\w]+", "_", raw_q.lower()).strip("_")
             suggestions.append({
@@ -526,10 +597,11 @@ class RoleResolver:
                 "demand_level": demand,
             })
 
-        for _, r in results:
+        # 3. Add remaining catalog matches
+        for score, r in results:
             if len(suggestions) >= limit:
                 break
-            if any(s["title"].lower() == r.title.lower() for s in suggestions):
+            if any(s["id"] == r.id or s["title"].lower() == r.title.lower() for s in suggestions):
                 continue
             suggestions.append({
                 "id": r.id,
@@ -619,14 +691,23 @@ class RoleResolver:
                 best_role = r
                 break
 
+            score = 0.0
+
+            # Title prefix or title word prefix match (e.g. 'cardio' -> 'cardiologist', 'cook' -> 'professional cook & chef')
+            if title_lower.startswith(normalized) or any(w.startswith(normalized) for w in title_lower.split()):
+                score = max(score, 0.95)
+            elif any(a.startswith(normalized) or any(w.startswith(normalized) for w in a.split()) for a in aliases_lower):
+                score = max(score, 0.92)
+            elif (len(normalized) >= 3 and normalized in title_lower) or any(len(normalized) >= 3 and normalized in a for a in aliases_lower):
+                score = max(score, 0.88)
+
             # Check direct token overlap
             common_tokens = tokens & all_role_words
-            score = 0.0
             if common_tokens:
-                # If specific tokens like 'ios', 'android', 'sre', 'devops', 'backend', 'frontend' match
-                important_tokens = {"ios", "android", "sre", "devops", "backend", "frontend", "game", "blockchain", "robotics", "cybersecurity", "security", "sde", "qa", "sdet", "ml", "ai"}
+                # If specific tokens like 'ios', 'android', 'sre', 'devops', 'backend', 'frontend', 'cook', 'chef', 'doctor', 'lawyer' match
+                important_tokens = {"ios", "android", "sre", "devops", "backend", "frontend", "game", "blockchain", "robotics", "cybersecurity", "security", "sde", "qa", "sdet", "ml", "ai", "cook", "chef", "doctor", "cardio", "lawyer", "civil", "mechanical", "aerospace", "banker", "finance"}
                 if common_tokens & important_tokens:
-                    score += 0.65
+                    score = max(score, 0.85)
                 score += min(0.30, len(common_tokens) * 0.15)
 
             # Word boundary and multi-word alias containment
@@ -635,10 +716,10 @@ class RoleResolver:
                     if a == raw_lower or a in tokens:
                         score = max(score, 0.90)
                 else:
-                    if a in tokens or re.search(rf"\b{re.escape(a)}\b", raw_lower) or re.search(rf"\b{re.escape(a)}\b", normalized):
+                    if a in tokens or a in raw_lower or a in normalized or re.search(rf"\b{re.escape(a)}\b", raw_lower) or re.search(rf"\b{re.escape(a)}\b", normalized):
                         score = max(score, 0.85)
 
-            if len(title_lower) > 3 and (re.search(rf"\b{re.escape(title_lower)}\b", normalized) or re.search(rf"\b{re.escape(title_lower)}\b", raw_lower)):
+            if len(title_lower) > 3 and (title_lower in normalized or title_lower in raw_lower):
                 score = max(score, 0.90)
 
             # Fuzzy string match with safe acronym filtering (e.g. 'cv' must not match 'civil')
@@ -653,19 +734,28 @@ class RoleResolver:
             max_alias_ratio = max(alias_ratios, default=0.0)
             score = max(score, ratio * 0.9, max_alias_ratio * 0.9)
 
-
-            # Domain keyword guard: if user specified a domain (e.g. 'civil', 'mechanical', 'cardio')
-            # that is completely absent from this role's domain vocabulary, cap the score.
-            generic_stopwords = {"engineer", "developer", "specialist", "analyst", "manager", "associate", "intern", "lead", "senior", "junior", "consultant", "architect", "eng", "dev"}
+            # Domain keyword guard: if user specified a domain (e.g. 'pilot', 'fashion', 'civil', 'sound')
+            # that has ZERO conceptual overlap with this candidate role, cap the score so Live AI can synthesize it.
+            generic_stopwords = {
+                "engineer", "developer", "specialist", "analyst", "manager", "associate",
+                "intern", "lead", "senior", "junior", "consultant", "architect", "eng", "dev",
+                "designer", "officer", "practitioner", "commercial", "corporate", "professional",
+                "and", "or", "in", "to", "for", "with", "of", "a", "an", "the", "i", "want", "be",
+                "systems", "track", "role"
+            }
             q_domain = tokens - generic_stopwords
             role_domain = all_role_words - generic_stopwords
-            has_domain_match = bool(q_domain & role_domain) or any(
-                difflib.SequenceMatcher(None, qd, rd).ratio() >= 0.75
-                for qd in q_domain
-                for rd in role_domain
-            )
-            if q_domain and not has_domain_match and not any(a in raw_lower for a in aliases_lower):
-                score = min(score, 0.25)
+            if q_domain and role_domain:
+                has_domain_overlap = any(
+                    qd in role_domain or any(
+                        difflib.SequenceMatcher(None, qd, rd).ratio() >= 0.75
+                        or (len(qd) >= 4 and len(rd) >= 4 and (qd in rd or rd in qd))
+                        for rd in role_domain
+                    )
+                    for qd in q_domain
+                )
+                if not has_domain_overlap:
+                    score = min(score, 0.25)
 
             if score > best_score:
                 if best_role and best_role.title not in alternatives:
@@ -675,10 +765,19 @@ class RoleResolver:
             elif score > 0.40 and r.title not in alternatives:
                 alternatives.append(r.title)
 
-
-        # 2. Check if confident match found in curated catalog
-        if best_role and best_score >= 0.60:
+        # 2. Check if confident match found in curated catalog (exact, prefix, or strong alias)
+        if best_role and best_score >= 0.85:
             is_design = "design" in best_role.category.lower() or "ui" in best_role.id
+            default_tech_tiers = [
+                "Product Tier 1 (FAANG / Big Tech)",
+                "High-Growth Tech Scaleup",
+                "FinTech & Quantitative Systems",
+                "Enterprise & Cloud SaaS",
+                "Early Stage Tech Startup",
+            ]
+            default_degrees = ["B.Des / M.Des", "BFA", "B.Tech"] if is_design else ["B.Tech", "B.E.", "BCA / MCA", "B.S. / M.S. Computer Science"]
+            default_branches = ["Interaction Design", "Visual Communication", "UI/UX"] if is_design else ["Computer Science & Engineering", "Information Technology", "AI & Data Science", "Electronics & Comm"]
+
             return RoleResolveResponse(
                 matched_role=best_role.title,
                 role_id=best_role.id,
@@ -689,18 +788,12 @@ class RoleResolver:
                 benchmark=best_role.skills,
                 source_type="curated",
                 message=f"Matched to industry-curated standard for '{best_role.title}'.",
-                tier_label="Target Company Tier",
-                target_tiers=[
-                    "Product Tier 1 (FAANG / Big Tech)",
-                    "High-Growth Tech Scaleup",
-                    "FinTech & Quantitative Systems",
-                    "Enterprise & Cloud SaaS",
-                    "Early Stage Tech Startup",
-                ],
-                degree_label="Degree / Qualification",
-                branch_label="Branch / Specialization",
-                suggested_degrees=["B.Des / M.Des", "BFA", "B.Tech"] if is_design else ["B.Tech", "B.E.", "BCA / MCA", "B.S. / M.S. Computer Science"],
-                suggested_branches=["Interaction Design", "Visual Communication", "UI/UX"] if is_design else ["Computer Science & Engineering", "Information Technology", "AI & Data Science", "Electronics & Comm"],
+                tier_label=getattr(best_role, "tier_label", "") or "Target Organization Tier",
+                target_tiers=getattr(best_role, "target_tiers", []) or default_tech_tiers,
+                degree_label=getattr(best_role, "degree_label", "") or "Degree / Qualification",
+                branch_label=getattr(best_role, "branch_label", "") or "Branch / Specialization",
+                suggested_degrees=getattr(best_role, "suggested_degrees", []) or default_degrees,
+                suggested_branches=getattr(best_role, "suggested_branches", []) or default_branches,
             )
 
         # 2B. Check persistent AI role cache (stores custom roles synthesized from previous user searches)
@@ -719,8 +812,8 @@ class RoleResolver:
             ("ios", "ios_developer"),
             ("swift", "ios_developer"),
             ("android", "android_developer"),
-            ("sre", "sre"),
             ("devops", "devops_engineer"),
+            ("sre", "sre"),
             ("game", "game_developer"),
             ("unity", "game_developer"),
             ("unreal", "game_developer"),
@@ -877,7 +970,46 @@ class RoleResolver:
         canonical_title = query.strip().title() if query.strip() else "Professional"
         clean_slug = re.sub(r"[^\w]+", "_", canonical_title.lower()).strip("_")
 
-        # 5A. Medicine & Healthcare
+        # 5A-1. Culinary Arts & Hospitality
+        culinary_keywords = {
+            "cook", "cooking", "chef", "baker", "bakery", "pastry", "culinary", "barista",
+            "sommelier", "restaurant", "kitchen", "gastronomy", "catering", "garde manger"
+        }
+        if any(ck in raw_lower or ck in normalized for ck in culinary_keywords):
+            matched_title = canonical_title if len(canonical_title) > 2 else "Professional Cook & Chef"
+            culinary_skills = [
+                RoleSkillBenchmark(name="Knife Skills & Mise en Place", required_level=4.5, est_hours=35, demand_level="critical", category="core_techniques"),
+                RoleSkillBenchmark(name="Kitchen Safety & Food Hygiene (HACCP)", required_level=4.5, est_hours=25, demand_level="critical", category="safety_compliance"),
+                RoleSkillBenchmark(name="Foundational Cooking Techniques & Mother Sauces", required_level=4.5, est_hours=40, demand_level="critical", category="core_techniques"),
+                RoleSkillBenchmark(name="Station Management & Line Cooking", required_level=4.0, est_hours=35, demand_level="critical", category="kitchen_operations"),
+                RoleSkillBenchmark(name="Meat, Poultry & Seafood Fabrication", required_level=4.0, est_hours=30, demand_level="high-priority", category="butchery"),
+                RoleSkillBenchmark(name="Recipe Costing & Yield Management", required_level=3.5, est_hours=25, demand_level="high-priority", category="cost_control"),
+            ]
+            return RoleResolveResponse(
+                matched_role=matched_title,
+                role_id=clean_slug or "chef_cook",
+                confidence=0.90,
+                tagline=f"Professional kitchen operations, culinary techniques and brigade execution for {matched_title}.",
+                category="Culinary Arts & Hospitality",
+                alternatives=["Head Chef", "Sous Chef", "Pastry Chef"],
+                benchmark=culinary_skills,
+                source_type="estimated",
+                message=f"Mapped to professional culinary curriculum for '{matched_title}'.",
+                tier_label="Target Kitchen & Hospitality Tier",
+                target_tiers=[
+                    "Michelin Star & Premier Fine Dining Restaurant",
+                    "Luxury 5-Star Hotel & Resort Kitchen Brigade",
+                    "High-Volume Contemporary Bistro & Gastropub",
+                    "Bespoke Catering & Private Dining Service",
+                    "Artisan Bakery & Patisserie Studio"
+                ],
+                degree_label="Culinary Qualification",
+                branch_label="Culinary Specialization",
+                suggested_degrees=["Diploma in Culinary Arts", "Associate Degree in Culinary Arts (AAS)", "B.Sc. Hospitality & Culinary Management", "ServSafe Manager Certification"],
+                suggested_branches=["Classical French & Contemporary Cuisine", "Pastry & Artisan Baking", "Garde Manger & Cold Kitchen", "Sauces & Sauté Station"],
+            )
+
+        # 5A-2. Medicine & Healthcare
         medical_keywords = {
             "cardio", "cardiologist", "doctor", "physician", "surgeon", "medical", "nurse",
             "nursing", "dentist", "dental", "pharma", "pharmacist", "radiologist", "radiology",

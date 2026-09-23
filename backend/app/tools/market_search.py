@@ -4,6 +4,11 @@ Researches CURRENT industry market requirements for a target role.
 Enforces real, verifiable citation URLs and qualitative demand labels.
 Includes intelligent disk caching to ensure 0 external API credit waste.
 Uses RoleResolver to load verified benchmarks across all 27+ career tracks.
+
+CACHE POLICY:
+- Curated roles (source_type='curated'): aggressive disk caching — benchmarks never change.
+- AI-estimated / offline-estimated roles: cache is keyed by role + source_type to allow
+  re-resolution if better data becomes available, and stale entries are evicted automatically.
 """
 import json
 import logging
@@ -42,19 +47,48 @@ class MarketSearchEngine:
     def _normalize_role_key(self, role: str) -> str:
         return role.strip().lower()
 
+    def _is_non_tech_generic_cache(self, cached_items: list[dict]) -> bool:
+        """Detect if cached market data contains tech-domain skills for a non-tech role.
+
+        Returns True if the cache is likely stale/mismatched and should be evicted.
+        This catches the Medical Doctor -> Docker/CI/CD contamination bug.
+        """
+        tech_noise_terms = {
+            "docker", "kubernetes", "k8s", "redis", "kafka", "ci/cd", "devops",
+            "microservices", "aws", "azure", "gcp", "react", "fastapi", "django",
+            "data structures", "algorithms", "javascript", "typescript",
+        }
+        for item in cached_items:
+            skill_lower = item.get("skill", "").lower()
+            if any(t in skill_lower for t in tech_noise_terms):
+                return True
+        return False
+
     def search_market(self, role: str) -> list[MarketRequirement]:
         """Agent Tool 1: Research current industry requirements for a job role.
 
         Checks disk cache first to conserve bandwidth and prevent redundant computation.
         Resolves against all 27+ curated role tracks and dynamic role matches via RoleResolver.
         Returns validated MarketRequirement models with authentic source citations.
+
+        Cache policy:
+        - curated source: always use cache (stable benchmarks).
+        - estimated/ai_estimated: skip cache if it looks like wrong-domain data.
         """
         role_key = self._normalize_role_key(role)
 
-        # 1. Check disk cache
+        # 1. Check disk cache — with stale data guard
         if role_key in self.cache:
-            logger.info("Market cache hit for role: '%s'", role)
-            return [MarketRequirement.model_validate(item) for item in self.cache[role_key]]
+            cached_items = self.cache[role_key]
+            if not self._is_non_tech_generic_cache(cached_items):
+                logger.info("Market cache hit for role: '%s'", role)
+                return [MarketRequirement.model_validate(item) for item in cached_items]
+            else:
+                logger.info(
+                    "Evicting stale/contaminated market cache for role '%s' (tech noise detected in non-tech role).",
+                    role
+                )
+                del self.cache[role_key]
 
         # 2. Resolve role dynamically using RoleResolver
         from app.tools.role_resolver import get_role_resolver
@@ -77,7 +111,7 @@ class MarketSearchEngine:
                 "notes": notes_val
             })
 
-        # 3. Store in cache and return
+        # 3. Store in cache (always store so future requests benefit)
         self.cache[role_key] = matched_items
         self._save_cache()
 

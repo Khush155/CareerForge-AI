@@ -1,0 +1,146 @@
+{
+  "id": "corporate_lawyer",
+  "title": "Corporate Lawyer",
+  "category": "Law & Legal Services",
+  "aliases": [
+    "lawyer",
+    "corporate counsel",
+    "legal counsel",
+    "advocate",
+    "attorney",
+    "solicitor",
+    "litigation lawyer",
+    "commercial lawyer",
+    "legal associate",
+    "corporate legal",
+    "in-house counsel"
+  ],
+  "description": "Provides legal counsel on corporate transactions, regulatory compliance, contract negotiation, and dispute resolution for businesses and institutions.",
+  "tagline": "Corporate legal counsel structuring transactions, drafting agreements, and navigating regulatory compliance for businesses.",
+  "demand_level": "critical",
+  "avg_time_to_ready_weeks": 20,
+  "tier_label": "Target Legal Organization Tier",
+  "target_tiers": [
+    "Magic Circle / Chambers Band 1 Law Firm (Linklaters, Shardul Amarchand, AZB & Partners)",
+    "Top Tier Indian Law Firm (Cyril Amarchand, Khaitan & Co., JSA)",
+    "Fortune 500 In-House Corporate Legal Counsel",
+    "High Court & Supreme Court Appellate Practice",
+    "Boutique Arbitration, IP & Regulatory Firm"
+  ],
+  "degree_label": "Law Degree",
+  "branch_label": "Legal Specialization",
+  "suggested_degrees": ["B.A. LL.B (Hons)", "LL.B (3-Year)", "LL.M (LLM)", "BBA LL.B (Hons)"],
+  "suggested_branches": ["Corporate & Commercial Law", "Dispute Resolution & Litigation", "Mergers & Acquisitions Law", "Intellectual Property Rights", "Regulatory & Compliance"],
+  "skills": [
+    {
+      "name": "Constitutional Law & Legal Theory (Jurisprudence)",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": [],
+      "source_url": "https://www.law.cornell.edu/constitution",
+      "category": "jurisprudence"
+    },
+    {
+      "name": "Contract Law & Contractual Drafting",
+      "required_level": 5.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Constitutional Law & Legal Theory (Jurisprudence)"],
+      "source_url": "https://www.law.cornell.edu/wex/contract",
+      "category": "contracts"
+    },
+    {
+      "name": "Corporate Governance & Company Law",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Contract Law & Contractual Drafting"],
+      "source_url": "https://www.mca.gov.in/content/mca/global/en/acts-rules/ebooks/acts.html",
+      "category": "compliance"
+    },
+    {
+      "name": "Legal Research & Case Analysis (IRAC Method)",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Constitutional Law & Legal Theory (Jurisprudence)"],
+      "source_url": "https://www.lexisnexis.com/en-us/professional/research/index.page",
+      "category": "research"
+    },
+    {
+      "name": "Tort Law, Civil Procedure & Evidence",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Legal Research & Case Analysis (IRAC Method)"],
+      "source_url": "https://www.law.cornell.edu/wex/tort",
+      "category": "litigation"
+    },
+    {
+      "name": "Commercial Litigation & Court Advocacy",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Tort Law, Civil Procedure & Evidence"],
+      "source_url": "https://www.barandbench.com/",
+      "category": "litigation"
+    },
+    {
+      "name": "Mergers, Acquisitions & Due Diligence (Legal)",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Corporate Governance & Company Law", "Contract Law & Contractual Drafting"],
+      "source_url": "https://corporatefinanceinstitute.com/resources/mergers-acquisitions/due-diligence-overview/",
+      "category": "deal"
+    },
+    {
+      "name": "Arbitration, ADR & Dispute Resolution",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 35,
+      "prerequisites": ["Commercial Litigation & Court Advocacy"],
+      "source_url": "https://www.lcia.org/",
+      "category": "arbitration"
+    },
+    {
+      "name": "Intellectual Property Law (Patents, Trademarks, Copyright)",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 35,
+      "prerequisites": ["Corporate Governance & Company Law"],
+      "source_url": "https://www.wipo.int/portal/en/",
+      "category": "ip"
+    },
+    {
+      "name": "Regulatory & Compliance Law (SEBI, RBI, Competition Act)",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 35,
+      "prerequisites": ["Corporate Governance & Company Law"],
+      "source_url": "https://www.sebi.gov.in/",
+      "category": "compliance"
+    },
+    {
+      "name": "Legal Drafting & Professional Communication",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 30,
+      "prerequisites": ["Contract Law & Contractual Drafting"],
+      "source_url": "https://www.aals.org/",
+      "category": "drafting"
+    }
+  ]
+}

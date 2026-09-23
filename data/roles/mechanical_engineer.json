@@ -1,0 +1,155 @@
+{
+  "id": "mechanical_engineer",
+  "title": "Mechanical Engineer",
+  "category": "Core Engineering",
+  "aliases": [
+    "mech engineer",
+    "mechanical",
+    "design engineer",
+    "product engineer",
+    "manufacturing engineer",
+    "mech eng",
+    "thermal engineer",
+    "structural engineer mech",
+    "production engineer",
+    "plant engineer"
+  ],
+  "description": "Designs, analyzes, and develops mechanical systems, machines, and industrial products using CAD/CAE tools, engineering mechanics, and manufacturing processes.",
+  "tagline": "Mechanical systems engineer designing, simulating, and manufacturing precision components and industrial machinery.",
+  "demand_level": "high-priority",
+  "avg_time_to_ready_weeks": 18,
+  "tier_label": "Target Engineering Industry Tier",
+  "target_tiers": [
+    "Tier-1 Automotive & Defense OEM (Tesla, Boeing, ISRO, DRDO, Tata Motors)",
+    "Global Industrial Conglomerate (L&T, Siemens, GE, ABB, Caterpillar)",
+    "Top Aerospace & Space Systems Company (SpaceX, HAL, ISRO)",
+    "Advanced EPC & Heavy Engineering Project Company",
+    "Precision Manufacturing & R&D Product Startup"
+  ],
+  "degree_label": "Engineering Degree",
+  "branch_label": "Engineering Discipline",
+  "suggested_degrees": ["B.Tech / B.E. Mechanical Engineering", "M.Tech Mechanical Engineering", "M.S. Mechanical Engineering", "Diploma + B.Tech (Lateral)"],
+  "suggested_branches": ["Mechanical Design & CAD", "Thermal & Fluid Engineering", "Manufacturing & Production", "Automotive Engineering", "Aerospace Structures"],
+  "skills": [
+    {
+      "name": "Engineering Mathematics (Calculus, Linear Algebra, ODEs)",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 45,
+      "prerequisites": [],
+      "source_url": "https://www.khanacademy.org/math/multivariable-calculus",
+      "category": "mechanics"
+    },
+    {
+      "name": "Engineering Mechanics (Statics & Dynamics)",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Engineering Mathematics (Calculus, Linear Algebra, ODEs)"],
+      "source_url": "https://www.engineeringtoolbox.com/",
+      "category": "mechanics"
+    },
+    {
+      "name": "Strength of Materials & Structural Analysis",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Engineering Mechanics (Statics & Dynamics)"],
+      "source_url": "https://www.engineeringtoolbox.com/",
+      "category": "mechanics"
+    },
+    {
+      "name": "Thermodynamics & Heat Transfer",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Engineering Mathematics (Calculus, Linear Algebra, ODEs)"],
+      "source_url": "https://www.engineeringtoolbox.com/thermodynamics-d_1243.html",
+      "category": "mechanics"
+    },
+    {
+      "name": "Fluid Mechanics & Hydraulic Systems",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Thermodynamics & Heat Transfer"],
+      "source_url": "https://www.engineeringtoolbox.com/fluid-mechanics-d_1267.html",
+      "category": "mechanics"
+    },
+    {
+      "name": "CAD Design (SolidWorks / AutoCAD / CATIA / Inventor)",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": [],
+      "source_url": "https://www.solidworks.com/",
+      "category": "design"
+    },
+    {
+      "name": "Finite Element Analysis (FEA) & ANSYS / Abaqus",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Strength of Materials & Structural Analysis", "CAD Design (SolidWorks / AutoCAD / CATIA / Inventor)"],
+      "source_url": "https://www.ansys.com/",
+      "category": "simulation"
+    },
+    {
+      "name": "Manufacturing Processes & GD&T Standards",
+      "required_level": 4.0,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["CAD Design (SolidWorks / AutoCAD / CATIA / Inventor)"],
+      "source_url": "https://www.asme.org/",
+      "category": "manufacturing"
+    },
+    {
+      "name": "Materials Science & Selection",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 35,
+      "prerequisites": ["Strength of Materials & Structural Analysis"],
+      "source_url": "https://www.matweb.com/",
+      "category": "mechanics"
+    },
+    {
+      "name": "Quality Management & Six Sigma / Lean",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 30,
+      "prerequisites": ["Manufacturing Processes & GD&T Standards"],
+      "source_url": "https://asq.org/quality-resources/six-sigma",
+      "category": "manufacturing"
+    },
+    {
+      "name": "Control Systems & PLC / Automation Basics",
+      "required_level": 3.5,
+      "demand_level": "frequently mentioned",
+      "weight": 0.75,
+      "est_hours_to_learn": 35,
+      "prerequisites": ["Engineering Mechanics (Statics & Dynamics)"],
+      "source_url": "https://www.plcacademy.com/",
+      "category": "systems"
+    },
+    {
+      "name": "Project Management & Engineering Documentation",
+      "required_level": 3.5,
+      "demand_level": "high-priority",
+      "weight": 0.8,
+      "est_hours_to_learn": 25,
+      "prerequisites": [],
+      "source_url": "https://www.pmi.org/",
+      "category": "systems"
+    }
+  ]
+}

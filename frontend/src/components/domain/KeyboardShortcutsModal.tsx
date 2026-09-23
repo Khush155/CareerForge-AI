@@ -23,7 +23,7 @@ const SHORTCUTS: ShortcutCategory[] = [
       { keys: ['H'], description: 'Jump to Search Home & Role Resolution' },
       { keys: ['D'], description: 'Open Mission Control Dashboard' },
       { keys: ['G'], description: 'Inspect Skill Gap Matrix & Heatmap' },
-      { keys: ['R'], description: 'View Phased Roadmap (Timeline / Kanban)' },
+      { keys: ['R'], description: 'View Phased Roadmap (Timeline / All Phases)' },
       { keys: ['P'], description: 'Open Readiness & Velocity Analytics' },
     ],
   },

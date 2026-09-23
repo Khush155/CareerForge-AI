@@ -49,7 +49,7 @@ export const ProgressAnalytics: React.FC = () => {
     };
   }, [gaps]);
 
-  // All milestones across phases (using phase.learning_objectives matching RoadmapBoard)
+  // All milestones across phases (using phase.learning_objectives)
   const allMilestones = useMemo(() => {
     if (!roadmap?.phases) return [];
     const list: { phaseNum: number; phaseTitle: string; milestone: string; key: string }[] = [];

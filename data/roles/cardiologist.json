@@ -1,0 +1,152 @@
+{
+  "id": "cardiologist",
+  "title": "Cardiologist",
+  "category": "Medicine & Healthcare",
+  "aliases": [
+    "cardio doctor",
+    "cardiac specialist",
+    "heart specialist",
+    "cardiology specialist",
+    "interventional cardiologist",
+    "dm cardiology",
+    "md cardiology"
+  ],
+  "description": "Specialist physician diagnosing and treating cardiovascular disorders including coronary artery disease, heart failure, arrhythmias, and valvular conditions.",
+  "tagline": "Cardiac specialist diagnosing and treating heart disease through advanced diagnostics and interventional procedures.",
+  "demand_level": "critical",
+  "avg_time_to_ready_weeks": 30,
+  "tier_label": "Target Cardiac Center / Hospital Tier",
+  "target_tiers": [
+    "Top Super-Specialty Cardiac Center (AIIMS / Escorts / Apollo / Cleveland Clinic)",
+    "Premier Academic Cardiac Surgery & Cath Lab Center",
+    "Multi-Specialty Corporate Hospital Cardiology Department",
+    "Government Heart Institute & Teaching Hospital",
+    "Private Cardiac Diagnostic & Interventional Clinic"
+  ],
+  "degree_label": "Medical Qualification",
+  "branch_label": "Cardiology Specialization",
+  "suggested_degrees": ["MBBS + MD Internal Medicine + DM Cardiology", "MBBS + DNB Cardiology", "MS Cardiac Surgery", "MBBS + Fellowship Interventional Cardiology"],
+  "suggested_branches": ["Clinical Cardiology", "Interventional Cardiology", "Cardiac Electrophysiology", "Non-Invasive Cardiology", "Cardiac Surgery"],
+  "skills": [
+    {
+      "name": "Cardiovascular Anatomy & Physiology",
+      "required_level": 5.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 55,
+      "prerequisites": [],
+      "source_url": "https://www.amboss.com/us/knowledge/cardiology",
+      "category": "sciences"
+    },
+    {
+      "name": "Clinical Cardiology & Physical Examination",
+      "required_level": 5.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Cardiovascular Anatomy & Physiology"],
+      "source_url": "https://www.amboss.com/us/knowledge/physical-exam-cardiology",
+      "category": "clinical"
+    },
+    {
+      "name": "ECG Interpretation & Arrhythmia Management",
+      "required_level": 5.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["Clinical Cardiology & Physical Examination"],
+      "source_url": "https://litfl.com/ecg-library/",
+      "category": "diagnostics"
+    },
+    {
+      "name": "Echocardiography & Cardiac Imaging",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 55,
+      "prerequisites": ["Clinical Cardiology & Physical Examination"],
+      "source_url": "https://www.asecho.org/guideline/recommendations-for-cardiac-chamber-quantification/",
+      "category": "diagnostics"
+    },
+    {
+      "name": "Cardiovascular Pharmacology",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Clinical Cardiology & Physical Examination"],
+      "source_url": "https://www.amboss.com/us/knowledge/cardiovascular-pharmacology",
+      "category": "pharmacology"
+    },
+    {
+      "name": "Coronary Artery Disease & Acute Coronary Syndromes",
+      "required_level": 5.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 50,
+      "prerequisites": ["ECG Interpretation & Arrhythmia Management", "Cardiovascular Pharmacology"],
+      "source_url": "https://www.acc.org/clinical-topics/acute-coronary-syndromes",
+      "category": "clinical"
+    },
+    {
+      "name": "Heart Failure & Cardiac Resynchronization",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Coronary Artery Disease & Acute Coronary Syndromes"],
+      "source_url": "https://www.heart.org/en/health-topics/heart-failure",
+      "category": "clinical"
+    },
+    {
+      "name": "Cardiac Catheterization & Coronary Intervention (PCI)",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 60,
+      "prerequisites": ["Coronary Artery Disease & Acute Coronary Syndromes", "Echocardiography & Cardiac Imaging"],
+      "source_url": "https://www.scai.org/",
+      "category": "procedures"
+    },
+    {
+      "name": "Valvular Heart Disease & Structural Interventions",
+      "required_level": 4.5,
+      "demand_level": "critical",
+      "weight": 0.95,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["Cardiac Catheterization & Coronary Intervention (PCI)"],
+      "source_url": "https://www.amboss.com/us/knowledge/valvular-heart-disease",
+      "category": "procedures"
+    },
+    {
+      "name": "ACLS & Critical Cardiac Care (CCU Management)",
+      "required_level": 5.0,
+      "demand_level": "critical",
+      "weight": 1.0,
+      "est_hours_to_learn": 40,
+      "prerequisites": ["Heart Failure & Cardiac Resynchronization"],
+      "source_url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/advanced-cardiovascular-life-support-acls",
+      "category": "critical_care"
+    },
+    {
+      "name": "Cardiac Electrophysiology & Device Therapy",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.9,
+      "est_hours_to_learn": 45,
+      "prerequisites": ["ECG Interpretation & Arrhythmia Management"],
+      "source_url": "https://www.hrsonline.org/",
+      "category": "procedures"
+    },
+    {
+      "name": "Preventive Cardiology & Cardiac Rehabilitation",
+      "required_level": 4.0,
+      "demand_level": "high-priority",
+      "weight": 0.85,
+      "est_hours_to_learn": 30,
+      "prerequisites": ["Clinical Cardiology & Physical Examination"],
+      "source_url": "https://www.acc.org/clinical-topics/prevention",
+      "category": "clinical"
+    }
+  ]
+}
